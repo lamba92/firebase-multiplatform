@@ -1,4 +1,5 @@
-val kotlin_version: String by extra
+import com.github.lamba92.firebasemultiplatform.build.firebase
+
 plugins {
     id("firebase-multiplatform-gradle-plugin")
 }
@@ -7,16 +8,25 @@ kotlin {
 
     sourceSets {
 
+        val coroutinesVersion: String by project
+        val playServicesTasksVersion: String by project
+        val firebaseCommonAndroidVersion: String by project
+
+        val commonMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib-common"))
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
+            }
+        }
+
         val androidMain by getting {
             dependencies {
-
-                val coroutinesVersion: String by project
-                val playServicesTasksVersion: String by project
 
                 api(kotlin("stdlib-jdk8"))
 
                 api("com.google.android.gms:play-services-tasks:$playServicesTasksVersion")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                api(firebase("common", firebaseCommonAndroidVersion))
 
             }
         }

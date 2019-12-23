@@ -1,0 +1,7 @@
+package com.github.lamba92.firebasemultiplatform.auth
+
+expect class PlatformSpecificFirebaseAuth
+expect interface PlatformSpecificAuthResult
+expect abstract class PlatformSpecificFirebaseUser
+expect abstract class PlatformSpecificAuthCredential
+expect interface PlatformSpecificActionCodeResult

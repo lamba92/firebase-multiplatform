@@ -7,13 +7,21 @@ plugins {
 kotlin {
 
     sourceSets {
+
+        val commonMain by getting {
+            dependencies {
+                api(project(":core"))
+            }
+        }
+
         val androidMain by getting {
             dependencies {
 
                 val firebaseAuthAndroidVersion: String by project
 
-                implementation(project(":core"))
-                implementation(firebase("auth", firebaseAuthAndroidVersion))
+                api(project(":core"))
+                api(firebase("auth", firebaseAuthAndroidVersion))
+
             }
         }
     }

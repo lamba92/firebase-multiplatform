@@ -10,3 +10,7 @@ suspend fun <T> Task<T>.await() = suspendCancellableCoroutine<T> { cont ->
         .addOnCanceledListener { cont.cancel() }
         .addOnFailureListener { cont.resumeWithException(it) }
 }
+
+suspend fun Task<Void>.awaitUnit() = await().let { Unit }
+
+fun Void.asUnit() = Unit

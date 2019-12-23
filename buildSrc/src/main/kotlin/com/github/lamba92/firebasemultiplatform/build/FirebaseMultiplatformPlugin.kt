@@ -17,7 +17,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
         apply<BintrayPlugin>()
         apply<AndroidLibraryPlugin>()
 
-        AndroidLibraryExtension {
+        android {
 
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -34,13 +34,13 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             alignSourcesForKotlinMultiplatformPlugin(target)
         }
 
-        KotlinMultiplatformExtension {
+        kotlin {
             android {
                 publishLibraryVariants("release")
             }
         }
 
-        BintrayExtension {
+        bintray {
             user = searchProperty("bintrayUsername")
             key = searchProperty("bintrayApiKey")
             pkg {

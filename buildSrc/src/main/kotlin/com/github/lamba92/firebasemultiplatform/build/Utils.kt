@@ -13,15 +13,15 @@ typealias AndroidLibraryPlugin = LibraryPlugin
 typealias AndroidLibraryExtension = LibraryExtension
 
 @Suppress("FunctionName")
-fun Project.AndroidLibraryExtension(action: AndroidLibraryExtension.() -> Unit) =
+fun Project.android(action: AndroidLibraryExtension.() -> Unit) =
     extensions.configure(action)
 
 @Suppress("FunctionName")
-fun Project.KotlinMultiplatformExtension(action: KotlinMultiplatformExtension.() -> Unit) =
+fun Project.kotlin(action: KotlinMultiplatformExtension.() -> Unit) =
     extensions.configure(action)
 
 @Suppress("FunctionName")
-fun Project.BintrayExtension(action: BintrayExtension.() -> Unit) =
+fun Project.bintray(action: BintrayExtension.() -> Unit) =
     extensions.configure(action)
 
 fun BintrayExtension.pkg(action: BintrayExtension.PackageConfig.() -> Unit) {
