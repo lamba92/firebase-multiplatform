@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 import com.github.lamba92.firebasemultiplatform.build.firebase
 
 plugins {
@@ -9,7 +11,6 @@ kotlin {
     sourceSets {
 
         val coroutinesVersion: String by project
-        val playServicesTasksVersion: String by project
         val firebaseCommonAndroidVersion: String by project
 
         val commonMain by getting {
@@ -24,7 +25,6 @@ kotlin {
 
                 api(kotlin("stdlib-jdk8"))
 
-                api("com.google.android.gms:play-services-tasks:$playServicesTasksVersion")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
                 api(firebase("common", firebaseCommonAndroidVersion))
 

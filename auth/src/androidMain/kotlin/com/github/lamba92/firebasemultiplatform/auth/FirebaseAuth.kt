@@ -1,11 +1,15 @@
+@file:Suppress("unused")
+
 package com.github.lamba92.firebasemultiplatform.auth
 
-import com.github.lamba92.firebasemultiplatform.asUnit
-import com.github.lamba92.firebasemultiplatform.await
 import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
+import com.github.lamba92.firebasemultiplatform.core.await
+import com.github.lamba92.firebasemultiplatform.core.awaitUnit
+import com.github.lamba92.firebasemultiplatform.core.toMpp
 import com.google.firebase.auth.FirebaseAuth.IdTokenListener
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 actual class FirebaseAuth actual constructor(
     actual val delegate: PlatformSpecificFirebaseAuth
@@ -21,88 +25,82 @@ actual class FirebaseAuth actual constructor(
 
     }
 
-    actual val authStateFlow = flow {
-        delegate.addAuthStateListener {
-            runBlocking { emit(it.currentUser != null) }
+    actual val authStateFlow
+        get() = flow {
+            supervisorScope {
+                delegate.addAuthStateListener {
+                    launch { emit(it.currentUser != null) }
+                }
+            }
         }
-    }
 
-    actual val idTokenFlow = flow {
-        delegate.addIdTokenListener(IdTokenListener {
-            runBlocking { it.currentUser?.getIdToken(false)?.await()?.token?.let { emit(it) } }
-        })
-    }
+    actual val idTokenFlow
+        get() = flow {
+            supervisorScope {
+                delegate.addIdTokenListener(IdTokenListener {
+                    launch { it.currentUser?.getIdToken(false)?.await()?.token?.let { emit(it) } }
+                })
+            }
+        }
 
     actual suspend fun applyActionCode(code: String) =
-        delegate.applyActionCode(code).await().asUnit()
+        delegate.applyActionCode(code).awaitUnit()
 
     actual suspend fun checkActionCode(code: String) =
         delegate.checkActionCode(code).await().toMpp()
 
     actual suspend fun confirmPasswordReset(code: String, password: String) =
-        delegate.confirmPasswordReset(code, password).await().asUnit()
+        delegate.confirmPasswordReset(code, password).awaitUnit()
 
     actual suspend fun createUserWithEmailAndPassword(
         email: String,
         password: String
-    ): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    ) = delegate.createUserWithEmailAndPassword(email, password)
+        .await().toMpp()
 
-    actual val app: FirebaseApp
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-    actual val languageCode: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    actual val app by lazy { delegate.app.toMpp() }
 
-    actual suspend fun fetchSignInMethodsForEmail(email: String): List<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual val languageCode
+        get() = delegate.languageCode
 
-    actual suspend fun sendPasswordResetEmail(email: String) {
-    }
+    actual suspend fun fetchSignInMethodsForEmail(email: String): List<String> =
+        delegate.fetchSignInMethodsForEmail(email).await().signInMethods ?: emptyList()
 
-    actual suspend fun signInAnonymously(): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun sendPasswordResetEmail(email: String) =
+        delegate.sendPasswordResetEmail(email).awaitUnit()
 
-    actual suspend fun signInWithCredential(credential: PlatformSpecificAuthCredential): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun signInAnonymously() =
+        delegate.signInAnonymously().await().toMpp()
 
-    actual suspend fun signInWithCustomToken(token: String): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun signInWithCredential(credential: PlatformSpecificAuthCredential) =
+        delegate.signInWithCredential(credential).await().toMpp()
+
+    actual suspend fun signInWithCustomToken(token: String) =
+        delegate.signInWithCustomToken(token).await().toMpp()
 
     actual suspend fun signInWithEmailAndPassword(
         email: String,
         password: String
-    ): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    ) = delegate.signInWithEmailAndPassword(email, password).await().toMpp()
 
     actual suspend fun signInWithEmailLink(
         email: String,
         link: String
-    ): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    ) = delegate.signInWithEmailLink(email, link).await().toMpp()
 
-    actual suspend fun verifyPasswordResetCode(code: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun verifyPasswordResetCode(code: String) =
+        delegate.verifyPasswordResetCode(code).await()!!
 
-    actual fun getCurrentUser(): FirebaseUser? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun getCurrentUser() =
+        delegate.currentUser?.toMpp()
 
-    actual fun isSignInWithEmailLink(link: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun isSignInWithEmailLink(link: String) =
+        delegate.isSignInWithEmailLink(link)
 
-    actual fun setLanguageCode(languageCode: String) {
-    }
+    actual fun setLanguageCode(languageCode: String) =
+        delegate.setLanguageCode(languageCode)
 
-    actual fun signOut() {
-    }
+    actual fun signOut() =
+        delegate.signOut()
 
 }

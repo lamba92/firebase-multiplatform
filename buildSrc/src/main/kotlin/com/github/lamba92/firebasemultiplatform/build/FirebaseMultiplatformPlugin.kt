@@ -8,6 +8,7 @@ import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.apply
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
+@Suppress("unused")
 class FirebaseMultiplatformPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {

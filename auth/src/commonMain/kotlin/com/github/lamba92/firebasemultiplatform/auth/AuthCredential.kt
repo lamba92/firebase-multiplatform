@@ -1,3 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-data class AuthCredential(val provider: String, val signInMethod: String)
+expect abstract class AuthCredential(delegate: PlatformSpecificAuthCredential) {
+    open val delegate: PlatformSpecificAuthCredential
+    val provider: String
+    val signInMethod: String
+}

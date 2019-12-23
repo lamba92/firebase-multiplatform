@@ -8,7 +8,7 @@ expect class FirebaseAuth(
 ) {
     val delegate: PlatformSpecificFirebaseAuth
     val app: FirebaseApp
-    val languageCode: String
+    val languageCode: String?
 
     companion object {
         val default: FirebaseAuth
