@@ -6,10 +6,11 @@ import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
 import com.github.lamba92.firebasemultiplatform.core.await
 import com.github.lamba92.firebasemultiplatform.core.awaitUnit
 import com.github.lamba92.firebasemultiplatform.core.toMpp
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseAuth.IdTokenListener
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 
 actual class FirebaseAuth actual constructor(
     actual val delegate: PlatformSpecificFirebaseAuth
@@ -25,22 +26,23 @@ actual class FirebaseAuth actual constructor(
 
     }
 
+    @ExperimentalCoroutinesApi
     actual val authStateFlow
-        get() = flow {
-            supervisorScope {
-                delegate.addAuthStateListener {
-                    launch { emit(it.currentUser != null) }
-                }
-            }
+        get() = callbackFlow {
+            val c = AuthStateListener { offer(it.currentUser != null) }
+            delegate.addAuthStateListener(c)
+            awaitClose { delegate.removeAuthStateListener(c) }
         }
 
+    @ExperimentalCoroutinesApi
     actual val idTokenFlow
-        get() = flow {
-            supervisorScope {
-                delegate.addIdTokenListener(IdTokenListener {
-                    launch { it.currentUser?.getIdToken(false)?.await()?.token?.let { emit(it) } }
-                })
+        get() = callbackFlow {
+            val c = IdTokenListener {
+                it.currentUser?.getIdToken(false)
+                    ?.addOnSuccessListener { it.token?.let { offer(it) } }
             }
+            delegate.addIdTokenListener(c)
+            awaitClose { delegate.removeIdTokenListener(c) }
         }
 
     actual suspend fun applyActionCode(code: String) =
