@@ -1,4 +1,4 @@
-# Firebase wrappers for Kotlin Multiplatform
+# Firebase wrappers for Kotlin Multiplatform [ ![Download](https://api.bintray.com/packages/lamba92/com.github.lamba92/firebase-multiplatform/images/download.svg) ](https://bintray.com/lamba92/com.github.lamba92/firebase-multiplatform/_latestVersion)
 Kotlin Multiplatform is great, Firebase is great, why not use them togheter?
 
 This library aims to bridge the common Firebase APIs in different platforms so that it is possible to use them in Kotlin Multiplatform!
@@ -49,20 +49,23 @@ val fApp: FirebaseApp = FirebaseApp.initializeApp {
     job.cancel()
 ```
 
-## Import
+## Install [ ![Download](https://api.bintray.com/packages/lamba92/com.github.lamba92/firebase-multiplatform/images/download.svg) ](https://bintray.com/lamba92/com.github.lamba92/firebase-multiplatform/_latestVersion)
 Packages are available at my Bintray repo:
 ```kotlin
 repositories {
     maven("https://dl.bintray.com/lamba92/com.github.lamba92")
 }
 ```
+Someday I will setup the sign of the packes so that they will be mirrored to Maven Central Repository, but today is not that day!
+
 Add in common sources:
 ```kotlin
 kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.github.lamba92", "firebase-")
+                implementation("com.github.lamba92:firebase-multiplatform-core:0.0.2")
+                implementation("com.github.lamba92:firebase-multiplatform-auth:0.0.2")
             }
         }    
     }
