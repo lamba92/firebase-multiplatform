@@ -4,8 +4,10 @@ import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
@@ -23,6 +25,13 @@ fun Project.kotlin(action: KotlinMultiplatformExtension.() -> Unit) =
 @Suppress("FunctionName")
 fun Project.bintray(action: BintrayExtension.() -> Unit) =
     extensions.configure(action)
+
+@Suppress("FunctionName")
+fun Project.publishing(action: PublishingExtension.() -> Unit) =
+    extensions.configure(action)
+
+val Project.publishing
+    get() = extensions.findByType<PublishingExtension>()!!
 
 fun BintrayExtension.pkg(action: BintrayExtension.PackageConfig.() -> Unit) {
     pkg(closureOf(action))
@@ -52,3 +61,6 @@ fun AndroidLibraryExtension.alignSourcesForKotlinMultiplatformPlugin(project: Pr
 
 fun KotlinDependencyHandler.firebase(module: String, version: String) =
     "com.google.firebase:firebase-$module:$version"
+
+fun BintrayExtension.setPublications(names: Iterable<String>) =
+    setPublications(*names.toList().toTypedArray())

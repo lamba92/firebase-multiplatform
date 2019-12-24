@@ -8,9 +8,11 @@ import com.github.lamba92.firebasemultiplatform.core.awaitUnit
 import com.github.lamba92.firebasemultiplatform.core.toMpp
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseAuth.IdTokenListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 
 actual class FirebaseAuth actual constructor(
     actual val delegate: PlatformSpecificFirebaseAuth
@@ -27,16 +29,17 @@ actual class FirebaseAuth actual constructor(
     }
 
     @ExperimentalCoroutinesApi
-    actual val authStateFlow
-        get() = callbackFlow {
+    actual val authStateFlow by lazy {
+        callbackFlow {
             val c = AuthStateListener { offer(it.currentUser != null) }
             delegate.addAuthStateListener(c)
             awaitClose { delegate.removeAuthStateListener(c) }
-        }
+        }.flowOn(Dispatchers.Main)
+    }
 
     @ExperimentalCoroutinesApi
-    actual val idTokenFlow
-        get() = callbackFlow {
+    actual val idTokenFlow by lazy {
+        callbackFlow {
             val c = IdTokenListener {
                 it.currentUser?.getIdToken(false)
                     ?.addOnSuccessListener { it.token?.let { offer(it) } }
@@ -44,6 +47,7 @@ actual class FirebaseAuth actual constructor(
             delegate.addIdTokenListener(c)
             awaitClose { delegate.removeIdTokenListener(c) }
         }
+    }
 
     actual suspend fun applyActionCode(code: String) =
         delegate.applyActionCode(code).awaitUnit()

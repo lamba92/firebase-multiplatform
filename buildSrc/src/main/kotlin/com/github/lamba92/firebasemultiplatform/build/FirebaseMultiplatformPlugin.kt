@@ -55,9 +55,12 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 issueTrackerUrl = "https://github.com/lamba92/firebase-multiplatform/issues"
             }
             publish = true
-            setPublications("android", "js", "kotlinMultiplatform")
+            publishing {
+                setPublications(publications.names + "android")
+            }
         }
 
+        println("Set up publications name: ${publishing.publications.names.joinToString(", ")}")
     }
 
 }
