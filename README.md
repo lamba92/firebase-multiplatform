@@ -22,7 +22,7 @@ Since Firebase has many platforms and services, covering them all by myself is k
    - firestore **[TODO]**
    
 ## Some examples
-[`FirebaseApp`]() initialization:
+[`FirebaseApp`](https://github.com/lamba92/firebase-multiplatform/blob/master/core/src/commonMain/kotlin/com/github/lamba92/firebasemultiplatform/core/FirebaseApp.kt) initialization:
 ```kotlin
 // common sources
 val fApp: FirebaseApp = FirebaseApp.initializeApp {
@@ -34,7 +34,7 @@ val fApp: FirebaseApp = FirebaseApp.initializeApp {
     setGcmSenderId("i have no idea what this is")
 }
 ```
-[`FirebaseAuth`]() initialization and auth changes:
+[`FirebaseAuth`](https://github.com/lamba92/firebase-multiplatform/blob/master/auth/src/commonMain/kotlin/com/github/lamba92/firebasemultiplatform/auth/FirebaseAuth.kt) initialization and auth changes:
 ```kotlin
 // get the default firebase auth 
     // instance and listen to auth changes
