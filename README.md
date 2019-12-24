@@ -48,3 +48,23 @@ val fApp: FirebaseApp = FirebaseApp.initializeApp {
     // stop listening and detach listener
     job.cancel()
 ```
+
+## Import
+Packages are available at my Bintray repo:
+```kotlin
+repositories {
+    maven("https://dl.bintray.com/lamba92/com.github.lamba92")
+}
+```
+Add in common sources:
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("com.github.lamba92", "firebase-")
+            }
+        }    
+    }
+}
+```

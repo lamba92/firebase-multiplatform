@@ -4,11 +4,5 @@ plugins {
 
 allprojects {
     group = "com.github.lamba92"
-    version = "0.0.1"
-
-    repositories {
-        mavenCentral()
-        google()
-        jcenter()
-    }
+    version = "0.0.2"
 }

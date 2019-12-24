@@ -51,6 +51,9 @@ fun Project.searchProperty(propertyName: String) =
                     "gradle/properties or environmental variables"
         )
 
+fun Project.searchProperties(vararg propertyNames: String) =
+    propertyNames.associate { it to searchPropertyOrNull(it) }
+
 fun AndroidLibraryExtension.alignSourcesForKotlinMultiplatformPlugin(project: Project) =
     sourceSets.all {
         java.srcDirs(project.file("src/android${name.capitalize()}/kotlin"))

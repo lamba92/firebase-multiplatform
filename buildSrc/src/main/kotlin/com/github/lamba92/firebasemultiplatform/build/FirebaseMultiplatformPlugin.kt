@@ -4,8 +4,11 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 @Suppress("unused")
@@ -17,6 +20,12 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
         apply<MavenPublishPlugin>()
         apply<BintrayPlugin>()
         apply<AndroidLibraryPlugin>()
+
+        repositories {
+            mavenCentral()
+            google()
+            jcenter()
+        }
 
         android {
 
@@ -38,29 +47,45 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
         kotlin {
             android {
                 publishLibraryVariants("release")
-            }
-        }
-
-        bintray {
-            user = searchProperty("bintrayUsername")
-            key = searchProperty("bintrayApiKey")
-            pkg {
-                version {
-                    name = project.version.toString()
+                mavenPublication {
+                    artifactId = "${rootProject.name}-$artifactId"
                 }
-                repo = "com.github.lamba92"
-                name = "firebase-multiplatform"
-                setLicenses("Apache-2.0")
-                vcsUrl = "https://github.com/lamba92/firebase-multiplatform"
-                issueTrackerUrl = "https://github.com/lamba92/firebase-multiplatform/issues"
-            }
-            publish = true
-            publishing {
-                setPublications(publications.names + "android")
             }
         }
 
-        println("Set up publications name: ${publishing.publications.names.joinToString(", ")}")
+        publishing {
+            configure(publications.withType<MavenPublication>()) {
+                artifactId = "${rootProject.name}-$artifactId"
+            }
+        }
+
+        val bintrayUsername = searchPropertyOrNull("bintrayUsername")
+        val bintrayApiKey = searchPropertyOrNull("bintrayApiKey")
+
+        if (bintrayApiKey != null && bintrayUsername != null)
+            bintray {
+                println("Publishing credentials are available. Setting up publication")
+                user = bintrayUsername
+                key = bintrayApiKey
+                pkg {
+                    version {
+                        name = project.version.toString()
+                    }
+                    repo = "com.github.lamba92"
+                    name = "firebase-multiplatform"
+                    setLicenses("Apache-2.0")
+                    vcsUrl = "https://github.com/lamba92/FirebaseMultiplatform"
+                    issueTrackerUrl = "https://github.com/lamba92/FirebaseMultiplatform/issues"
+                }
+                publish = true
+                publishing {
+                    val publications = publications.names + "androidRelease"
+                    setPublications(publications)
+                    println("Set up publications names: $publications")
+                }
+            }
+        else
+            println("publishing credentials not found.")
     }
 
 }
