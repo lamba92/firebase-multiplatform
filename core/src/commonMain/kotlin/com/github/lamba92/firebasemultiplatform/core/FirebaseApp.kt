@@ -5,7 +5,7 @@ package com.github.lamba92.firebasemultiplatform.core
  * and state for Firebase APIs. Most applications don't need to
  * directly interact with FirebaseApp.
  */
-expect class FirebaseApp(
+expect class FirebaseApp internal constructor(
     delegate: PlatformSpecificFirebaseApp
 ) {
 
@@ -14,6 +14,8 @@ expect class FirebaseApp(
     companion object {
         val default: FirebaseApp
         fun getInstance(appName: String): FirebaseApp
+        fun initializeApp(firebaseOptions: FirebaseOptions): FirebaseApp
+        fun initializeApp(firebaseOptions: FirebaseOptions, name: String): FirebaseApp
     }
 
     val name: String

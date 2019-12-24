@@ -1,25 +1,19 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
+expect fun PlatformSpecificActionCodeResult.toMpp(): ActionCodeResult
+expect fun PlatformSpecificFirebaseUserMetadata.toMpp(): FirebaseUserMetadata
+expect fun PlatformSpecificUserInfo.toMpp(): UserInfo
+expect fun PlatformSpecificAdditionalUserInfo.toMpp(): AdditionalUserInfo
+expect fun PlatformSpecificAuthResult.toMpp(): AuthResult
+
 fun PlatformSpecificFirebaseAuth.toMpp() =
     FirebaseAuth(this)
 
-fun PlatformSpecificActionCodeResult.toMpp() =
-    ActionCodeResult(this)
-
 fun PlatformSpecificFirebaseUser.toMpp() =
-    FirebaseUser(this)
-
-fun PlatformSpecificAuthResult.toMpp() =
-    AuthResult(this)
+    object : FirebaseUser(this) {}
 
 fun PlatformSpecificUserProfileChangeRequest.toMpp() =
     UserProfileChangeRequest(this)
-
-fun PlatformSpecificFirebaseUserMetadata.toMpp() =
-    FirebaseUserMetadata(this)
-
-fun PlatformSpecificUserInfo.toMpp() =
-    UserInfo(this)
 
 fun PlatformSpecificGetTokenResults.toMpp() =
     GetTokenResults(this)
@@ -29,3 +23,16 @@ fun PlatformSpecificPhoneAuthProvider.toMpp() =
 
 fun PlatformSpecificPhoneAuthCredential.toMpp() =
     PhoneAuthCredential(this)
+
+fun PlatformSpecificAuthCredential.toMpp() =
+    object : AuthCredential(this) {}
+
+fun PlatformSpecificOAuthProviderBuilder.toMpp() =
+    OAuthProvider.Builder(this)
+
+fun PlatformSpecificOAuthProviderCredentialsBuilder.toMpp() =
+    OAuthProvider.CredentialsBuilder(this)
+
+fun PlatformSpecificOAuthProvider.toMpp() =
+    OAuthProvider(this)
+

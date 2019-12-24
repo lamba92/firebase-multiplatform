@@ -1,11 +1,11 @@
+@file:Suppress("unused")
+
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual class ActionCodeResult actual constructor(
-    actual val delegate: PlatformSpecificActionCodeResult
-) {
+actual interface ActionCodeResult {
 
+    actual val delegate: PlatformSpecificActionCodeResult
     actual val operation: Int
-        get() = delegate.operation
 
     actual companion object {
         actual val PASSWORD_RESET = PlatformSpecificActionCodeResult.PASSWORD_RESET
@@ -17,7 +17,6 @@ actual class ActionCodeResult actual constructor(
         actual val FROM_EMAIL = PlatformSpecificActionCodeResult.FROM_EMAIL
     }
 
-    actual fun getData(dataId: Int) =
-        delegate.getData(dataId)
+    actual fun getData(dataId: Int): String?
 
 }
