@@ -8,7 +8,7 @@ plugins {
 
 kotlin.sourceSets {
 
-    val firebaseAuthAndroidVersion: String by project
+    val firebaseStorageAndroidVersion: String by project
 
     val commonMain by getting {
         dependencies {
@@ -18,7 +18,7 @@ kotlin.sourceSets {
 
     val androidMain by getting {
         dependencies {
-            api(firebase("auth", firebaseAuthAndroidVersion))
+            api(firebase("storage", firebaseStorageAndroidVersion))
         }
     }
 

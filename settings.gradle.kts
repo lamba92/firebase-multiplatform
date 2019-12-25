@@ -1,4 +1,4 @@
 rootProject.name = "firebase-multiplatform"
 
-include(":core", ":auth")
+include(":core", ":auth", ":storage")
 enableFeaturePreview("GRADLE_METADATA")
