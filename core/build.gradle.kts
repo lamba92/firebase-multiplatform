@@ -12,10 +12,11 @@ kotlin {
 
         val coroutinesVersion: String by project
         val firebaseCommonAndroidVersion: String by project
+        val firebaseJsVersion: String by project
 
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
+                api(kotlin("stdlib-common"))
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
             }
         }
@@ -30,6 +31,16 @@ kotlin {
 
             }
         }
+
+//        val jsMain by getting {
+//            dependencies {
+//
+//                api(kotlin("stdlib-js"))
+//                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+//                api(npm("firebase", firebaseJsVersion))
+//
+//            }
+//        }
     }
 
 }

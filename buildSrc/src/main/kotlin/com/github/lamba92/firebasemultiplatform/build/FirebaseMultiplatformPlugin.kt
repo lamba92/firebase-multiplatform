@@ -86,6 +86,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             }
         else
             println("publishing credentials not found.")
+
     }
 
 }

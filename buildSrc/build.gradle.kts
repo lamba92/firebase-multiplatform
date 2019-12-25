@@ -14,7 +14,6 @@ gradlePlugin {
 repositories {
     jcenter()
     google()
-    maven("https://plugins.gradle.org/m2/")
 }
 
 dependencies {
