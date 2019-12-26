@@ -1,12 +1,8 @@
 package com.github.lamba92.firebasemultiplatform.core
 
-expect class FirebaseOptions internal constructor(
-    delegate: PlatformSpecificFirebaseOptions
-) {
+expect class FirebaseOptions {
 
     companion object
-
-    val delegate: PlatformSpecificFirebaseOptions
 
     val apiKey: String
     val applicationId: String
@@ -18,8 +14,6 @@ expect class FirebaseOptions internal constructor(
     class Builder() {
 
         companion object
-
-        val delegate: PlatformSpecificFirebaseOptionsBuilder
 
         fun build(): FirebaseOptions
         fun setApiKey(apiKey: String): Builder

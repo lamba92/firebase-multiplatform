@@ -7,6 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
@@ -25,6 +26,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             mavenCentral()
             google()
             jcenter()
+            maven("https://kotlin.bintray.com/kotlinx")
         }
 
         android {

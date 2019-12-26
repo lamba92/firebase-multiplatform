@@ -62,8 +62,13 @@ fun AndroidLibraryExtension.alignSourcesForKotlinMultiplatformPlugin(project: Pr
         manifest.srcFile(project.file("src/android${name.capitalize()}/AndroidManifest.xml"))
     }
 
+@Suppress("unused")
 fun KotlinDependencyHandler.firebase(module: String, version: String) =
     "com.google.firebase:firebase-$module:$version"
+
+@Suppress("unused")
+fun KotlinDependencyHandler.kotlinx(module: String, version: String) =
+    "org.jetbrains.kotlinx:kotlinx-$module:$version"
 
 fun BintrayExtension.setPublications(names: Iterable<String>) =
     setPublications(*names.toList().toTypedArray())

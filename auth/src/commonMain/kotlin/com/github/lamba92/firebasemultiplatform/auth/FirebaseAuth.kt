@@ -3,10 +3,8 @@ package com.github.lamba92.firebasemultiplatform.auth
 import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
 import kotlinx.coroutines.flow.Flow
 
-expect class FirebaseAuth(
-    delegate: PlatformSpecificFirebaseAuth
-) {
-    val delegate: PlatformSpecificFirebaseAuth
+expect class FirebaseAuth {
+
     val app: FirebaseApp
     val languageCode: String?
 
@@ -25,7 +23,7 @@ expect class FirebaseAuth(
     suspend fun fetchSignInMethodsForEmail(email: String): List<String>
     suspend fun sendPasswordResetEmail(email: String)
     suspend fun signInAnonymously(): AuthResult
-    suspend fun signInWithCredential(credential: PlatformSpecificAuthCredential): AuthResult
+    suspend fun signInWithCredential(credential: AuthCredential): AuthResult
     suspend fun signInWithCustomToken(token: String): AuthResult
     suspend fun signInWithEmailAndPassword(email: String, password: String): AuthResult
     suspend fun signInWithEmailLink(email: String, link: String): AuthResult

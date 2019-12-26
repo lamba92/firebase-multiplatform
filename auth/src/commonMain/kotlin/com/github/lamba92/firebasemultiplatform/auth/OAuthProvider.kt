@@ -1,8 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect class OAuthProvider(
-    delegate: PlatformSpecificOAuthProvider
-) : FederatedAuthProvider {
+expect class OAuthProvider : FederatedAuthProvider {
 
     val providerId: String?
 
@@ -18,13 +16,9 @@ expect class OAuthProvider(
         fun newCredentialBuilder(providerId: String): CredentialsBuilder
     }
 
-    override val delegate: PlatformSpecificOAuthProvider
-
-    class Builder(delegate: PlatformSpecificOAuthProviderBuilder) {
+    class Builder {
 
         companion object
-
-        val delegate: PlatformSpecificOAuthProviderBuilder
 
         fun build(): OAuthProvider
         fun addCustomParameter(paramKey: String, paramValue: String): Builder
@@ -33,11 +27,9 @@ expect class OAuthProvider(
 
     }
 
-    class CredentialsBuilder(delegate: PlatformSpecificOAuthProviderCredentialsBuilder) {
+    class CredentialsBuilder {
 
         companion object
-
-        val delegate: PlatformSpecificOAuthProviderCredentialsBuilder
 
         fun build(): AuthCredential
         fun setAccessToken(accessToken: String): CredentialsBuilder

@@ -14,8 +14,8 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 
-actual class FirebaseAuth actual constructor(
-    actual val delegate: PlatformSpecificFirebaseAuth
+actual class FirebaseAuth(
+    val delegate: PlatformSpecificFirebaseAuth
 ) {
 
     actual companion object {
@@ -78,8 +78,8 @@ actual class FirebaseAuth actual constructor(
     actual suspend fun signInAnonymously() =
         delegate.signInAnonymously().await().toMpp()
 
-    actual suspend fun signInWithCredential(credential: PlatformSpecificAuthCredential) =
-        delegate.signInWithCredential(credential).await().toMpp()
+    actual suspend fun signInWithCredential(credential: AuthCredential) =
+        delegate.signInWithCredential(credential.delegate).await().toMpp()
 
     actual suspend fun signInWithCustomToken(token: String) =
         delegate.signInWithCustomToken(token).await().toMpp()

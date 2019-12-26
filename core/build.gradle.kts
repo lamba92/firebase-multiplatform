@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
 import com.github.lamba92.firebasemultiplatform.build.firebase
+import com.github.lamba92.firebasemultiplatform.build.kotlinx
 
 plugins {
     id("firebase-multiplatform-gradle-plugin")
@@ -15,7 +16,7 @@ kotlin.sourceSets {
     val commonMain by getting {
         dependencies {
             api(kotlin("stdlib-common"))
-            api("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
+            api(kotlinx("coroutines-core-common", coroutinesVersion))
         }
     }
 

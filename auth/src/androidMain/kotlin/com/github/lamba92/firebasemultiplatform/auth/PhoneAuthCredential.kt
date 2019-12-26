@@ -1,7 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual class PhoneAuthCredential actual constructor(
-    actual override val delegate: PlatformSpecificPhoneAuthCredential
+actual class PhoneAuthCredential(
+    override val delegate: PlatformSpecificPhoneAuthCredential
 ) : AuthCredential(delegate) {
 
     actual val smsCode: String?

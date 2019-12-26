@@ -1,9 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect abstract class FirebaseUser(
-    delegate: PlatformSpecificFirebaseUser
-) {
-    val delegate: PlatformSpecificFirebaseUser
+expect class FirebaseUser {
 
     val displayName: String?
     val email: String?

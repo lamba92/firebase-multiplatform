@@ -2,12 +2,6 @@
 
 package com.github.lamba92.firebasemultiplatform.core
 
-fun PlatformSpecificFirebaseApp.toMpp() =
-    FirebaseApp(this)
-
-fun PlatformSpecificFirebaseOptions.toMpp() =
-    FirebaseOptions(this)
-
 fun FirebaseOptions.Builder.build(action: FirebaseOptions.Builder.() -> Unit) =
     FirebaseOptions.Builder().apply(action).build()
 

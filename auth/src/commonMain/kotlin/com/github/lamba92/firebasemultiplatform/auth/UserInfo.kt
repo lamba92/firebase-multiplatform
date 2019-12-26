@@ -1,8 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-interface UserInfo {
-
-    val delegate: PlatformSpecificUserInfo
+expect class UserInfo {
 
     val displayName: String?
     val email: String?

@@ -1,16 +1,11 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect class UserProfileChangeRequest(
-    delegate: PlatformSpecificUserProfileChangeRequest
-) {
+expect class UserProfileChangeRequest {
 
-    val delegate: PlatformSpecificUserProfileChangeRequest
     val displayName: String?
     val photoUri: String?
 
     class Builder() {
-
-        val delegate: PlatformSpecificUserProfileChangeRequestBuilder
 
         fun build(): UserProfileChangeRequest
         fun setDisplayName(displayName: String?): Builder

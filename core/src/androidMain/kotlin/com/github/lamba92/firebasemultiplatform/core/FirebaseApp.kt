@@ -7,8 +7,8 @@ import android.content.Context
  * and state for Firebase APIs. Most applications don't need to
  * directly interact with FirebaseApp.
  */
-actual class FirebaseApp internal actual constructor(
-    actual val delegate: PlatformSpecificFirebaseApp
+actual class FirebaseApp(
+    val delegate: PlatformSpecificFirebaseApp
 ) {
     actual companion object {
 

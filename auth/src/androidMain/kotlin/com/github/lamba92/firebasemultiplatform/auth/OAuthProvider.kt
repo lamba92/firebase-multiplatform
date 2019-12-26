@@ -2,8 +2,8 @@
 
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual class OAuthProvider actual constructor(
-    actual override val delegate: PlatformSpecificOAuthProvider
+actual class OAuthProvider(
+    override val delegate: PlatformSpecificOAuthProvider
 ) : FederatedAuthProvider(delegate) {
 
     actual val providerId: String?
@@ -43,8 +43,8 @@ actual class OAuthProvider actual constructor(
 
     }
 
-    actual class Builder actual constructor(
-        actual val delegate: PlatformSpecificOAuthProviderBuilder
+    actual class Builder(
+        val delegate: PlatformSpecificOAuthProviderBuilder
     ) {
 
         actual companion object {}
@@ -72,8 +72,8 @@ actual class OAuthProvider actual constructor(
 
     }
 
-    actual class CredentialsBuilder actual constructor(
-        actual val delegate: PlatformSpecificOAuthProviderCredentialsBuilder
+    actual class CredentialsBuilder(
+        val delegate: PlatformSpecificOAuthProviderCredentialsBuilder
     ) {
 
         actual companion object {}

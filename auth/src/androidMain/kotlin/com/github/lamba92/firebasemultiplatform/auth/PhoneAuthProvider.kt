@@ -1,7 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual class PhoneAuthProvider actual constructor(
-    actual val delegate: PlatformSpecificPhoneAuthProvider
+actual class PhoneAuthProvider(
+    val delegate: PlatformSpecificPhoneAuthProvider
 ) {
 
     actual companion object {

@@ -1,7 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual class GetTokenResults actual constructor(
-    actual val delegate: PlatformSpecificGetTokenResults
+actual class GetTokenResults(
+    val delegate: PlatformSpecificGetTokenResults
 ) {
 
     actual val authTimestamp: Long

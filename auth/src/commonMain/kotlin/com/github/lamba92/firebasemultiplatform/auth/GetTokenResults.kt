@@ -1,10 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect class GetTokenResults(
-    delegate: PlatformSpecificGetTokenResults
-) {
-    val delegate: PlatformSpecificGetTokenResults
-
+expect class GetTokenResults {
     val authTimestamp: Long
     val claims: Map<String, Any>
     val expirationTimestamp: Long

@@ -2,10 +2,12 @@
 
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual interface ActionCodeResult {
+actual class ActionCodeResult(
+    val delegate: PlatformSpecificActionCodeResult
+) {
 
-    actual val delegate: PlatformSpecificActionCodeResult
     actual val operation: Int
+        get() = delegate.operation
 
     actual companion object {
         actual val PASSWORD_RESET = PlatformSpecificActionCodeResult.PASSWORD_RESET
@@ -17,6 +19,7 @@ actual interface ActionCodeResult {
         actual val FROM_EMAIL = PlatformSpecificActionCodeResult.FROM_EMAIL
     }
 
-    actual fun getData(dataId: Int): String?
+    actual fun getData(dataId: Int) =
+        delegate.getData(dataId)
 
 }

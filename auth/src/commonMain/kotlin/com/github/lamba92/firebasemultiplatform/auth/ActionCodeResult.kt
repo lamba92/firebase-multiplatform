@@ -1,8 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect interface ActionCodeResult {
+expect class ActionCodeResult {
 
-    val delegate: PlatformSpecificActionCodeResult
     val operation: Int
 
     companion object {

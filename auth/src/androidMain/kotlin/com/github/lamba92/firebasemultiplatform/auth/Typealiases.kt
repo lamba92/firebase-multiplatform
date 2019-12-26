@@ -1,0 +1,34 @@
+package com.github.lamba92.firebasemultiplatform.auth
+
+import com.google.firebase.auth.*
+import com.google.firebase.auth.ActionCodeResult
+import com.google.firebase.auth.AdditionalUserInfo
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FederatedAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.FirebaseUserMetadata
+import com.google.firebase.auth.OAuthProvider
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.UserInfo
+import com.google.firebase.auth.UserProfileChangeRequest
+
+typealias PlatformSpecificFirebaseAuth = FirebaseAuth
+typealias PlatformSpecificAuthResult = AuthResult
+typealias PlatformSpecificFirebaseUser = FirebaseUser
+typealias PlatformSpecificAuthCredential = AuthCredential
+typealias PlatformSpecificActionCodeResult = ActionCodeResult
+typealias PlatformSpecificGetTokenResults = GetTokenResult
+typealias PlatformSpecificFirebaseUserMetadata = FirebaseUserMetadata
+typealias PlatformSpecificUserInfo = UserInfo
+typealias PlatformSpecificUserProfileChangeRequest = UserProfileChangeRequest
+typealias PlatformSpecificUserProfileChangeRequestBuilder = UserProfileChangeRequest.Builder
+typealias PlatformSpecificPhoneAuthProvider = PhoneAuthProvider
+typealias PlatformSpecificPhoneAuthCredential = PhoneAuthCredential
+typealias PlatformSpecificAdditionalUserInfo = AdditionalUserInfo
+typealias PlatformSpecificAuthProvider = FederatedAuthProvider
+typealias PlatformSpecificOAuthProvider = OAuthProvider
+typealias PlatformSpecificOAuthProviderBuilder = OAuthProvider.Builder
+typealias PlatformSpecificOAuthProviderCredentialsBuilder = OAuthProvider.CredentialBuilder

@@ -1,7 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.core
 
-actual class FirebaseOptions internal actual constructor(
-    actual val delegate: PlatformSpecificFirebaseOptions
+actual class FirebaseOptions(
+    val delegate: PlatformSpecificFirebaseOptions
 ) {
 
     actual companion object {}
@@ -20,8 +20,10 @@ actual class FirebaseOptions internal actual constructor(
         get() = delegate.storageBucket
 
     actual class Builder actual constructor() {
-        actual val delegate: PlatformSpecificFirebaseOptionsBuilder
-            get() = PlatformSpecificFirebaseOptionsBuilder()
+
+        val delegate by lazy {
+            com.google.firebase.FirebaseOptions.Builder()
+        }
 
         actual companion object {}
 

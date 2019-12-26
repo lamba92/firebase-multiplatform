@@ -3,8 +3,8 @@ package com.github.lamba92.firebasemultiplatform.auth
 import com.github.lamba92.firebasemultiplatform.core.await
 import com.github.lamba92.firebasemultiplatform.core.awaitUnit
 
-actual abstract class FirebaseUser actual constructor(
-    actual val delegate: PlatformSpecificFirebaseUser
+actual class FirebaseUser(
+    val delegate: PlatformSpecificFirebaseUser
 ) {
 
     actual val displayName: String?
