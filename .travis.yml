@@ -1,0 +1,34 @@
+language: bash
+
+os:
+  - linux
+
+env:
+  global:
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    - JDK="adopt@1.8"
+
+before_install:
+  - travis_retry curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+  - travis_retry source ~/.install-jdk-travis.sh
+  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then chmod +x gradlew; fi
+
+script: ./gradlew check --scan
+
+before_cache:
+  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
+  - bash ~/.clean_gradle_cache.sh
+
+cache:
+  directories:
+    - $HOME/.gradle/caches
+    - $HOME/.gradle/wrapper
+    - $HOME/.konan/
+
+deploy:
+  provider: script
+  script: ./gradlew bintrayUpload
+  skip_cleanup: true
+  on:
+    branch: master
+    tags: true
