@@ -1,4 +1,4 @@
-# Firebase wrappers for Kotlin Multiplatform [ ![Download](https://api.bintray.com/packages/lamba92/com.github.lamba92/firebase-multiplatform/images/download.svg) ](https://bintray.com/lamba92/com.github.lamba92/firebase-multiplatform/_latestVersion)
+# Firebase wrappers for Kotlin Multiplatform [ ![Download](https://api.bintray.com/packages/lamba92/com.github.lamba92/firebase-multiplatform/images/download.svg) ](https://bintray.com/lamba92/com.github.lamba92/firebase-multiplatform/_latestVersion) [![Build Status](https://travis-ci.org/lamba92/firebase-multiplatform.svg?branch=master)](https://travis-ci.org/lamba92/firebase-multiplatform)
 Kotlin Multiplatform is great, Firebase is great, why not use them togheter?
 
 This library aims to bridge the common Firebase APIs in different platforms so that it is possible to use them in Kotlin Multiplatform!
@@ -13,7 +13,7 @@ Since Firebase has many platforms and services, covering them all by myself is k
  - Android:
    - core ✅
    - auth ✅
-   - storage **[TODO]**
+   - storage ✅
    - firestore **[TODO]**
  - JS web client:
    - core **[TODO]**
@@ -42,7 +42,7 @@ val fApp: FirebaseApp = FirebaseApp.initializeApp {
     val job = FirebaseAuth.default.authStateFlow
         // this will be executed in main thread 
         // as the official documentation states!        
-        .onEach { isLoggedin -> /*do stuff*/ }
+        .onEach { isLoggedIn -> /*do stuff*/ }
         .launchIn(GlobalScope)
     
     // stop listening and detach listener

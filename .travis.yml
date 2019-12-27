@@ -22,7 +22,7 @@ cache:
 deploy:
   provider: script
   script: ./gradlew bintrayUpload
-  cleanup: false
+  cleanup: true
   on:
     branch: master
     tags: true
