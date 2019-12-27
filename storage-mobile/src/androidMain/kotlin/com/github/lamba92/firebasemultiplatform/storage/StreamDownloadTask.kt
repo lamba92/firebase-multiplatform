@@ -33,7 +33,7 @@ actual class StreamDownloadTask(
 
     @ExperimentalCoroutinesApi
     override val progressFlow by lazy {
-        callbackFlow {
+        callbackFlow<Snapshot> {
             val progressCallback = OnProgressListener<PlatformSpecificStreamDownloadTaskSnapshot> { offer(it.toMpp()) }
             delegate.addOnProgressListener(progressCallback)
             awaitClose { delegate.removeOnProgressListener(progressCallback) }

@@ -2,8 +2,8 @@ package com.github.lamba92.firebasemultiplatform.auth
 
 import android.net.Uri
 
-actual class UserProfileChangeRequest actual constructor(
-    actual val delegate: PlatformSpecificUserProfileChangeRequest
+actual class UserProfileChangeRequest(
+    val delegate: PlatformSpecificUserProfileChangeRequest
 ) {
 
     actual val displayName: String?
@@ -13,7 +13,9 @@ actual class UserProfileChangeRequest actual constructor(
 
     actual class Builder actual constructor() {
 
-        actual val delegate = PlatformSpecificUserProfileChangeRequestBuilder()
+        val delegate by lazy {
+            PlatformSpecificUserProfileChangeRequestBuilder()
+        }
 
         actual fun build() =
             delegate.build().toMpp()
