@@ -1,23 +1,17 @@
-language: bash
+language: android
 
 os:
   - linux
 
-env:
-  global:
-    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
-    - JDK="adopt@1.8"
+android:
+  components:
+    - build-tools-29.0.2
+    - android-29
 
 before_install:
-  - travis_retry curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
-  - travis_retry source ~/.install-jdk-travis.sh
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then chmod +x gradlew; fi
+  - chmod +x gradlew
 
 script: ./gradlew check --scan
-
-before_cache:
-  - curl "${GRAVIS}.clean_gradle_cache.sh" --output ~/.clean_gradle_cache.sh
-  - bash ~/.clean_gradle_cache.sh
 
 cache:
   directories:
