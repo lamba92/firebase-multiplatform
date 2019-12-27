@@ -1,22 +1,18 @@
 package com.github.lamba92.firebasemultiplatform.storage
 
-import android.net.Uri
-import com.google.firebase.storage.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
-import java.io.File
 
 typealias PlatformSpecificStorageReference = StorageReference
-typealias PlatformSpecificDownloadTask = FileDownloadTask
+typealias PlatformSpecificDownloadTask = com.google.firebase.storage.FileDownloadTask
+typealias PlatformSpecificStreamDownloadTask = com.google.firebase.storage.StreamDownloadTask
+typealias PlatformSpecificStreamDownloadTaskSnapshot = com.google.firebase.storage.StreamDownloadTask.TaskSnapshot
 typealias PlatformSpecificUploadTask = UploadTask
 typealias PlatformSpecificUploadTaskSnapshot = UploadTask.TaskSnapshot
-typealias PlatformSpecificUri = Uri
-typealias PlatformSpecificFile = File
 typealias PlatformSpecificStorageMetadata = StorageMetadata
+typealias PlatformSpecificStorageMetadataBuilder = StorageMetadata.Builder
 typealias PlatformSpecificFirebaseStorage = FirebaseStorage
 typealias PlatformSpecificListResult = ListResult
-typealias PSStorageTask<T> = StorageTask<T>

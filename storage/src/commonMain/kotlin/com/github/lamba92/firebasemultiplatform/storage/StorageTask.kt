@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface StorageTask<T : StorageTask.Snapshot> {
 
-    val isCancelled: Boolean
+    val isCanceled: Boolean
     val isComplete: Boolean
     val isInProgress: Boolean
     val isPaused: Boolean

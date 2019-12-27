@@ -7,41 +7,52 @@ import com.google.firebase.storage.OnPausedListener
 import com.google.firebase.storage.OnProgressListener
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.io.core.Input
+import kotlinx.io.streams.asInput
 
-actual class UploadTask(
-    val delegate: PlatformSpecificUploadTask
-) : StorageTask<UploadTask.Snapshot> {
+actual class StreamDownloadTask(
+    val delegate: PlatformSpecificStreamDownloadTask
+) : StorageTask<StreamDownloadTask.Snapshot> {
 
     override val isCanceled: Boolean
         get() = delegate.isCanceled
+
     override val isComplete: Boolean
         get() = delegate.isComplete
+
     override val isInProgress: Boolean
         get() = delegate.isInProgress
+
     override val isPaused: Boolean
         get() = delegate.isPaused
+
     override val isSuccessful: Boolean
         get() = delegate.isSuccessful
 
-    override val progressFlow: Flow<Snapshot>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    @ExperimentalCoroutinesApi
+    override val progressFlow by lazy {
+        callbackFlow {
+            val progressCallback = OnProgressListener<PlatformSpecificStreamDownloadTaskSnapshot> { offer(it.toMpp()) }
+            delegate.addOnProgressListener(progressCallback)
+            awaitClose { delegate.removeOnProgressListener(progressCallback) }
+        }
+    }
 
     @ExperimentalCoroutinesApi
     override val stateChangesFlow by lazy {
         callbackFlow {
-            val pauseCallback = OnPausedListener<PlatformSpecificUploadTaskSnapshot> {
+            val pauseCallback = OnPausedListener<PlatformSpecificStreamDownloadTaskSnapshot> {
                 offer(StorageTask.Snapshot.State.PAUSED)
             }
             val cancelCallback = OnCanceledListener {
                 offer(StorageTask.Snapshot.State.CANCELED)
             }
-            val successCallback = OnSuccessListener<PlatformSpecificUploadTaskSnapshot> {
+            val successCallback = OnSuccessListener<PlatformSpecificStreamDownloadTaskSnapshot> {
                 offer(StorageTask.Snapshot.State.FINISHED_SUCCESSFULLY)
             }
-            val progressCallback = OnProgressListener<PlatformSpecificUploadTaskSnapshot> {
+            val progressCallback = OnProgressListener<PlatformSpecificStreamDownloadTaskSnapshot> {
                 offer(StorageTask.Snapshot.State.RUNNING)
             }
             val errorCallback = OnFailureListener {
@@ -65,6 +76,7 @@ actual class UploadTask(
         }
             .distinctUntilChanged()
     }
+
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
 
@@ -78,8 +90,11 @@ actual class UploadTask(
         delegate.resume()
 
     actual class Snapshot(
-        val delegate: PlatformSpecificUploadTaskSnapshot
+        val delegate: PlatformSpecificStreamDownloadTaskSnapshot
     ) : StorageTask.Snapshot {
+
+        actual val stream: Input
+            get() = delegate.stream.asInput()
 
         override val storage: StorageReference
             get() = delegate.storage.toMpp()
@@ -89,12 +104,6 @@ actual class UploadTask(
 
         override val totalByteCount: Long
             get() = delegate.totalByteCount
-
-        actual val metadata: StorageMetadata?
-            get() = delegate.metadata?.toMpp()
-
-        actual val uploadSessionUri: String?
-            get() = delegate.uploadSessionUri?.toString()
 
     }
 

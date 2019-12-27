@@ -15,7 +15,7 @@ actual class DownloadTask(
     val delegate: PlatformSpecificDownloadTask
 ) : StorageTask<DownloadTask.Snapshot> {
 
-    override val isCancelled: Boolean
+    override val isCanceled: Boolean
         get() = delegate.isCanceled
     override val isComplete: Boolean
         get() = delegate.isComplete
@@ -71,6 +71,7 @@ actual class DownloadTask(
             awaitClose { delegate.removeOnProgressListener(progressCallback) }
         }
     }
+
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
 

@@ -1,67 +1,111 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package com.github.lamba92.firebasemultiplatform.storage
 
+import android.net.Uri
+import com.github.lamba92.firebasemultiplatform.core.await
+import com.github.lamba92.firebasemultiplatform.core.awaitUnit
 import kotlinx.io.core.Input
+import java.io.InputStream
 
 actual class StorageReference(
     val delegate: PlatformSpecificStorageReference
-) : Comparator<StorageReference> {
+) : Comparable<StorageReference> {
+
+    override fun compareTo(other: StorageReference) =
+        delegate.compareTo(other.delegate)
 
     actual val activeDownloadTasks: List<DownloadTask>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.activeDownloadTasks.map { it.toMpp() }
+
     actual val activeUploadTasks: List<UploadTask>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.activeUploadTasks.map { it.toMpp() }
+
     actual val bucket: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.bucket
+
     actual val name: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-    actual val parent: StorageReference
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.name
+
+    actual val parent: StorageReference?
+        get() = delegate.parent?.toMpp()
+
     actual val path: String
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.path
+
     actual val root: StorageReference
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.root.toMpp()
+
     actual val storage: FirebaseStorage
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.storage.toMpp()
 
-    actual fun child(path: String): StorageReference {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun child(pathString: String) =
+        delegate.child(pathString).toMpp()
 
-    actual suspend fun delete() {
-    }
+    actual suspend fun delete() =
+        delegate.delete().awaitUnit()
 
-    actual suspend fun getBytes(maxDownloadSize: Long): ByteArray {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun getBytes(maxDownloadSize: Long) =
+        delegate.getBytes(maxDownloadSize).await()!!
 
-    actual suspend fun downloadUrl(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun downloadUrl() =
+        delegate.downloadUrl.await().toString()
 
-    actual suspend fun getStream(): Input {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun getFile(uri: String) =
+        delegate.getFile(Uri.parse(uri)).toMpp()
 
-    actual suspend fun getMetadata(): StorageMetadata {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun getStream() =
+        delegate.stream.toMpp()
 
-    actual suspend fun list(
-        maxResults: Int,
-        pageToken: String
-    ): ListResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun getMetadata() =
+        delegate.metadata.await().toMpp()
 
-    actual suspend fun list(maxResults: Int): ListResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun list(maxResults: Int, pageToken: String) =
+        delegate.list(maxResults, pageToken).await().toMpp()
 
-    actual suspend fun listAll(): ListResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun list(maxResults: Int) =
+        delegate.list(maxResults).await().toMpp()
 
-    override fun compare(o1: StorageReference?, o2: StorageReference?): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual suspend fun listAll() =
+        delegate.listAll().await().toMpp()
+
+    actual fun putBytes(bytes: ByteArray, metadata: StorageMetadata) =
+        delegate.putBytes(bytes, metadata.delegate).toMpp()
+
+    actual fun putBytes(bytes: ByteArray) =
+        delegate.putBytes(bytes).toMpp()
+
+    fun putFile(uri: Uri, metadata: StorageMetadata, existingUploadUri: Uri): UploadTask =
+        delegate.putFile(uri, metadata.delegate, existingUploadUri).toMpp()
+
+    fun putFile(uri: Uri, metadata: StorageMetadata): UploadTask =
+        delegate.putFile(uri, metadata.delegate).toMpp()
+
+    fun putFile(uri: Uri): UploadTask =
+        delegate.putFile(uri).toMpp()
+
+    actual fun putFile(uri: String, metadata: StorageMetadata, existingUploadUri: String): UploadTask =
+        putFile(uri.toUri(), metadata, existingUploadUri.toUri())
+
+    actual fun putFile(uri: String, metadata: StorageMetadata): UploadTask =
+        putFile(uri.toUri(), metadata)
+
+    actual fun putFile(uri: String): UploadTask =
+        putFile(uri.toUri())
+
+    fun putStream(stream: InputStream, metadata: StorageMetadata): UploadTask =
+        delegate.putStream(stream, metadata.delegate).toMpp()
+
+    fun putStream(stream: InputStream): UploadTask =
+        delegate.putStream(stream).toMpp()
+
+    actual fun putStream(stream: Input, metadata: StorageMetadata): UploadTask =
+        putStream(stream.asStream(), metadata)
+
+    actual fun putStream(stream: Input): UploadTask =
+        putStream(stream.asStream())
+
+    actual suspend fun updateMetadata(metadata: StorageMetadata) =
+        delegate.updateMetadata(metadata.delegate).await().toMpp()
+
 }
