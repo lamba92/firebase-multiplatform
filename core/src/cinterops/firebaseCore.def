@@ -1,0 +1,7 @@
+language = Objective-C
+package = com.google.firebase
+headers = FIRApp.h FIRConfiguration.h FirebaseCore.h FIRLoggerLevel.h FIROptions.h
+headerFilter = **
+
+compilerOpts = -framework FirebaseCore
+linkerOpts = -framework FirebaseCore

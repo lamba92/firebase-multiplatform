@@ -2,18 +2,30 @@
 
 import com.github.lamba92.firebasemultiplatform.build.firebase
 import com.github.lamba92.firebasemultiplatform.build.kotlinx
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     id("firebase-multiplatform-gradle-plugin")
 }
 
+val firebaseCopy by rootProject.tasks.named<Copy>("extractFirebaseIosZip")
+
 kotlin {
 
     iosArm64()
+    iosX64()
+    macosX64()
 
-    cocoapods {
-        val firebaseCoreIOSVersion: String by project
-        pod("FirebaseCore", firebaseCoreIOSVersion)
+    targets.withType<KotlinNativeTarget> {
+        compilations["main"].cinterops {
+            create("firebaseCore") {
+                defFile = file("cinterops/firebaseCore.def")
+                includeDirs("${firebaseCopy.destinationDir}/FirebaseAnalytics")
+            }
+        }
+        binaries {
+            framework()
+        }
     }
 
     sourceSets {

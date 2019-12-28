@@ -23,4 +23,5 @@ dependencies {
     api("org.jetbrains.kotlin", "kotlin-gradle-plugin", kotlinVersion)
     api("com.android.tools.build", "gradle", androidGradlePlugin)
     api("com.jfrog.bintray.gradle", "gradle-bintray-plugin", bintrayVersion)
+    api("de.undercouch", "gradle-download-task", "4.0.2")
 }

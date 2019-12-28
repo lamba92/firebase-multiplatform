@@ -11,7 +11,6 @@ import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
-import org.jetbrains.kotlin.gradle.plugin.cocoapods.KotlinCocoapodsPlugin
 
 @Suppress("unused")
 class FirebaseMultiplatformPlugin : Plugin<Project> {
@@ -22,7 +21,6 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
         apply<MavenPublishPlugin>()
         apply<BintrayPlugin>()
         apply<AndroidLibraryPlugin>()
-        apply<KotlinCocoapodsPlugin>()
 
         repositories {
             mavenCentral()
