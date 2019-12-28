@@ -20,6 +20,11 @@ Since Firebase has many platforms and services, covering them all by myself is k
    - auth **[TODO]**
    - storage **[TODO]**
    - firestore **[TODO]**
+ - iOS:
+    - core **[TODO]**
+    - auth **[TODO]**
+    - storage **[TODO]**
+    - firestore **[TODO]**
    
 ## Some examples
 [`FirebaseApp`](https://github.com/lamba92/firebase-multiplatform/blob/master/core/src/commonMain/kotlin/com/github/lamba92/firebasemultiplatform/core/FirebaseApp.kt) initialization:

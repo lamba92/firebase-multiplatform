@@ -5,11 +5,13 @@ import com.android.build.gradle.LibraryPlugin
 import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.gradle.plugin.cocoapods.CocoapodsExtension
 
 typealias AndroidLibraryPlugin = LibraryPlugin
 typealias AndroidLibraryExtension = LibraryExtension

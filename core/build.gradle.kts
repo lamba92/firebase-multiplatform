@@ -7,29 +7,38 @@ plugins {
     id("firebase-multiplatform-gradle-plugin")
 }
 
-kotlin.sourceSets {
+kotlin {
 
-    val coroutinesVersion: String by project
-    val firebaseCommonAndroidVersion: String by project
-    val firebaseJsVersion: String by project
+    iosArm64()
 
-    val commonMain by getting {
-        dependencies {
-            api(kotlin("stdlib-common"))
-            api(kotlinx("coroutines-core-common", coroutinesVersion))
-        }
+    cocoapods {
+        val firebaseCoreIOSVersion: String by project
+        pod("FirebaseCore", firebaseCoreIOSVersion)
     }
 
-    val androidMain by getting {
-        dependencies {
+    sourceSets {
 
-            api(kotlin("stdlib-jdk8"))
+        val coroutinesVersion: String by project
+        val firebaseCommonAndroidVersion: String by project
+        val firebaseJsVersion: String by project
 
-            api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-            api(firebase("common", firebaseCommonAndroidVersion))
-
+        val commonMain by getting {
+            dependencies {
+                api(kotlin("stdlib-common"))
+                api(kotlinx("coroutines-core-common", coroutinesVersion))
+            }
         }
-    }
+
+        val androidMain by getting {
+            dependencies {
+
+                api(kotlin("stdlib-jdk8"))
+
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                api(firebase("common", firebaseCommonAndroidVersion))
+
+            }
+        }
 
 //        val jsMain by getting {
 //            dependencies {
@@ -40,5 +49,7 @@ kotlin.sourceSets {
 //
 //            }
 //        }
+
+    }
 
 }
