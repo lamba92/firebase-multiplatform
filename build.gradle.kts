@@ -54,7 +54,6 @@ val firebaseExtract = task<Sync>("extractFirebaseIosZip") {
         val frameRegex = Regex(".*[\\/\\\\](.*\\.framework[\\/\\\\].*)")
         eachFile {
             val newPath = frameRegex.matchEntire(path)!!.groups[1]!!.value
-            println("$path->$newPath")
             path = newPath
         }
     }

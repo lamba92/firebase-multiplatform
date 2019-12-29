@@ -1,62 +1,61 @@
 package com.github.lamba92.firebasemultiplatform.core
 
-actual class FirebaseOptions(
-    val delegate: PlatformSpecificFirebaseOptions
-) {
+import com.google.firebase.FIROptions
 
+actual class FirebaseOptions(
+    val delegate: FIROptions
+) {
     actual companion object {}
 
     actual val apiKey: String
-        get() = delegate.apiKey
+        get() = delegate.APIKey ?: ""
     actual val applicationId: String
-        get() = delegate.applicationId
+        get() = delegate.googleAppID
     actual val databaseUrl: String?
-        get() = delegate.databaseUrl
+        get() = delegate.databaseURL
     actual val gcmSenderId: String?
-        get() = delegate.gcmSenderId
+        get() = delegate.GCMSenderID
     actual val projectId: String?
-        get() = delegate.projectId
+        get() = delegate.projectID
     actual val storageBucket: String?
         get() = delegate.storageBucket
 
     actual class Builder actual constructor() {
 
-        val delegate by lazy {
-            com.google.firebase.FirebaseOptions.Builder()
-        }
+        val delegate = FIROptions("", "")
 
         actual companion object {}
 
         actual fun build() =
-            delegate.build().toMpp()
+            delegate.toMpp()
 
         actual fun setApiKey(apiKey: String): Builder {
-            delegate.setApiKey(apiKey)
+            delegate.APIKey = apiKey
             return this
         }
 
         actual fun setApplicationId(applicationId: String): Builder {
-            delegate.setApplicationId(applicationId)
+            delegate.googleAppID = applicationId
             return this
         }
 
         actual fun setDatabaseUrl(databaseUrl: String): Builder {
-            delegate.setDatabaseUrl(databaseUrl)
+            delegate.databaseURL = databaseUrl
             return this
         }
 
         actual fun setGcmSenderId(gcmSenderId: String): Builder {
-            delegate.setGcmSenderId(gcmSenderId)
+            delegate.GCMSenderID = gcmSenderId
             return this
         }
 
         actual fun setProjectId(projectId: String): Builder {
-            delegate.setProjectId(projectId)
+            delegate.projectID = projectId
             return this
         }
 
         actual fun setStorageBucket(storageBucket: String): Builder {
-            delegate.setStorageBucket(storageBucket)
+            delegate.storageBucket = storageBucket
             return this
         }
 

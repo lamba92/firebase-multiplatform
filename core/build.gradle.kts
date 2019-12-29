@@ -14,7 +14,6 @@ kotlin {
 
     iosArm64()
     iosX64()
-    macosX64()
 
     targets.withType<KotlinNativeTarget> {
         compilations["main"].cinterops {
@@ -22,16 +21,12 @@ kotlin {
 
                 val frameworksFolderPath = firebaseExtract.destinationDir.absolutePath
 
-                defFile = file("cinterops/firebaseCore.def")
+                defFile = file("src/cinterops/firebaseCore.def")
 
                 includeDirs(file("$frameworksFolderPath/FirebaseCore.framework/Headers"))
                 compilerOpts("-F$frameworksFolderPath")
-                linkerOpts("-F$frameworksFolderPath")
 
             }
-        }
-        binaries {
-            framework()
         }
     }
 
@@ -57,6 +52,17 @@ kotlin {
                 api(firebase("common", firebaseCommonAndroidVersion))
 
             }
+        }
+
+        val nativeCommonMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val iosArm64Main by getting {
+            dependsOn(nativeCommonMain)
+        }
+        val iosX64Main by getting {
+            dependsOn(nativeCommonMain)
         }
 
 //        val jsMain by getting {
