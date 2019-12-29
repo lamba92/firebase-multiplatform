@@ -34,9 +34,21 @@ kotlin {
 
                 api(kotlin("stdlib-jdk8"))
 
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                api(kotlinx("coroutines-android", coroutinesVersion))
                 api(firebase("common", firebaseCommonAndroidVersion))
 
+            }
+        }
+
+        val iosArm64Main by getting {
+            dependencies {
+                api(kotlinx("coroutines-core-iosarm64", coroutinesVersion))
+            }
+        }
+
+        val iosX64Main by getting {
+            dependencies {
+                api(kotlinx("coroutines-core-iosx64", coroutinesVersion))
             }
         }
 
