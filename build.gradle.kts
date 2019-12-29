@@ -1,5 +1,6 @@
 import de.undercouch.gradle.tasks.download.Download
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.tasks.CInteropProcess
 import java.io.IOException
 import java.util.zip.ZipFile
 
@@ -29,13 +30,16 @@ val downloadFirebaseIos = task<Download>("downloadFirebaseIosZip") {
     val file = file("$firebaseIosSetupFolderName/$fileName")
 
     onlyIf {
-        file.exists() && try {
-            ZipFile(file)
-            println("Skipping $fileName download. It seems ok.")
-            false
-        } catch (e: IOException) {
+        if (file.exists())
+            try {
+                ZipFile(file)
+                println("Skipping $fileName download. It seems ok.")
+                false
+            } catch (e: IOException) {
+                true
+            }
+        else
             true
-        }
     }
 
     src("https://dl.google.com/firebase/sdk/ios/6_14_0/$fileName")
@@ -43,12 +47,10 @@ val downloadFirebaseIos = task<Download>("downloadFirebaseIosZip") {
 
 }
 
-task<Copy>("extractFirebaseIosZip") {
+val firebaseExtract = task<Sync>("extractFirebaseIosZip") {
     dependsOn(downloadFirebaseIos)
     group = "ios firebase setup"
-    from(zipTree(downloadFirebaseIos.dest).matching {
-        include("**/*.framework/**")
-    }) {
+    from(zipTree(downloadFirebaseIos.dest).matching { include("**/*.framework/**") }) {
         val frameRegex = Regex(".*[\\/\\\\](.*\\.framework[\\/\\\\].*)")
         eachFile {
             val newPath = frameRegex.matchEntire(path)!!.groups[1]!!.value
@@ -57,4 +59,10 @@ task<Copy>("extractFirebaseIosZip") {
         }
     }
     into("$firebaseIosSetupFolderName/${downloadFirebaseIos.dest.nameWithoutExtension}")
+}
+
+subprojects {
+    tasks.withType<CInteropProcess> {
+        dependsOn(firebaseExtract)
+    }
 }

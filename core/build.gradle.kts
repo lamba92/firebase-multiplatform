@@ -8,7 +8,7 @@ plugins {
     id("firebase-multiplatform-gradle-plugin")
 }
 
-val firebaseCopy by rootProject.tasks.named<Copy>("extractFirebaseIosZip")
+val firebaseExtract by rootProject.tasks.named<Sync>("extractFirebaseIosZip")
 
 kotlin {
 
@@ -19,9 +19,15 @@ kotlin {
     targets.withType<KotlinNativeTarget> {
         compilations["main"].cinterops {
             create("firebaseCore") {
+
+                val frameworksFolderPath = firebaseExtract.destinationDir.absolutePath
+
                 defFile = file("cinterops/firebaseCore.def")
-                includeDirs("${firebaseCopy.destinationDir}/FirebaseCore.framework")
-                linkerOpts("-F ${firebaseCopy.destinationDir}")
+
+                includeDirs(file("$frameworksFolderPath/FirebaseCore.framework/Headers"))
+                compilerOpts("-F$frameworksFolderPath")
+                linkerOpts("-F$frameworksFolderPath")
+
             }
         }
         binaries {
