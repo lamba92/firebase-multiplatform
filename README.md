@@ -21,8 +21,8 @@ Since Firebase has many platforms and services, covering them all by myself is k
    - storage **[TODO]**
    - firestore **[TODO]**
  - iOS:
-    - core **[TODO]**
-    - auth **[TODO]**
+    - core ✅
+    - auth **[IN PROGRESS]**
     - storage **[TODO]**
     - firestore **[TODO]**
    
