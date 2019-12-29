@@ -1,29 +1,18 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+import com.github.lamba92.firebasemultiplatform.build.bindFirebaseFramework
 import com.github.lamba92.firebasemultiplatform.build.firebase
 import com.github.lamba92.firebasemultiplatform.build.kotlinx
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     id("firebase-multiplatform-gradle-plugin")
 }
 
-val firebaseExtract by rootProject.tasks.named<Sync>("extractFirebaseIosZip")
-
 kotlin {
 
-    targets.withType<KotlinNativeTarget> {
+    ios {
         compilations["main"].cinterops {
-            create("firebaseCore") {
-
-                val frameworksFolderPath = firebaseExtract.destinationDir.absolutePath
-
-                defFile = file("src/cinterops/firebaseCore.def")
-
-                includeDirs(file("$frameworksFolderPath/FirebaseCore.framework/Headers"))
-                compilerOpts("-F$frameworksFolderPath")
-
-            }
+            bindFirebaseFramework("FirebaseCore", project)
         }
     }
 
