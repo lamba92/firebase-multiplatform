@@ -6,6 +6,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
+import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.maven
 import org.gradle.kotlin.dsl.repositories
@@ -51,14 +52,19 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             android {
                 publishLibraryVariants("release")
                 mavenPublication {
-                    artifactId = "${rootProject.name}-$artifactId"
+                    if (!artifactId.startsWith(rootProject.name))
+                        artifactId = "${rootProject.name}-$artifactId"
                 }
             }
+
+            ios()
+
         }
 
         publishing {
-            configure(publications.withType<MavenPublication>()) {
-                artifactId = "${rootProject.name}-$artifactId"
+            publications.withType<MavenPublication> {
+                if (!artifactId.startsWith(rootProject.name))
+                    artifactId = "${rootProject.name}-$artifactId"
             }
         }
 
@@ -81,11 +87,14 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                     issueTrackerUrl = "https://github.com/lamba92/FirebaseMultiplatform/issues"
                 }
                 publish = true
-                publishing {
-                    val publications = publications.names + "androidRelease"
-                    setPublications(publications)
-                    println("Set up publications names: $publications")
+
+                setPublications {
+                    if (OperatingSystem.current().isMacOsX)
+                        listOf("iosArm64", "iosX64")
+                    else
+                        listOf("androidRelease", "kotlinMultiplatform", "metadata")
                 }
+                println("Set up publications names: ${publications.joinToString()}")
             }
         else
             println("publishing credentials not found.")

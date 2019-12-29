@@ -1,17 +1,17 @@
-language: android
-
-os:
-  - linux
-
-android:
-  components:
-    - build-tools-29.0.2
-    - android-29
+jobs:
+  include:
+    - language: android
+      os: linux
+      android:
+        components:
+          - build-tools-29.0.2
+          - android-29
+    - os: osx
 
 before_install:
   - chmod +x gradlew
 
-script: ./gradlew check --scan
+script: ./gradlew check
 
 cache:
   directories:
@@ -22,7 +22,7 @@ cache:
 deploy:
   provider: script
   script: ./gradlew bintrayUpload
+  skip_cleanup: true
   on:
-    skip_cleanup: true
     branch: master
     tags: true

@@ -12,9 +12,6 @@ val firebaseExtract by rootProject.tasks.named<Sync>("extractFirebaseIosZip")
 
 kotlin {
 
-    iosArm64()
-    iosX64()
-
     targets.withType<KotlinNativeTarget> {
         compilations["main"].cinterops {
             create("firebaseCore") {
@@ -53,27 +50,6 @@ kotlin {
 
             }
         }
-
-        val nativeCommonMain by creating {
-            dependsOn(commonMain)
-        }
-
-        val iosArm64Main by getting {
-            dependsOn(nativeCommonMain)
-        }
-        val iosX64Main by getting {
-            dependsOn(nativeCommonMain)
-        }
-
-//        val jsMain by getting {
-//            dependencies {
-//
-//                api(kotlin("stdlib-js"))
-//                api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
-//                api(npm("firebase", firebaseJsVersion))
-//
-//            }
-//        }
 
     }
 

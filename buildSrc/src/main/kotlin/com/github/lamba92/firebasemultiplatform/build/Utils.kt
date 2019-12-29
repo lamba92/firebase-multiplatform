@@ -73,3 +73,6 @@ fun KotlinDependencyHandler.kotlinx(module: String, version: String) =
 fun BintrayExtension.setPublications(names: Iterable<String>) =
     setPublications(*names.toList().toTypedArray())
 
+fun BintrayExtension.setPublications(builder: () -> Iterable<String>) =
+    setPublications(builder())
+
