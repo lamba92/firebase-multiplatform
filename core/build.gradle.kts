@@ -20,7 +20,8 @@ kotlin {
         compilations["main"].cinterops {
             create("firebaseCore") {
                 defFile = file("cinterops/firebaseCore.def")
-                includeDirs("${firebaseCopy.destinationDir}/FirebaseAnalytics")
+                includeDirs("${firebaseCopy.destinationDir}/FirebaseCore.framework")
+                linkerOpts("-F ${firebaseCopy.destinationDir}")
             }
         }
         binaries {
