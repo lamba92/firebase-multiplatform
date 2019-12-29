@@ -7,10 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.internal.os.OperatingSystem
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.maven
-import org.gradle.kotlin.dsl.repositories
-import org.gradle.kotlin.dsl.withType
+import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 @Suppress("unused")
@@ -58,6 +55,8 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             }
 
             ios()
+
+            sourceSets["iosX64Main"].dependsOn(sourceSets["iosArm64Main"])
 
         }
 

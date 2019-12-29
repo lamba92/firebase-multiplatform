@@ -92,7 +92,7 @@ fun NamedDomainObjectContainer<DefaultCInteropSettings>.bindFramework(
         .joinToString(" ")
 
 
-    maybeCreate(framework.name).apply {
+    maybeCreate(framework.name.removeSuffix(".framework")).apply {
         this.defFile = buildString {
             appendln("language = Objective-C")
             appendln("package = $packageName")
