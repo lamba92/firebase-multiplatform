@@ -1,37 +1,41 @@
 @file:Suppress("UNUSED_VARIABLE")
 
-import com.github.lamba92.firebasemultiplatform.build.bindFirebaseFramework
 import com.github.lamba92.firebasemultiplatform.build.firebase
+import com.github.lamba92.firebasemultiplatform.build.firebaseKt
 
 plugins {
     id("firebase-multiplatform-gradle-plugin")
 }
 
-kotlin {
+kotlin.sourceSets {
 
-    ios {
-        compilations["main"].cinterops {
-            bindFirebaseFramework("FirebaseStorage", project)
+    val firebaseStorageAndroidVersion: String by project
+    val kotlinxIoVersion: String by project
+    val firebaseKtVersion: String by project
+
+    val commonMain by getting {
+        dependencies {
+            api(project(":core"))
         }
     }
 
-    sourceSets {
-        val firebaseStorageAndroidVersion: String by project
-        val kotlinxIoVersion: String by project
-
-        val commonMain by getting {
-            dependencies {
-                api(project(":core"))
-            }
+    val androidMain by getting {
+        dependencies {
+            api(project(":core"))
+            api(firebase("storage", firebaseStorageAndroidVersion))
         }
+    }
 
-        val androidMain by getting {
-            dependencies {
-                api(project(":core"))
-                api(firebase("storage", firebaseStorageAndroidVersion))
-            }
+    val iosArm64Main by getting {
+        dependencies {
+            api(firebaseKt("storage-iosarm64", firebaseKtVersion))
         }
+    }
 
+    val iosX64Main by getting {
+        dependencies {
+            api(firebaseKt("storage-iosx64", firebaseKtVersion))
+        }
     }
 
 }

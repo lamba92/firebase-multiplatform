@@ -3,16 +3,13 @@ package com.github.lamba92.firebasemultiplatform.build
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.jfrog.bintray.gradle.BintrayExtension
-import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.tasks.Sync
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.closureOf
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
-import org.jetbrains.kotlin.gradle.plugin.mpp.DefaultCInteropSettings
-import org.jetbrains.kotlin.util.suffixIfNot
-import java.io.File
 
 typealias AndroidLibraryPlugin = LibraryPlugin
 typealias AndroidLibraryExtension = LibraryExtension
@@ -70,6 +67,14 @@ fun KotlinDependencyHandler.firebase(module: String, version: String) =
     "com.google.firebase:firebase-$module:$version"
 
 @Suppress("unused")
+fun KotlinDependencyHandler.lamba(module: String, version: String) =
+    "com.github.lamba92:$module:$version"
+
+@Suppress("unused")
+fun KotlinDependencyHandler.firebaseKt(module: String, version: String) =
+    "com.github.lamba92:kt-firebase-$module:$version"
+
+@Suppress("unused")
 fun KotlinDependencyHandler.kotlinx(module: String, version: String) =
     "org.jetbrains.kotlinx:kotlinx-$module:$version"
 
@@ -78,53 +83,3 @@ fun BintrayExtension.setPublications(names: Iterable<String>) =
 
 fun BintrayExtension.setPublications(builder: () -> Iterable<String>) =
     setPublications(builder())
-
-fun NamedDomainObjectContainer<DefaultCInteropSettings>.bindFramework(
-    framework: File,
-    packageName: String,
-    project: Project
-): DefaultCInteropSettings = with(project) {
-
-    val headersNames = File(framework, "Headers")
-        .walkTopDown()
-        .filter { it.isFile }
-        .map { it.name }
-        .joinToString(" ")
-
-
-    maybeCreate(framework.name.removeSuffix(".framework")).apply {
-        this.defFile = buildString {
-            appendln("language = Objective-C")
-            appendln("package = $packageName")
-            appendln("headers = $headersNames")
-        }
-            .let {
-                file("$buildDir/interop/def/${framework.nameWithoutExtension.removeSuffix(".framework")}.def")
-                    .apply {
-                        if (exists())
-                            delete()
-                        parentFile.mkdirs()
-                        createNewFile()
-                        writeText(it)
-                    }
-            }
-        includeDirs(file("${framework.absolutePath}/Headers"))
-        compilerOpts("-F${framework.parentFile.absolutePath}")
-
-    }
-}
-
-fun NamedDomainObjectContainer<DefaultCInteropSettings>.bindFirebaseFramework(
-    frameworkName: String,
-    project: Project
-): DefaultCInteropSettings = with(project) {
-    val firebaseExtract by rootProject.tasks.named<Sync>("extractFirebaseIosZip")
-    bindFramework(
-        File(
-            firebaseExtract.destinationDir,
-            frameworkName.suffixIfNot(".framework")
-        ),
-        "com.google.firebase",
-        project
-    )
-}

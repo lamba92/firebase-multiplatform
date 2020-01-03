@@ -7,7 +7,10 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.internal.os.OperatingSystem
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.maven
+import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 @Suppress("unused")
@@ -25,6 +28,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             google()
             jcenter()
             maven("https://kotlin.bintray.com/kotlinx")
+            maven("https://dl.bintray.com/lamba92/com.github.lamba92")
         }
 
         android {
@@ -56,19 +60,20 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
 
             ios()
 
-            sourceSets["iosX64Main"].dependsOn(sourceSets["iosArm64Main"])
+//            sourceSets["iosX64Main"].dependsOn(sourceSets["iosArm64Main"])
 
         }
 
-        publishing {
-            publications.withType<MavenPublication> {
-                if (!artifactId.startsWith(rootProject.name))
-                    artifactId = "${rootProject.name}-$artifactId"
-            }
+        publishing.publications.withType<MavenPublication> {
+            if (!artifactId.startsWith(rootProject.name))
+                artifactId = "${rootProject.name}-$artifactId"
         }
+
 
         val bintrayUsername = searchPropertyOrNull("bintrayUsername")
+            ?: searchPropertyOrNull("BINTRAY_USERNAME")
         val bintrayApiKey = searchPropertyOrNull("bintrayApiKey")
+            ?: searchPropertyOrNull("BINTRAY_API_KEY")
 
         if (bintrayApiKey != null && bintrayUsername != null)
             bintray {
@@ -96,7 +101,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 println("Set up publications names: ${publications.joinToString()}")
             }
         else
-            println("publishing credentials not found.")
+            println("Publishing credentials not found.")
 
     }
 
