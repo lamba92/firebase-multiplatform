@@ -27,12 +27,14 @@ kotlin.sourceSets {
 
     val iosArm64Main by getting {
         dependencies {
+            api(project(":storage"))
             api(kotlinx("io-iosarm64", kotlinxIoVersion))
         }
     }
 
     val iosX64Main by getting {
         dependencies {
+            api(project(":storage"))
             api(kotlinx("io-iosx64", kotlinxIoVersion))
         }
     }

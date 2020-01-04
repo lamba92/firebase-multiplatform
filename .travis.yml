@@ -7,11 +7,12 @@ jobs:
           - build-tools-29.0.2
           - android-29
     - os: osx
+      osx_image: xcode11.3
 
 before_install:
   - chmod +x gradlew
 
-script: ./gradlew check
+script: ./gradlew check --parallel
 
 cache:
   directories:
@@ -21,7 +22,7 @@ cache:
 
 deploy:
   provider: script
-  script: ./gradlew bintrayUpload
+  script: ./gradlew bintrayUpload --parallel
   skip_cleanup: true
   on:
     branch: master

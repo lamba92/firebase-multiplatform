@@ -1,27 +1,29 @@
 package com.github.lamba92.firebasemultiplatform.build
 
 import com.jfrog.bintray.gradle.BintrayPlugin
+import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
+import org.gradle.api.tasks.Sync
 import org.gradle.internal.os.OperatingSystem
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.maven
-import org.gradle.kotlin.dsl.repositories
-import org.gradle.kotlin.dsl.withType
+import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 @Suppress("unused")
 class FirebaseMultiplatformPlugin : Plugin<Project> {
 
-    override fun apply(target: Project) = with(target) {
+    override fun apply(target: Project): Unit = with(target) {
 
         apply<KotlinMultiplatformPluginWrapper>()
         apply<MavenPublishPlugin>()
         apply<BintrayPlugin>()
-        apply<AndroidLibraryPlugin>()
+
+        if (!OperatingSystem.current().isMacOsX)
+            apply<AndroidLibraryPlugin>()
 
         repositories {
             mavenCentral()
@@ -31,37 +33,45 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             maven("https://dl.bintray.com/lamba92/com.github.lamba92")
         }
 
-        android {
+        if (!OperatingSystem.current().isMacOsX)
+            android {
 
-            compileOptions {
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                compileOptions {
+                    sourceCompatibility = JavaVersion.VERSION_1_8
+                    targetCompatibility = JavaVersion.VERSION_1_8
+                }
+
+                compileSdkVersion(29)
+                buildToolsVersion("29.0.2")
+
+                defaultConfig {
+                    minSdkVersion(14)
+                }
+
+                alignSourcesForKotlinMultiplatformPlugin(target)
             }
-
-            compileSdkVersion(29)
-            buildToolsVersion("29.0.2")
-
-            defaultConfig {
-                minSdkVersion(14)
-            }
-
-            alignSourcesForKotlinMultiplatformPlugin(target)
-        }
 
         kotlin {
 
-            android {
-                publishLibraryVariants("release")
-                mavenPublication {
-                    if (!artifactId.startsWith(rootProject.name))
-                        artifactId = "${rootProject.name}-$artifactId"
+            if (!OperatingSystem.current().isMacOsX)
+                android {
+                    publishLibraryVariants("release")
+                    mavenPublication {
+                        if (!artifactId.startsWith(rootProject.name))
+                            artifactId = "${rootProject.name}-$artifactId"
+                    }
                 }
+
+            val mainTarget = iosArm64()
+            val otherTargets = listOf(iosX64())
+
+            configure(otherTargets) {
+                task<Sync>("copySourcesInto${name.capitalize()}Main") {
+                    group = "native source copy"
+                    from(mainTarget.compilations["main"].defaultSourceSet.kotlin.sourceDirectories)
+                    into(compilations["main"].defaultSourceSet.kotlin.sourceDirectories.first())
+                }.also { compilations["main"].compileKotlinTask.dependsOn(it) }
             }
-
-            ios()
-
-//            sourceSets["iosX64Main"].dependsOn(sourceSets["iosArm64Main"])
-
         }
 
         publishing.publications.withType<MavenPublication> {
@@ -77,7 +87,6 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
 
         if (bintrayApiKey != null && bintrayUsername != null)
             bintray {
-                println("Publishing credentials are available. Setting up publication")
                 user = bintrayUsername
                 key = bintrayApiKey
                 pkg {
@@ -98,10 +107,23 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                     else
                         listOf("androidRelease", "kotlinMultiplatform", "metadata")
                 }
-                println("Set up publications names: ${publications.joinToString()}")
+                log("Set up publications names: ${publications.joinToString()}")
             }
         else
-            println("Publishing credentials not found.")
+            log("Publishing credentials not found.")
+
+        tasks.withType<BintrayUploadTask> {
+            doFirst {
+                publishing.publications.withType<MavenPublication> {
+                    buildDir.resolve("publications/$name/module.json").let {
+                        if (it.exists())
+                            artifact(object : FileBasedMavenArtifact(it) {
+                                override fun getDefaultExtension() = "module"
+                            })
+                    }
+                }
+            }
+        }
 
     }
 

@@ -2,17 +2,9 @@ plugins {
     `kotlin-dsl`
 }
 
-gradlePlugin {
-    plugins {
-        create("firebase-multiplatform-gradle-plugin") {
-            id = "firebase-multiplatform-gradle-plugin"
-            implementationClass = "com.github.lamba92.firebasemultiplatform.build.FirebaseMultiplatformPlugin"
-        }
-        create("firebase-io-publisher-plugin") {
-            id = "firebase-io-publisher"
-            implementationClass = "com.github.lamba92.firebasemultiplatform.build.FirebaseIosPublisherPlugin"
-        }
-    }
+gradlePlugin.plugins.create("firebase-multiplatform-gradle-plugin") {
+    id = "firebase-multiplatform-gradle-plugin"
+    implementationClass = "com.github.lamba92.firebasemultiplatform.build.FirebaseMultiplatformPlugin"
 }
 
 repositories {

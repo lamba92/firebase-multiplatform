@@ -20,18 +20,21 @@ kotlin.sourceSets {
 
     val androidMain by getting {
         dependencies {
+            api(project(":core"))
             api(firebase("auth", firebaseAuthAndroidVersion))
         }
     }
 
     val iosArm64Main by getting {
         dependencies {
+            api(project(":core"))
             api(firebaseKt("auth-iosarm64", firebaseKtVersion))
         }
     }
 
     val iosX64Main by getting {
         dependencies {
+            api(project(":core"))
             api(firebaseKt("auth-iosx64", firebaseKtVersion))
         }
     }

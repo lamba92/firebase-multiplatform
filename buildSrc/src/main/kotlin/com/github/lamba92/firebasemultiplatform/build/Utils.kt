@@ -10,6 +10,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import org.jetbrains.kotlin.util.suffixIfNot
 
 typealias AndroidLibraryPlugin = LibraryPlugin
 typealias AndroidLibraryExtension = LibraryExtension
@@ -83,3 +84,6 @@ fun BintrayExtension.setPublications(names: Iterable<String>) =
 
 fun BintrayExtension.setPublications(builder: () -> Iterable<String>) =
     setPublications(builder())
+
+fun Project.log(message: String) =
+    println("> project $name: ${message.suffixIfNot(".")}")
