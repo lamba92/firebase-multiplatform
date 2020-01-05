@@ -9,7 +9,6 @@ import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.api.tasks.Sync
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
@@ -97,12 +96,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 }
                 publish = true
 
-                setPublications {
-                    if (OperatingSystem.current().isMacOsX)
-                        listOf("iosArm64", "iosX64")
-                    else
-                        listOf("androidRelease", "kotlinMultiplatform", "metadata")
-                }
+                setPublications((publishing.publications.names + "androidRelease"))
                 log("Set up publications names: ${publications.joinToString()}")
             }
         else
