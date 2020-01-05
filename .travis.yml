@@ -10,7 +10,7 @@ addons:
 env:
   - ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
 
-before_install:
+before_script:
   - mkdir -p ~/.android && touch ~/.android/repositories.cfg
   - sdkmanager --update
   - yes | sdkmanager "platform-tools" "platforms;android-29" "build-tools;29.0.2" --license
