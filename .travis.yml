@@ -5,11 +5,17 @@ osx_image: xcode11.3
 addons:
   homebrew:
     casks:
-      - homebrew/cask-versions/adoptopenjdk8
       - android-sdk
 
 env:
-  - ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+  global:
+    - GRAVIS="https://raw.githubusercontent.com/DanySK/Gravis-CI/master/"
+    - JDK="adopt@1.8
+    - ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+
+before_install:
+  - curl "${GRAVIS}.install-jdk-travis.sh" --output ~/.install-jdk-travis.sh
+  - source ~/.install-jdk-travis.sh
 
 before_script:
   - mkdir -p ~/.android && touch ~/.android/repositories.cfg
