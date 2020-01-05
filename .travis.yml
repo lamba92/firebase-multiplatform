@@ -5,6 +5,7 @@ osx_image: xcode11.3
 addons:
   homebrew:
     casks:
+      - homebrew/cask-versions/adoptopenjdk8
       - android-sdk
 
 env:
