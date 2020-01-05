@@ -65,7 +65,7 @@ actual class FirebaseAuth(
     actual suspend fun applyActionCode(code: String) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.applyActionCode(code, object : FIRApplyActionCodeCallback {
             override fun invoke(p1: NSError?) {
-                p1.let { cont.resumeWithException(Throwable(it.localizedDescription)) }
+                p1.let { cont.resumeWithException(it) }
                     ?: cont.resume(Unit)
             }
         })
@@ -74,7 +74,7 @@ actual class FirebaseAuth(
     actual suspend fun checkActionCode(code: String) = suspendCancellableCoroutine<ActionCodeResult> { cont ->
         delegate.checkActionCode(code, object : FIRCheckActionCodeCallBack {
             override fun invoke(p1: FIRActionCodeInfo?, p2: NSError?) {
-                p2.let { cont.resumeWithException(Throwable(it.localizedDescription)) }
+                p2.let { cont.resumeWithException(it) }
                     ?: cont.resume(p1!!.toMpp())
             }
         })
@@ -84,7 +84,7 @@ actual class FirebaseAuth(
         suspendCancellableCoroutine<Unit> { cont ->
             delegate.confirmPasswordResetWithCode(code, password, object : FIRConfirmPasswordResetCallback {
                 override fun invoke(p1: NSError?) {
-                    p1.let { cont.resumeWithException(Throwable(it.localizedDescription)) }
+                    p1.let { cont.resumeWithException(it) }
                         ?: cont.resume(Unit)
                 }
             })
@@ -96,7 +96,7 @@ actual class FirebaseAuth(
     ) = suspendCancellableCoroutine<AuthResult> { cont ->
         delegate.createUserWithEmail(email, password, object : FIRAuthDataResultCallback {
             override fun invoke(p1: FIRAuthDataResult?, p2: NSError?) {
-                p2.let { cont.resumeWithException(Throwable(it.localizedDescription)) }
+                p2.let { cont.resumeWithException(it) }
                     ?: cont.resume(p1!!.toMpp())
             }
         })
