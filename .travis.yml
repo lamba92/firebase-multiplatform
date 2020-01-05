@@ -1,16 +1,19 @@
-jobs:
-  include:
-    - language: android
-      os: linux
-      android:
-        components:
-          - build-tools-29.0.2
-          - android-29
-    - language: bash
-      os: osx
-      osx_image: xcode11.3
+language: bash
+os: osx
+osx_image: xcode11.3
+
+addons:
+  homebrew:
+    casks:
+      - android-sdk
+
+env:
+  - ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
 
 before_install:
+  - mkdir -p ~/.android && touch ~/.android/repositories.cfg
+  - sdkmanager --update
+  - yes | sdkmanager "platform-tools" "platforms;android-29" "build-tools;29.0.2" --license
   - chmod +x gradlew
 
 script: ./gradlew check --parallel --console=plain
