@@ -13,7 +13,7 @@ jobs:
 before_install:
   - chmod +x gradlew
 
-script: ./gradlew check --parallel
+script: ./gradlew check --parallel --console=plain
 
 cache:
   directories:
@@ -23,7 +23,7 @@ cache:
 
 deploy:
   provider: script
-  script: ./gradlew bintrayUpload --parallel
+  script: ./gradlew bintrayUpload --parallel --console=plain
   skip_cleanup: true
   on:
     branch: master
