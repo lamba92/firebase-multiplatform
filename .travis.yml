@@ -20,7 +20,7 @@ before_install:
 before_script:
   - mkdir -p ~/.android && touch ~/.android/repositories.cfg
   - sdkmanager --update
-  - yes | sdkmanager "platform-tools" "platforms;android-29" "build-tools;29.0.2" --licenses
+  - yes | sdkmanager --install "platform-tools" "platforms;android-29" "build-tools;29.0.2" --licenses
   - chmod +x gradlew
 
 script: ./gradlew check --parallel --console=plain
