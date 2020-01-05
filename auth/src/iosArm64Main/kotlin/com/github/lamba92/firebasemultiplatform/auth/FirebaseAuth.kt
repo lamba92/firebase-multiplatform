@@ -10,9 +10,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-actual class FirebaseAuth(
-    val delegate: FIRAuth
-) {
+actual class FirebaseAuth(val delegate: FIRAuth) {
+
     actual val app: FirebaseApp
         get() = delegate.app!!.toMpp()
 
@@ -151,6 +150,7 @@ actual class FirebaseAuth(
     }
 
     actual fun signOut() {
+        
     }
 
 }
