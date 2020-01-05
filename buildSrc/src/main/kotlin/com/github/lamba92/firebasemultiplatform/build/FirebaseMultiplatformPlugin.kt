@@ -50,14 +50,13 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
 
         kotlin {
 
-            if (!OperatingSystem.current().isMacOsX)
-                android {
-                    publishLibraryVariants("release")
-                    mavenPublication {
-                        if (!artifactId.startsWith(rootProject.name))
-                            artifactId = "${rootProject.name}-$artifactId"
-                    }
+            android {
+                publishLibraryVariants("release")
+                mavenPublication {
+                    if (!artifactId.startsWith(rootProject.name))
+                        artifactId = "${rootProject.name}-$artifactId"
                 }
+            }
 
             val mainTarget = iosArm64()
             val otherTargets = listOf(iosX64())
