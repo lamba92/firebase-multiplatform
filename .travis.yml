@@ -6,7 +6,8 @@ jobs:
         components:
           - build-tools-29.0.2
           - android-29
-    - os: osx
+    - language: bash
+      os: osx
       osx_image: xcode11.3
 
 before_install:

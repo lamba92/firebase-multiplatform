@@ -21,9 +21,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
         apply<KotlinMultiplatformPluginWrapper>()
         apply<MavenPublishPlugin>()
         apply<BintrayPlugin>()
-
-        if (!OperatingSystem.current().isMacOsX)
-            apply<AndroidLibraryPlugin>()
+        apply<AndroidLibraryPlugin>()
 
         repositories {
             mavenCentral()
@@ -33,23 +31,22 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             maven("https://dl.bintray.com/lamba92/com.github.lamba92")
         }
 
-        if (!OperatingSystem.current().isMacOsX)
-            android {
+        android {
 
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_1_8
-                    targetCompatibility = JavaVersion.VERSION_1_8
-                }
-
-                compileSdkVersion(29)
-                buildToolsVersion("29.0.2")
-
-                defaultConfig {
-                    minSdkVersion(14)
-                }
-
-                alignSourcesForKotlinMultiplatformPlugin(target)
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
             }
+
+            compileSdkVersion(29)
+            buildToolsVersion("29.0.2")
+
+            defaultConfig {
+                minSdkVersion(14)
+            }
+
+            alignSourcesForKotlinMultiplatformPlugin(target)
+        }
 
         kotlin {
 
