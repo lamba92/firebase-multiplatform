@@ -5,7 +5,5 @@ expect object GoogleAuthProvider {
     val PROVIDER_ID: String
 
     fun getCredentials(idToken: String, accessToken: String): AuthCredential
-    fun getCredentialsWithIdToken(idToken: String): AuthCredential
-    fun getCredentialsWithAccessToken(accessToken: String): AuthCredential
 
 }

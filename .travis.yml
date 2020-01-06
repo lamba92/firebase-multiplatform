@@ -22,7 +22,7 @@ before_script:
   - ./install_android_sdk.sh
   - chmod +x gradlew
 
-script: ./gradlew check --parallel --console=plain
+script: ./gradlew build --parallel --console=plain
 
 cache:
   directories:

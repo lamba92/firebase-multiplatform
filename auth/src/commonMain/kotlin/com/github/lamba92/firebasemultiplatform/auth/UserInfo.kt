@@ -8,6 +8,5 @@ expect class UserInfo {
     val photoUrl: String?
     val providerId: String
     val uid: String
-    val isEmailVerified: Boolean
 
 }

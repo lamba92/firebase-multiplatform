@@ -9,6 +9,4 @@ actual class AuthResult(
         get() = delegate.additionalUserInfo?.toMpp()
     actual val credentials: AuthCredential?
         get() = delegate.credential?.toMpp()
-    actual val user: FirebaseUser?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 }

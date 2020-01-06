@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.github.lamba92.firebasemultiplatform.auth
 
 import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
@@ -7,12 +9,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import platform.Foundation.NSError
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
-actual class FirebaseAuth(
-    val delegate: FIRAuth
-) {
+actual class FirebaseAuth(val delegate: FIRAuth) {
+
     actual val app: FirebaseApp
         get() = delegate.app!!.toMpp()
 
@@ -63,94 +64,114 @@ actual class FirebaseAuth(
 
     @ExperimentalCoroutinesApi
     actual suspend fun applyActionCode(code: String) = suspendCancellableCoroutine<Unit> { cont ->
-        delegate.applyActionCode(code, object : FIRApplyActionCodeCallback {
-            override fun invoke(p1: NSError?) {
-                p1.let { cont.resumeWithException(it) }
-                    ?: cont.resume(Unit)
-            }
-        })
+        delegate.applyActionCode(code) { nsError ->
+            nsError?.let { cont.resumeWithException(it) }
+                ?: cont.resume(Unit)
+        }
     }
 
     actual suspend fun checkActionCode(code: String) = suspendCancellableCoroutine<ActionCodeResult> { cont ->
-        delegate.checkActionCode(code, object : FIRCheckActionCodeCallBack {
-            override fun invoke(p1: FIRActionCodeInfo?, p2: NSError?) {
-                p2.let { cont.resumeWithException(it) }
-                    ?: cont.resume(p1!!.toMpp())
-            }
-        })
+        delegate.checkActionCode(code) { actionCodeInfo, error ->
+            error?.let { cont.resumeWithException(it) }
+                ?: actionCodeInfo?.let { cont.resume(it.toMpp()) }
+        }
     }
 
     actual suspend fun confirmPasswordReset(code: String, password: String) =
         suspendCancellableCoroutine<Unit> { cont ->
-            delegate.confirmPasswordResetWithCode(code, password, object : FIRConfirmPasswordResetCallback {
-                override fun invoke(p1: NSError?) {
-                    p1.let { cont.resumeWithException(it) }
-                        ?: cont.resume(Unit)
-                }
-            })
+            delegate.confirmPasswordResetWithCode(code, password) { error ->
+                error?.let { cont.resumeWithException(it) }
+                    ?: cont.resume(Unit)
+            }
         }
 
     actual suspend fun createUserWithEmailAndPassword(
         email: String,
         password: String
     ) = suspendCancellableCoroutine<AuthResult> { cont ->
-        delegate.createUserWithEmail(email, password, object : FIRAuthDataResultCallback {
-            override fun invoke(p1: FIRAuthDataResult?, p2: NSError?) {
-                p2.let { cont.resumeWithException(it) }
-                    ?: cont.resume(p1!!.toMpp())
+        delegate.createUserWithEmail(email, password) { authData, error ->
+            error?.let { cont.resumeWithException(it) }
+                ?: cont.resume(authData!!.toMpp())
+        }
+    }
+
+    actual suspend fun fetchSignInMethodsForEmail(email: String) =
+        suspendCancellableCoroutine<List<String>> { cont ->
+            delegate.fetchSignInMethodsForEmail(email) { authList, error ->
+                error?.let { cont.resumeWithException(it) }
+                    ?: authList?.mapNotNull { it as? String }?.let { cont.resume(it) }
+            }
+        }
+
+    actual suspend fun sendPasswordResetEmail(email: String) = suspendCancellableCoroutine<Unit> { cont ->
+        delegate.sendPasswordResetWithEmail(email, object : FIRSendPasswordResetCallback {
+            override fun invoke(p1: NSError?) {
+                p1?.let { cont.resumeWithException(it) }
+                    ?: cont.resume(Unit)
             }
         })
     }
 
-    actual suspend fun fetchSignInMethodsForEmail(email: String): List<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual suspend fun signInAnonymously() = suspendCancellableCoroutine<AuthResult> { cont ->
+        delegate.signInAnonymouslyWithCompletion { firAuthDataResult, nsError ->
+            nsError?.let { cont.resumeWithException(it) }
+                ?: firAuthDataResult?.let { cont.resume(it.toMpp()) }
+        }
     }
 
-    actual suspend fun sendPasswordResetEmail(email: String) {
-    }
+    actual suspend fun signInWithCredential(credential: AuthCredential) =
+        suspendCancellableCoroutine<AuthResult> { cont ->
+            delegate.signInWithCredential(credential.delegate) { authResult, nsError ->
+                nsError?.let { cont.resumeWithException(it) }
+                    ?: authResult?.let { cont.resume(it.toMpp()) }
+            }
+        }
 
-    actual suspend fun signInAnonymously(): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual suspend fun signInWithCredential(credential: AuthCredential): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual suspend fun signInWithCustomToken(token: String): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual suspend fun signInWithCustomToken(token: String) = suspendCancellableCoroutine<AuthResult> { cont ->
+        delegate.signInWithCustomToken(token) { authResult, nsError ->
+            nsError?.let { cont.resumeWithException(it) }
+                ?: authResult?.let { cont.resume(it.toMpp()) }
+        }
     }
 
     actual suspend fun signInWithEmailAndPassword(
         email: String,
         password: String
-    ): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ) = suspendCancellableCoroutine<AuthResult> { cont ->
+        delegate.signInWithEmail(email, password = password) { authResult, nsError ->
+            nsError?.let { cont.resumeWithException(it) }
+                ?: authResult?.let { cont.resume(it.toMpp()) }
+        }
     }
 
     actual suspend fun signInWithEmailLink(
         email: String,
         link: String
-    ): AuthResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ) = suspendCancellableCoroutine<AuthResult> { cont ->
+        delegate.signInWithEmail(email, link = link) { authResult, nsError ->
+            nsError?.let { cont.resumeWithException(it) }
+                ?: authResult?.let { cont.resume(it.toMpp()) }
+        }
     }
 
-    actual suspend fun verifyPasswordResetCode(code: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual suspend fun verifyPasswordResetCode(code: String) = suspendCancellableCoroutine<String> { cont ->
+        delegate.verifyPasswordResetCode(code) { code, nsError ->
+            nsError?.let { cont.resumeWithException(it) }
+                ?: code?.let { cont.resume(it) }
+        }
     }
 
-    actual fun getCurrentUser(): FirebaseUser? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun getCurrentUser() =
+        delegate.currentUser()?.toMpp()
 
-    actual fun isSignInWithEmailLink(link: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun isSignInWithEmailLink(link: String) =
+        delegate.isSignInWithEmailLink(link)
 
-    actual fun setLanguageCode(languageCode: String) {
-    }
+    actual fun setLanguageCode(languageCode: String) =
+        delegate.setLanguageCode(languageCode)
 
     actual fun signOut() {
+        delegate.signOut(null)
     }
 
 }

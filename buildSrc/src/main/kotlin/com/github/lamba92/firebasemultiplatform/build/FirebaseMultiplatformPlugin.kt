@@ -74,7 +74,6 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 artifactId = "${rootProject.name}-$artifactId"
         }
 
-
         val bintrayUsername = searchPropertyOrNull("bintrayUsername")
             ?: searchPropertyOrNull("BINTRAY_USERNAME")
         val bintrayApiKey = searchPropertyOrNull("bintrayApiKey")

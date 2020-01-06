@@ -25,3 +25,24 @@ fun NSError.toThrowable(): Throwable =
 
 fun <T> Continuation<T>.resumeWithException(exception: NSError) =
     resumeWithException(exception.toThrowable())
+
+fun FIRUser.toMpp() =
+    FirebaseUser(this)
+
+fun FIRUserMetadata.toMpp() =
+    FirebaseUserMetadata(this)
+
+fun FIRUserInfoProtocol.toMpp() =
+    UserInfo(this)
+
+fun FIRAuthTokenResult.toMpp() =
+    GetTokenResults(this)
+
+fun FIROAuthProvider.toMpp() =
+    OAuthProvider(this)
+
+fun FIRPhoneAuthCredential.toMpp() =
+    PhoneAuthCredential(this)
+
+fun FIRPhoneAuthProvider.toMpp() =
+    PhoneAuthProvider(this)

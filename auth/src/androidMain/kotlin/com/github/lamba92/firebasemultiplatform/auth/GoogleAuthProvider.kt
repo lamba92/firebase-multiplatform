@@ -14,10 +14,10 @@ actual object GoogleAuthProvider {
         accessToken: String
     ) = GoogleAuthProvider.getCredential(idToken, accessToken).toMpp()
 
-    actual fun getCredentialsWithIdToken(idToken: String) =
+    fun getCredentialsWithIdToken(idToken: String) =
         GoogleAuthProvider.getCredential(idToken, null).toMpp()
 
-    actual fun getCredentialsWithAccessToken(accessToken: String) =
+    fun getCredentialsWithAccessToken(accessToken: String) =
         GoogleAuthProvider.getCredential(null, accessToken).toMpp()
 
 }
