@@ -24,7 +24,7 @@ gradleEnterprise {
 
 include(
     ":core",
-    ":auth",
+    ":auth"
 //    ":storage",
 //    ":storage-mobile"
 )
