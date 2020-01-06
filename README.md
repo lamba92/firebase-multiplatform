@@ -42,13 +42,13 @@ val fApp: FirebaseApp = FirebaseApp.initializeApp {
 [`FirebaseAuth`](https://github.com/lamba92/firebase-multiplatform/blob/master/auth/src/commonMain/kotlin/com/github/lamba92/firebasemultiplatform/auth/FirebaseAuth.kt) initialization and auth changes:
 ```kotlin
 // get the default firebase auth 
-    // instance and listen to auth changes
-    // in global scope
-    val job = FirebaseAuth.default.authStateFlow
-        // this will be executed in main thread 
-        // as the official documentation states!        
-        .onEach { isLoggedIn -> /*do stuff*/ }
-        .launchIn(GlobalScope)
+// instance and listen to auth changes
+// in global scope
+val job = FirebaseAuth.default.authStateFlow
+    // this will be executed in main thread 
+    // as the official documentation states!        
+    .onEach { isLoggedIn -> /*do stuff*/ }
+    .launchIn(GlobalScope)
     
     // stop listening and detach listener
     job.cancel()
