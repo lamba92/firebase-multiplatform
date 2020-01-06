@@ -4,6 +4,5 @@ expect class AuthResult {
 
     val additionalUserInfo: AdditionalUserInfo?
     val credentials: AuthCredential?
-    val user: FirebaseUser?
 
 }

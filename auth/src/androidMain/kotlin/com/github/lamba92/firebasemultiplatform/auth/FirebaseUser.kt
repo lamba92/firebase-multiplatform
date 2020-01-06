@@ -47,8 +47,9 @@ actual class FirebaseUser(
     actual suspend fun sendEmailVerification() =
         delegate.sendEmailVerification().awaitUnit()
 
-    actual suspend fun unlink(provider: String) =
-        delegate.unlink(provider).await().toMpp()
+    actual suspend fun unlink(provider: String) {
+        delegate.unlink(provider).await()
+    }
 
     actual suspend fun updateEmail(email: String) =
         delegate.updateEmail(email).awaitUnit()

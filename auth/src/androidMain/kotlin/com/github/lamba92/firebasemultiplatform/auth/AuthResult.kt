@@ -8,7 +8,5 @@ actual class AuthResult(
         get() = delegate.additionalUserInfo?.toMpp()
     actual val credentials: AuthCredential?
         get() = delegate.credential?.toMpp()
-    actual val user: FirebaseUser?
-        get() = delegate.user?.toMpp()
 
 }
