@@ -13,9 +13,9 @@ interface StorageTask<T : StorageTask.Snapshot> {
     val stateChangesFlow: Flow<Snapshot.State>
     val snapshot: T
 
-    fun cancel(): Boolean
-    fun pause(): Boolean
-    fun resume(): Boolean
+    fun cancel()
+    fun pause()
+    fun resume()
 
     interface Snapshot {
 
@@ -28,7 +28,7 @@ interface StorageTask<T : StorageTask.Snapshot> {
             get() = 100.0 * bytesTransferred / totalByteCount
 
         enum class State {
-            PAUSED, RUNNING, CANCELED, FINISHED_SUCCESSFULLY, ERRORED
+            PAUSED, RUNNING, CANCELED, FINISHED_SUCCESSFULLY, ERRORED, UNKNOWN
         }
 
     }

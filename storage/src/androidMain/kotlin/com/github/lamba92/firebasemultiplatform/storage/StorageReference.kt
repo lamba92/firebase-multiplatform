@@ -13,10 +13,10 @@ actual class StorageReference(
     override fun compareTo(other: StorageReference) =
         delegate.compareTo(other.delegate)
 
-    actual val activeDownloadTasks: List<DownloadTask>
+    val activeDownloadTasks: List<DownloadTask>
         get() = delegate.activeDownloadTasks.map { it.toMpp() }
 
-    actual val activeUploadTasks: List<UploadTask>
+    val activeUploadTasks: List<UploadTask>
         get() = delegate.activeUploadTasks.map { it.toMpp() }
 
     actual val bucket: String

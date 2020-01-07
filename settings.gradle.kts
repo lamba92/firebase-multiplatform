@@ -11,6 +11,7 @@ pluginManagement {
 }
 
 plugins {
+    @Suppress("UnstableApiUsage")
     `gradle-enterprise`
 }
 
@@ -24,7 +25,7 @@ gradleEnterprise {
 
 include(
     ":core",
-    ":auth"
-//    ":storage",
+    ":auth",
+    ":storage"
 //    ":storage-mobile"
 )

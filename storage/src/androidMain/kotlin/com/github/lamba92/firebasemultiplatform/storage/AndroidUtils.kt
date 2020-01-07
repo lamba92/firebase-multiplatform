@@ -25,7 +25,7 @@ fun PlatformSpecificUploadTask.toMpp() =
     UploadTask(this)
 
 fun PlatformSpecificListResult.toMpp() =
-    ListResult(this)
+    StorageListResult(this)
 
 fun String.toUri(): Uri =
     Uri.parse(this)!!

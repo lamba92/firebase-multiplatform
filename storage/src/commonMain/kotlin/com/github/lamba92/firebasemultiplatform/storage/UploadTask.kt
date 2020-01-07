@@ -4,7 +4,6 @@ expect class UploadTask : StorageTask<UploadTask.Snapshot> {
 
     class Snapshot : StorageTask.Snapshot {
         val metadata: StorageMetadata?
-        val uploadSessionUri: String?
     }
 
 }

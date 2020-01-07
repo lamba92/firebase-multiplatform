@@ -1,6 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.storage
 
-actual class ListResult(
+actual class StorageListResult(
     val delegate: PlatformSpecificListResult
 ) {
 

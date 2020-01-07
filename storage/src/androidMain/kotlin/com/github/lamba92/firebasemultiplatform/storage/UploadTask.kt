@@ -68,14 +68,17 @@ actual class UploadTask(
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
 
-    override fun cancel() =
+    override fun cancel() {
         delegate.cancel()
+    }
 
-    override fun pause() =
+    override fun pause() {
         delegate.pause()
+    }
 
-    override fun resume() =
+    override fun resume() {
         delegate.resume()
+    }
 
     actual class Snapshot(
         val delegate: PlatformSpecificUploadTaskSnapshot
@@ -93,7 +96,7 @@ actual class UploadTask(
         actual val metadata: StorageMetadata?
             get() = delegate.metadata?.toMpp()
 
-        actual val uploadSessionUri: String?
+        val uploadSessionUri: String?
             get() = delegate.uploadSessionUri?.toString()
 
     }

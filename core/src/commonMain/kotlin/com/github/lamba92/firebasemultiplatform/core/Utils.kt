@@ -2,6 +2,8 @@
 
 package com.github.lamba92.firebasemultiplatform.core
 
+import kotlin.coroutines.Continuation
+
 fun FirebaseOptions.Builder.build(action: FirebaseOptions.Builder.() -> Unit) =
     FirebaseOptions.Builder().apply(action).build()
 
@@ -16,3 +18,6 @@ fun FirebaseApp.Companion.initializeApp(action: FirebaseOptions.Builder.() -> Un
 
 fun FirebaseApp.Companion.initializeApp(name: String, action: FirebaseOptions.Builder.() -> Unit) =
     initializeApp(FirebaseOptions(action), name)
+
+fun Continuation<Unit>.resume(): Unit =
+    resumeWith(Result.success(Unit))

@@ -3,6 +3,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
 import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
+import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 import com.github.lamba92.firebasemultiplatform.core.toMpp
 import com.google.firebase.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

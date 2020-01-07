@@ -75,14 +75,17 @@ actual class DownloadTask(
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
 
-    override fun cancel() =
+    override fun cancel() {
         delegate.cancel()
+    }
 
-    override fun pause() =
+    override fun pause() {
         delegate.pause()
+    }
 
-    override fun resume() =
+    override fun resume() {
         delegate.resume()
+    }
 
     actual class Snapshot(
         private val delegate: FileDownloadTask.TaskSnapshot
