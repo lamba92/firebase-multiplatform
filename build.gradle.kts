@@ -6,7 +6,7 @@ plugins {
 
 allprojects {
     group = "com.github.lamba92"
-    version = System.getenv("TRAVIS_TAG") ?: "0.0.4-3"
+    version = System.getenv("TRAVIS_TAG") ?: "0.0.5"
 }
 
 NodeJsRootPlugin.apply(project).run {

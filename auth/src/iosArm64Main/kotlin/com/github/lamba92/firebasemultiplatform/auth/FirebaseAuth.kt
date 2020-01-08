@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.Foundation.NSError
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
+import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 
 actual class FirebaseAuth(val delegate: FIRAuth) {
 

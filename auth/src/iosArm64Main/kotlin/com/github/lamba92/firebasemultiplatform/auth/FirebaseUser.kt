@@ -1,5 +1,8 @@
+@file:Suppress("unused")
+
 package com.github.lamba92.firebasemultiplatform.auth
 
+import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 import com.google.firebase.FIRUser
 import com.google.firebase.FIRUserInfoProtocol
 import kotlinx.coroutines.ExperimentalCoroutinesApi

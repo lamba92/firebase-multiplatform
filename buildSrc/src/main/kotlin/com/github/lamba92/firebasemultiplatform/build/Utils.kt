@@ -76,6 +76,11 @@ fun KotlinDependencyHandler.firebaseKt(module: String, version: String) =
     "com.github.lamba92:kt-firebase-$module:$version"
 
 @Suppress("unused")
+fun KotlinDependencyHandler.firebaseMpp(module: String, version: String) =
+    "com.github.lamba92:firebase-multiplatform-$module:$version"
+
+
+@Suppress("unused")
 fun KotlinDependencyHandler.kotlinx(module: String, version: String) =
     "org.jetbrains.kotlinx:kotlinx-$module:$version"
 

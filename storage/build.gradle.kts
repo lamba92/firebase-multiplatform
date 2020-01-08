@@ -2,6 +2,7 @@
 
 import com.github.lamba92.firebasemultiplatform.build.firebase
 import com.github.lamba92.firebasemultiplatform.build.firebaseKt
+import com.github.lamba92.firebasemultiplatform.build.firebaseMpp
 
 plugins {
     id("firebase-multiplatform-gradle-plugin")
@@ -14,7 +15,7 @@ kotlin.sourceSets {
 
     val commonMain by getting {
         dependencies {
-            api(project(":core"))
+            api(firebaseMpp("core", version.toString()))
         }
     }
 
