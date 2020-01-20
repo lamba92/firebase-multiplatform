@@ -32,6 +32,6 @@ expect class FirebaseAuth {
     fun getCurrentUser(): FirebaseUser?
     fun isSignInWithEmailLink(link: String): Boolean
     fun setLanguageCode(languageCode: String)
-    fun signOut()
+    suspend fun signOut()
 
 }

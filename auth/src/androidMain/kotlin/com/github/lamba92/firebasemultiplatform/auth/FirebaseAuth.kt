@@ -13,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 actual class FirebaseAuth(
     val delegate: PlatformSpecificFirebaseAuth
@@ -58,11 +59,8 @@ actual class FirebaseAuth(
     actual suspend fun confirmPasswordReset(code: String, password: String) =
         delegate.confirmPasswordReset(code, password).awaitUnit()
 
-    actual suspend fun createUserWithEmailAndPassword(
-        email: String,
-        password: String
-    ) = delegate.createUserWithEmailAndPassword(email, password)
-        .await().toMpp()
+    actual suspend fun createUserWithEmailAndPassword(email: String, password: String) =
+        delegate.createUserWithEmailAndPassword(email, password).await().toMpp()
 
     actual val app by lazy { delegate.app.toMpp() }
 
@@ -106,7 +104,7 @@ actual class FirebaseAuth(
     actual fun setLanguageCode(languageCode: String) =
         delegate.setLanguageCode(languageCode)
 
-    actual fun signOut() =
-        delegate.signOut()
+    actual suspend fun signOut() =
+        withContext(Dispatchers.IO) { delegate.signOut() }
 
 }

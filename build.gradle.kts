@@ -12,5 +12,5 @@ allprojects {
 }
 
 NodeJsRootPlugin.apply(project).run {
-    versions.dukat.version = "0.0.24"
+    versions.dukat.version = "0.0.25"
 }

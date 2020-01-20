@@ -1,15 +1,5 @@
 rootProject.name = "firebase-multiplatform"
 
-pluginManagement {
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "de.undercouch.download" -> useModule("de.undercouch:gradle-download-task:4.0.2")
-            }
-        }
-    }
-}
-
 plugins {
     @Suppress("UnstableApiUsage")
     `gradle-enterprise`
@@ -25,7 +15,7 @@ gradleEnterprise {
 
 include(
     ":core",
-    ":auth",
-    ":storage"
+    ":auth"
+//    ":storage"
 //    ":storage-mobile"
 )

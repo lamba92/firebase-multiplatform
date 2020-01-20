@@ -15,13 +15,14 @@ expect class FirebaseOptions {
 
         companion object
 
+        var apiKey: String?
+        var applicationId: String?
+        var databaseUrl: String?
+        var gcmSenderId: String?
+        var projectId: String?
+        var storageBucket: String?
+
         fun build(): FirebaseOptions
-        fun setApiKey(apiKey: String): Builder
-        fun setApplicationId(applicationId: String): Builder
-        fun setDatabaseUrl(databaseUrl: String): Builder
-        fun setGcmSenderId(gcmSenderId: String): Builder
-        fun setProjectId(projectId: String): Builder
-        fun setStorageBucket(storageBucket: String): Builder
 
     }
 

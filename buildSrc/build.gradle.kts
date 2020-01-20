@@ -10,6 +10,7 @@ gradlePlugin.plugins.create("firebase-multiplatform-gradle-plugin") {
 repositories {
     jcenter()
     google()
+    maven("https://dl.bintray.com/kotlin/kotlin-dev")
 }
 
 dependencies {

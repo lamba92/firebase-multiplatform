@@ -8,8 +8,10 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
-import org.gradle.api.tasks.Sync
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.maven
+import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 @Suppress("unused")
@@ -28,6 +30,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             jcenter()
             maven("https://kotlin.bintray.com/kotlinx")
             maven("https://dl.bintray.com/lamba92/com.github.lamba92")
+            maven("https://dl.bintray.com/kotlin/kotlin-dev")
         }
 
         android {
@@ -57,16 +60,20 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 }
             }
 
-            val mainTarget = iosArm64()
-            val otherTargets = listOf(iosX64())
-
-            configure(otherTargets) {
-                task<Sync>("copySourcesInto${name.capitalize()}Main") {
-                    group = "native source copy"
-                    from(mainTarget.compilations["main"].defaultSourceSet.kotlin.sourceDirectories)
-                    into(compilations["main"].defaultSourceSet.kotlin.sourceDirectories.first())
-                }.also { compilations["main"].compileKotlinTask.dependsOn(it) }
+            js {
+                nodejs()
             }
+
+//            val mainTarget = iosArm64()
+//            val otherTargets = listOf(iosX64())
+//
+//            configure(otherTargets) {
+//                task<Sync>("copySourcesInto${name.capitalize()}Main") {
+//                    group = "native source copy"
+//                    from(mainTarget.compilations["main"].defaultSourceSet.kotlin.sourceDirectories)
+//                    into(compilations["main"].defaultSourceSet.kotlin.sourceDirectories.first())
+//                }.also { compilations["main"].compileKotlinTask.dependsOn(it) }
+//            }
         }
 
         publishing.publications.withType<MavenPublication> {
