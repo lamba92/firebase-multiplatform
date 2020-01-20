@@ -15,6 +15,7 @@ fun Error.asThrowable() =
 fun ActionCodeInfo.toMpp() =
     ActionCodeResult(this)
 
+@Suppress("FunctionName")
 fun <V> PrimitiveHashMap(container: dynamic): HashMap<String, Any> {
     val m = HashMap<String, Any>().asDynamic()
     m.map = container

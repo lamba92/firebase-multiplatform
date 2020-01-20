@@ -14,6 +14,7 @@ actual class FirebaseAuth(val delegate: Auth) {
 
     actual val app: FirebaseApp
         get() = delegate.app.toMpp()
+
     actual val languageCode: String?
         get() = delegate.languageCode
 
