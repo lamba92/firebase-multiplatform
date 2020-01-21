@@ -1,6 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
 import firebase.auth.ActionCodeInfo
+import firebase.auth.Operations
 
 actual class ActionCodeResult(val delegate: ActionCodeInfo) {
 
@@ -9,13 +10,13 @@ actual class ActionCodeResult(val delegate: ActionCodeInfo) {
 
     actual companion object {
         actual val PASSWORD_RESET: Int
-            get() = Operation.PASSWORD_RESET.toInt()
+            get() = Operations.PASSWORD_RESET.toInt()
         actual val VERIFY_EMAIL: Int
-            get() = Operation.VERIFY_EMAIL.toInt()
+            get() = Operations.VERIFY_EMAIL.toInt()
         actual val RECOVER_EMAIL: Int
-            get() = Operation.RECOVER_EMAIL.toInt()
+            get() = Operations.RECOVER_EMAIL.toInt()
         actual val SIGN_IN_WITH_EMAIL_LINK: Int
-            get() = Operation.EMAIL_SIGNIN.toInt()
+            get() = Operations.EMAIL_SIGNIN.toInt()
     }
 
     actual fun getData(dataId: Int) = when (dataId) {

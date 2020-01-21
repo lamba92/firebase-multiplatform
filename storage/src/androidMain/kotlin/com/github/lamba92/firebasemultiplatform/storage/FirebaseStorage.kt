@@ -15,7 +15,7 @@ actual class FirebaseStorage(
         get() = delegate.app.toMpp()
 
     @ExperimentalTime
-    actual var maxDownloadRetryTime: Duration
+    var maxDownloadRetryTime: Duration
         get() = delegate.maxDownloadRetryTimeMillis.toDuration(DurationUnit.MILLISECONDS)
         set(value) {
             delegate.maxDownloadRetryTimeMillis = value.toLongMilliseconds()
@@ -43,11 +43,14 @@ actual class FirebaseStorage(
         actual val default: FirebaseStorage
             get() = PlatformSpecificFirebaseStorage.getInstance().toMpp()
 
-        actual fun getInstance(url: String) =
+        fun getInstance(url: String) =
             PlatformSpecificFirebaseStorage.getInstance(url).toMpp()
 
-        actual fun getInstance(app: FirebaseApp, url: String) =
+        fun getInstance(app: FirebaseApp, url: String) =
             PlatformSpecificFirebaseStorage.getInstance(app.delegate, url).toMpp()
+
+        actual fun getInstance(app: FirebaseApp) =
+            PlatformSpecificFirebaseStorage.getInstance(app.delegate).toMpp()
     }
 
     actual fun getReference(location: String) =

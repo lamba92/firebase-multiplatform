@@ -13,22 +13,14 @@ actual class UserProfileChangeRequest(
 
     actual class Builder actual constructor() {
 
-        val delegate by lazy {
-            PlatformSpecificUserProfileChangeRequestBuilder()
-        }
-
         actual fun build() =
-            delegate.build().toMpp()
+            PlatformSpecificUserProfileChangeRequestBuilder().apply {
+                setDisplayName(displayName)
+                photoUrl?.let { setPhotoUri(Uri.parse(it)) }
+            }.build().toMpp()
 
-        actual fun setDisplayName(displayName: String?): Builder {
-            delegate.setDisplayName(displayName)
-            return this
-        }
-
-        actual fun setPhotoUri(photoUri: String?): Builder {
-            delegate.setPhotoUri(Uri.parse(photoUri))
-            return this
-        }
+        actual var displayName: String? = null
+        actual var photoUrl: String? = null
 
     }
 

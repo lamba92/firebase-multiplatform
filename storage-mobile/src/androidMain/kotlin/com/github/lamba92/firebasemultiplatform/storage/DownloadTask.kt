@@ -30,19 +30,34 @@ actual class DownloadTask(
     override val stateChangesFlow by lazy {
         callbackFlow {
             val pauseCallback = OnPausedListener<FileDownloadTask.TaskSnapshot> {
-                offer(StorageTask.Snapshot.State.PAUSED)
+                offer(
+                    StorageTask.Snapshot.State
+                        .PAUSED
+                )
             }
             val cancelCallback = OnCanceledListener {
-                offer(StorageTask.Snapshot.State.CANCELED)
+                offer(
+                    StorageTask.Snapshot.State
+                        .CANCELED
+                )
             }
             val successCallback = OnSuccessListener<FileDownloadTask.TaskSnapshot> {
-                offer(StorageTask.Snapshot.State.FINISHED_SUCCESSFULLY)
+                offer(
+                    StorageTask.Snapshot.State
+                        .FINISHED_SUCCESSFULLY
+                )
             }
             val progressCallback = OnProgressListener<FileDownloadTask.TaskSnapshot> {
-                offer(StorageTask.Snapshot.State.RUNNING)
+                offer(
+                    StorageTask.Snapshot.State
+                        .RUNNING
+                )
             }
             val errorCallback = OnFailureListener {
-                offer(StorageTask.Snapshot.State.ERRORED)
+                offer(
+                    StorageTask.Snapshot.State
+                        .ERRORED
+                )
             }
             with(delegate) {
                 addOnPausedListener(pauseCallback)

@@ -1,11 +1,12 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
+import com.github.lamba92.firebasemultiplatform.core.PrimitiveHashMap
 import firebase.auth.AdditionalUserInfo
 
 actual class AdditionalUserInfo(val delegate: AdditionalUserInfo) {
 
     actual val profile: Map<String, Any>?
-        get() = delegate.profile?.let { PrimitiveHashMap<Any>(it.asDynamic()) }
+        get() = delegate.profile?.let { PrimitiveHashMap(it.asDynamic()) }
 
     actual val providerId: String?
         get() = delegate.providerId

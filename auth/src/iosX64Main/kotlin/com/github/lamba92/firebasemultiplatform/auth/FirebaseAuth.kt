@@ -5,7 +5,6 @@ package com.github.lamba92.firebasemultiplatform.auth
 import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
 import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 import com.github.lamba92.firebasemultiplatform.core.toMpp
-import com.google.firebase.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -49,9 +48,9 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
         callbackFlow {
             val c = object : FIRIDTokenDidChangeListenerBlock {
                 override fun invoke(p1: FIRAuth?, p2: FIRUser?) {
-                    p2?.getIDTokenResultWithCompletion(object : FIRAuthTokenResultCallback {
+                    p2.getIDTokenResultWithCompletion(object : FIRAuthTokenResultCallback {
                         override fun invoke(p1: FIRAuthTokenResult?, p2: NSError?) {
-                            p1?.token?.let { offer(it) }
+                            p1.token.let { offer(it) }
                         }
 
                     })
@@ -66,22 +65,22 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
     @ExperimentalCoroutinesApi
     actual suspend fun applyActionCode(code: String) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.applyActionCode(code) { nsError ->
-            nsError?.let { cont.resumeWithException(it) }
+            nsError.let { cont.resumeWithException(it) }
                 ?: cont.resume(Unit)
         }
     }
 
     actual suspend fun checkActionCode(code: String) = suspendCancellableCoroutine<ActionCodeResult> { cont ->
         delegate.checkActionCode(code) { actionCodeInfo, error ->
-            error?.let { cont.resumeWithException(it) }
-                ?: actionCodeInfo?.let { cont.resume(it.toMpp()) }
+            error.let { cont.resumeWithException(it) }
+                ?: actionCodeInfo.let { cont.resume(it.toMpp()) }
         }
     }
 
     actual suspend fun confirmPasswordReset(code: String, password: String) =
         suspendCancellableCoroutine<Unit> { cont ->
             delegate.confirmPasswordResetWithCode(code, password) { error ->
-                error?.let { cont.resumeWithException(it) }
+                error.let { cont.resumeWithException(it) }
                     ?: cont.resume(Unit)
             }
         }
@@ -91,23 +90,23 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
         password: String
     ) = suspendCancellableCoroutine<AuthResult> { cont ->
         delegate.createUserWithEmail(email, password) { authData, error ->
-            error?.let { cont.resumeWithException(it) }
-                ?: cont.resume(authData!!.toMpp())
+            error.let { cont.resumeWithException(it) }
+                ?: cont.resume(authData.toMpp())
         }
     }
 
     actual suspend fun fetchSignInMethodsForEmail(email: String) =
         suspendCancellableCoroutine<List<String>> { cont ->
             delegate.fetchSignInMethodsForEmail(email) { authList, error ->
-                error?.let { cont.resumeWithException(it) }
-                    ?: authList?.mapNotNull { it as? String }?.let { cont.resume(it) }
+                error.let { cont.resumeWithException(it) }
+                    ?: authList.mapNotNull { it as? String }.let { cont.resume(it) }
             }
         }
 
     actual suspend fun sendPasswordResetEmail(email: String) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.sendPasswordResetWithEmail(email, object : FIRSendPasswordResetCallback {
             override fun invoke(p1: NSError?) {
-                p1?.let { cont.resumeWithException(it) }
+                p1.let { cont.resumeWithException(it) }
                     ?: cont.resume(Unit)
             }
         })
@@ -115,23 +114,23 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
 
     actual suspend fun signInAnonymously() = suspendCancellableCoroutine<AuthResult> { cont ->
         delegate.signInAnonymouslyWithCompletion { firAuthDataResult, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: firAuthDataResult?.let { cont.resume(it.toMpp()) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: firAuthDataResult.let { cont.resume(it.toMpp()) }
         }
     }
 
     actual suspend fun signInWithCredential(credential: AuthCredential) =
         suspendCancellableCoroutine<AuthResult> { cont ->
             delegate.signInWithCredential(credential.delegate) { authResult, nsError ->
-                nsError?.let { cont.resumeWithException(it) }
-                    ?: authResult?.let { cont.resume(it.toMpp()) }
+                nsError.let { cont.resumeWithException(it) }
+                    ?: authResult.let { cont.resume(it.toMpp()) }
             }
         }
 
     actual suspend fun signInWithCustomToken(token: String) = suspendCancellableCoroutine<AuthResult> { cont ->
         delegate.signInWithCustomToken(token) { authResult, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: authResult?.let { cont.resume(it.toMpp()) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: authResult.let { cont.resume(it.toMpp()) }
         }
     }
 
@@ -140,8 +139,8 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
         password: String
     ) = suspendCancellableCoroutine<AuthResult> { cont ->
         delegate.signInWithEmail(email, password = password) { authResult, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: authResult?.let { cont.resume(it.toMpp()) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: authResult.let { cont.resume(it.toMpp()) }
         }
     }
 
@@ -150,20 +149,20 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
         link: String
     ) = suspendCancellableCoroutine<AuthResult> { cont ->
         delegate.signInWithEmail(email, link = link) { authResult, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: authResult?.let { cont.resume(it.toMpp()) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: authResult.let { cont.resume(it.toMpp()) }
         }
     }
 
     actual suspend fun verifyPasswordResetCode(code: String) = suspendCancellableCoroutine<String> { cont ->
         delegate.verifyPasswordResetCode(code) { code, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: code?.let { cont.resume(it) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: code.let { cont.resume(it) }
         }
     }
 
     actual fun getCurrentUser() =
-        delegate.currentUser()?.toMpp()
+        delegate.currentUser().toMpp()
 
     actual fun isSignInWithEmailLink(link: String) =
         delegate.isSignInWithEmailLink(link)

@@ -54,12 +54,3 @@ kotlin.sourceSets {
     }
 
 }
-
-val copyFirebaseJsExternals = task<Sync>("copyFirebaseJsExternals") {
-    from(zipTree("${rootProject.rootDir}/firebasejs_kotlin_externals.zip"))
-    into("build/externals/${rootProject.name}-${project.name}/src")
-}
-
-tasks.compileKotlinJs {
-    dependsOn(copyFirebaseJsExternals)
-}

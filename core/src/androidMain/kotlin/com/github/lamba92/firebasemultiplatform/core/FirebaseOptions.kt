@@ -4,7 +4,7 @@ actual class FirebaseOptions(
     val delegate: PlatformSpecificFirebaseOptions
 ) {
 
-    actual companion object {}
+    actual companion object;
 
     actual val apiKey: String
         get() = delegate.apiKey
@@ -21,44 +21,29 @@ actual class FirebaseOptions(
 
     actual class Builder actual constructor() {
 
-        val delegate by lazy {
-            com.google.firebase.FirebaseOptions.Builder()
+        actual companion object;
+
+        actual fun build(): FirebaseOptions {
+            val a = apiKey
+            val a2 = applicationId
+            require(a != null) { "apiKey cannot be null" }
+            require(a2 != null) { "applicationId cannot be null" }
+            return com.google.firebase.FirebaseOptions.Builder().apply {
+                setApiKey(a)
+                setApplicationId(a2)
+                setDatabaseUrl(databaseUrl)
+                setGcmSenderId(gcmSenderId)
+                setProjectId(projectId)
+                setStorageBucket(storageBucket)
+            }.build().toMpp()
         }
 
-        actual companion object {}
-
-        actual fun build() =
-            delegate.build().toMpp()
-
-        actual fun setApiKey(apiKey: String): Builder {
-            delegate.setApiKey(apiKey)
-            return this
-        }
-
-        actual fun setApplicationId(applicationId: String): Builder {
-            delegate.setApplicationId(applicationId)
-            return this
-        }
-
-        actual fun setDatabaseUrl(databaseUrl: String): Builder {
-            delegate.setDatabaseUrl(databaseUrl)
-            return this
-        }
-
-        actual fun setGcmSenderId(gcmSenderId: String): Builder {
-            delegate.setGcmSenderId(gcmSenderId)
-            return this
-        }
-
-        actual fun setProjectId(projectId: String): Builder {
-            delegate.setProjectId(projectId)
-            return this
-        }
-
-        actual fun setStorageBucket(storageBucket: String): Builder {
-            delegate.setStorageBucket(storageBucket)
-            return this
-        }
+        actual var apiKey: String? = null
+        actual var applicationId: String? = null
+        actual var databaseUrl: String? = null
+        actual var gcmSenderId: String? = null
+        actual var projectId: String? = null
+        actual var storageBucket: String? = null
 
     }
 

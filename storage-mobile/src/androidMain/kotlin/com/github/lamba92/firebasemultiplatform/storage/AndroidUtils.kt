@@ -2,6 +2,7 @@ package com.github.lamba92.firebasemultiplatform.storage
 
 import android.net.Uri
 import com.github.lamba92.firebasemultiplatform.core.await
+import com.google.firebase.storage.FileDownloadTask
 import kotlinx.io.core.Input
 import java.io.InputStream
 
@@ -60,3 +61,12 @@ fun Input.asStream(): InputStream = object : InputStream() {
         this@asStream.close()
     }
 }
+
+fun FileDownloadTask.TaskSnapshot.toMpp() =
+    com.github.lamba92.firebasemultiplatform.storage.DownloadTask.Snapshot(this)
+
+fun PlatformSpecificDownloadTask.toMpp() =
+    com.github.lamba92.firebasemultiplatform.storage.DownloadTask(this)
+
+actual val StorageReference.activeDownloadTasks: List<DownloadTask>
+    get() = delegate.activeDownloadTasks.map { it.toMpp() }

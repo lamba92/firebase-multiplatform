@@ -10,16 +10,15 @@ expect class StorageMetadata {
     val contentEncoding: String?
     val contentLanguage: String?
     val contentType: String?
-    val contentCreationTimeMillis: Long
+    val contentCreationTimeMillis: Long?
     val customMetadataKeys: Set<String>
     val generation: String?
     val md5Hash: String?
     val metadataGeneration: String?
     val name: String?
-    val path: String
-    val reference: StorageReference?
-    val sizeBytes: Long
-    val updatedTimeMillis: Long
+    val path: String?
+    val sizeBytes: Long?
+    val updatedTimeMillis: Long?
 
     fun getCustomMetadata(key: String): String?
 

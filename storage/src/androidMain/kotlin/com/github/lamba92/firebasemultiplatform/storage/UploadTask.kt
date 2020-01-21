@@ -26,8 +26,15 @@ actual class UploadTask(
     override val isSuccessful: Boolean
         get() = delegate.isSuccessful
 
-    override val progressFlow: Flow<Snapshot>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+    @ExperimentalCoroutinesApi
+    override val progressFlow: Flow<Snapshot> by lazy {
+        callbackFlow {
+            val progressCallback =
+                OnProgressListener<com.google.firebase.storage.UploadTask.TaskSnapshot> { offer(it.toMpp()) }
+            delegate.addOnProgressListener(progressCallback)
+            awaitClose { delegate.removeOnProgressListener(progressCallback) }
+        }
+    }
 
     @ExperimentalCoroutinesApi
     override val stateChangesFlow by lazy {

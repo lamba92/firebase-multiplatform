@@ -10,3 +10,5 @@ expect fun StorageReference.putFile(uri: String, metadata: StorageMetadata): Upl
 expect fun StorageReference.putFile(uri: String): UploadTask
 expect fun StorageReference.putStream(stream: Input, metadata: StorageMetadata): UploadTask
 expect fun StorageReference.putStream(stream: Input): UploadTask
+
+expect val StorageReference.activeDownloadTasks: List<DownloadTask>

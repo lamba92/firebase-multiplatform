@@ -13,15 +13,6 @@ fun Error.asThrowable() =
 fun ActionCodeInfo.toMpp() =
     ActionCodeResult(this)
 
-@Suppress("FunctionName")
-fun <V> PrimitiveHashMap(container: dynamic): HashMap<String, Any> {
-    val m = HashMap<String, Any>().asDynamic()
-    m.map = container
-    val keys = js("Object.keys")
-    m.`$size` = keys(container).length
-    return m
-}
-
 fun firebase.auth.AuthCredential.toMpp() =
     object : AuthCredential(this) {}
 

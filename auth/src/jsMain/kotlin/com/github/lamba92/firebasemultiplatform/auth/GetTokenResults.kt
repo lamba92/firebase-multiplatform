@@ -1,5 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
+import com.github.lamba92.firebasemultiplatform.core.PrimitiveHashMap
 import firebase.auth.IdTokenResult
 
 actual class GetTokenResults(val delegate: IdTokenResult) {
@@ -7,7 +8,7 @@ actual class GetTokenResults(val delegate: IdTokenResult) {
     actual val authTimestamp: Long
         get() = delegate.authTime.toLong()
     actual val claims: Map<String, Any>
-        get() = PrimitiveHashMap<Any>(delegate.claims)
+        get() = PrimitiveHashMap(delegate.claims)
     actual val expirationTimestamp: Long
         get() = delegate.expirationTime.toLong()
     actual val issuedAtTimestamp: Long

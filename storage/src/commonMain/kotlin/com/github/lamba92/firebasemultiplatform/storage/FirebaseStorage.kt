@@ -9,9 +9,6 @@ expect class FirebaseStorage {
     val app: FirebaseApp
 
     @ExperimentalTime
-    var maxDownloadRetryTime: Duration
-
-    @ExperimentalTime
     var maxUploadRetryTime: Duration
 
     @ExperimentalTime
@@ -21,8 +18,7 @@ expect class FirebaseStorage {
 
     companion object {
         val default: FirebaseStorage
-        fun getInstance(url: String): FirebaseStorage
-        fun getInstance(app: FirebaseApp, url: String): FirebaseStorage
+        fun getInstance(app: FirebaseApp): FirebaseStorage
     }
 
     fun getReference(location: String): StorageReference

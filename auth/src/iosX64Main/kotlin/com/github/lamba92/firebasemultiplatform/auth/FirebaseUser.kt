@@ -1,5 +1,8 @@
+@file:Suppress("unused")
+
 package com.github.lamba92.firebasemultiplatform.auth
 
+import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 import com.google.firebase.FIRUser
 import com.google.firebase.FIRUserInfoProtocol
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +23,7 @@ actual class FirebaseUser(val delegate: FIRUser) {
     actual val photoUrl: String?
         get() = delegate.phoneNumber
     actual val providerData: List<UserInfo>
-        get() = delegate.providerData.mapNotNull { (it as? FIRUserInfoProtocol)?.toMpp() }
+        get() = delegate.providerData.mapNotNull { (it as? FIRUserInfoProtocol).toMpp() }
     actual val providerId: String
         get() = delegate.providerID
     actual val uid: String
@@ -38,31 +41,31 @@ actual class FirebaseUser(val delegate: FIRUser) {
 
     actual suspend fun getIdToken(forceRefresh: Boolean) = suspendCancellableCoroutine<GetTokenResults> { cont ->
         delegate.getIDTokenResultForcingRefresh(forceRefresh) { token, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: token?.let { cont.resume(it.toMpp()) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: token.let { cont.resume(it.toMpp()) }
         }
     }
 
     actual suspend fun linkWithCredentials(credential: AuthCredential) =
         suspendCancellableCoroutine<AuthResult> { cont ->
             delegate.linkWithCredential(credential.delegate) { firAuthDataResult, nsError ->
-                nsError?.let { cont.resumeWithException(it) }
-                    ?: firAuthDataResult?.let { cont.resume(it.toMpp()) }
+                nsError.let { cont.resumeWithException(it) }
+                    ?: firAuthDataResult.let { cont.resume(it.toMpp()) }
             }
         }
 
     actual suspend fun reauthenticate(credential: AuthCredential) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.reauthenticateWithCredential(credential.delegate) { firAuthDataResult, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
-                ?: firAuthDataResult?.let { cont.resume(Unit) }
+            nsError.let { cont.resumeWithException(it) }
+                ?: firAuthDataResult.let { cont.resume(Unit) }
         }
     }
 
     actual suspend fun reauthenticateAndRetrieveData(credential: AuthCredential) =
         suspendCancellableCoroutine<AuthResult> { cont ->
             delegate.reauthenticateWithCredential(credential.delegate) { firAuthDataResult, nsError ->
-                nsError?.let { cont.resumeWithException(it) }
-                    ?: firAuthDataResult?.let { cont.resume(it.toMpp()) }
+                nsError.let { cont.resumeWithException(it) }
+                    ?: firAuthDataResult.let { cont.resume(it.toMpp()) }
             }
         }
 
@@ -82,21 +85,21 @@ actual class FirebaseUser(val delegate: FIRUser) {
 
     actual suspend fun unlink(provider: String) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.unlinkFromProvider(provider) { _, nsError ->
-            nsError?.let { cont.resumeWithException(it) }
+            nsError.let { cont.resumeWithException(it) }
                 ?: cont.resume(Unit)
         }
     }
 
     actual suspend fun updateEmail(email: String) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.updateEmail(email) { nsError ->
-            nsError?.let { cont.resumeWithException(it) }
+            nsError.let { cont.resumeWithException(it) }
                 ?: cont.resume(Unit)
         }
     }
 
     actual suspend fun updatePassword(password: String) = suspendCancellableCoroutine<Unit> { cont ->
         delegate.updatePassword(password) { nsError ->
-            nsError?.let { cont.resumeWithException(it) }
+            nsError.let { cont.resumeWithException(it) }
                 ?: cont.resume(Unit)
         }
     }
@@ -104,7 +107,7 @@ actual class FirebaseUser(val delegate: FIRUser) {
     actual suspend fun updatePhoneNumber(phoneAuthCredential: PhoneAuthCredential) =
         suspendCancellableCoroutine<Unit> { cont ->
             delegate.updatePhoneNumberCredential(phoneAuthCredential.delegate) { nsError ->
-                nsError?.let { cont.resumeWithException(it) }
+                nsError.let { cont.resumeWithException(it) }
                     ?: cont.resume(Unit)
             }
         }
@@ -117,7 +120,7 @@ actual class FirebaseUser(val delegate: FIRUser) {
                     displayName = userProfileChangeRequest.displayName
                 }
                 .commitChangesWithCompletion { nsError ->
-                    nsError?.let { cont.resumeWithException(it) }
+                    nsError.let { cont.resumeWithException(it) }
                         ?: cont.resume(Unit)
                 }
         }
