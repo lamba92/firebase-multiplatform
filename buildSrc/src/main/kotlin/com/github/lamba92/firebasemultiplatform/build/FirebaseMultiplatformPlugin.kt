@@ -82,9 +82,10 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 }
             }
 
-            js {
-                nodejs()
-            }
+            if (project.name != "storage-mobile")
+                js {
+                    nodejs()
+                }
 
             val mainTarget = iosArm64()
             val otherTargets = listOf(iosX64())
