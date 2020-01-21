@@ -8,11 +8,12 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.maven
-import org.gradle.kotlin.dsl.repositories
-import org.gradle.kotlin.dsl.withType
+import org.gradle.api.tasks.Sync
+import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.util.prefixIfNot
+import java.io.File
 
 @Suppress("unused")
 class FirebaseMultiplatformPlugin : Plugin<Project> {
@@ -50,6 +51,27 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             alignSourcesForKotlinMultiplatformPlugin(target)
         }
 
+        val generateDefFileTask = if (project.name != "storage-mobile") {
+            val extractFirebase by extractFirebaseIosZipProvider
+            val fName = project.name
+                .capitalize()
+                .prefixIfNot("Firebase")
+                .removeSuffix("-static")
+
+            task<GenerateDefForFramework>("generate${fName}DefFile") {
+                dependsOn(extractFirebase)
+                val rootFrameworkDir = File(extractFirebase.destinationDir, "$fName.framework")
+                framework = rootFrameworkDir
+                libraryPaths = listOf(rootFrameworkDir)
+                staticLibraries = listOf(File(rootFrameworkDir, fName))
+                packageName = "com.google.firebase"
+                output = file("$buildDir/interop/def/$fName.def")
+                buildStatic = "static" in project.name
+            }
+
+        } else
+            null
+
         kotlin {
 
             android {
@@ -64,16 +86,31 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 nodejs()
             }
 
-//            val mainTarget = iosArm64()
-//            val otherTargets = listOf(iosX64())
-//
-//            configure(otherTargets) {
-//                task<Sync>("copySourcesInto${name.capitalize()}Main") {
-//                    group = "native source copy"
-//                    from(mainTarget.compilations["main"].defaultSourceSet.kotlin.sourceDirectories)
-//                    into(compilations["main"].defaultSourceSet.kotlin.sourceDirectories.first())
-//                }.also { compilations["main"].compileKotlinTask.dependsOn(it) }
-//            }
+            val mainTarget = iosArm64()
+            val otherTargets = listOf(iosX64())
+
+            configure(otherTargets) {
+                task<Sync>("copySourcesInto${name.capitalize()}Main") {
+                    group = "native source copy"
+                    from(mainTarget.compilations["main"].defaultSourceSet.kotlin.sourceDirectories)
+                    into(compilations["main"].defaultSourceSet.kotlin.sourceDirectories.first())
+                }.also { compilations["main"].compileKotlinTask.dependsOn(it) }
+            }
+
+            generateDefFileTask?.let { task ->
+                targets.withType<KotlinNativeTarget> {
+                    compilations["main"].apply {
+                        cinterops {
+                            create("${project.name}Interop") {
+                                defFile = generateDefFileTask.output
+                                includeDirs(file("${task.framework.absolutePath}/Headers"))
+                                compilerOpts("-F${task.framework.parentFile.absolutePath}")
+                            }
+                        }
+                        enableEndorsedLibs = true
+                    }
+                }
+            }
         }
 
         publishing.publications.withType<MavenPublication> {

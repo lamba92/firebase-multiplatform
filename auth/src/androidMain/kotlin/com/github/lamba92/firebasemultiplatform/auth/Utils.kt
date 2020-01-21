@@ -10,7 +10,7 @@ fun PlatformSpecificFirebaseUserMetadata.toMpp() =
     FirebaseUserMetadata(this)
 
 fun PlatformSpecificUserInfo.toMpp() =
-    UserInfo(this)
+    FirebaseUserInfo(this)
 
 fun PlatformSpecificAdditionalUserInfo.toMpp() =
     AdditionalUserInfo(this)

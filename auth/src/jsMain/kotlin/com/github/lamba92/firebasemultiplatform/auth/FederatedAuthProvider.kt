@@ -1,3 +1,3 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect class PhoneAuthCredential : AuthCredential
+actual abstract class FederatedAuthProvider

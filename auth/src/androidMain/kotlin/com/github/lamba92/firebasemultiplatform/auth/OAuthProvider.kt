@@ -24,12 +24,8 @@ actual class OAuthProvider(
             .getCredential(providerId, idToken, accessToken)
             .toMpp()
 
-        actual fun newBuilder(
-            providerId: String,
-            firebaseAuth: FirebaseAuth
-        ) = PlatformSpecificOAuthProvider
-            .newBuilder(providerId, firebaseAuth.delegate)
-            .toMpp()
+        fun newBuilder(providerId: String, firebaseAuth: FirebaseAuth) =
+            PlatformSpecificOAuthProvider.newBuilder(providerId, firebaseAuth.delegate).toMpp()
 
         actual fun newBuilder(providerId: String) =
             PlatformSpecificOAuthProvider
@@ -47,20 +43,12 @@ actual class OAuthProvider(
         val delegate: PlatformSpecificOAuthProviderBuilder
     ) {
 
-        actual companion object {}
+        actual companion object;
 
         actual fun build() =
             delegate.build().toMpp()
 
-        actual fun addCustomParameter(
-            paramKey: String,
-            paramValue: String
-        ): Builder {
-            delegate.addCustomParameter(paramKey, paramValue)
-            return this
-        }
-
-        actual fun addCustomParameters(customParameters: Map<String, String>): Builder {
+        actual fun setCustomParameters(customParameters: Map<String, String>): Builder {
             delegate.addCustomParameters(customParameters)
             return this
         }
@@ -76,7 +64,7 @@ actual class OAuthProvider(
         val delegate: PlatformSpecificOAuthProviderCredentialsBuilder
     ) {
 
-        actual companion object {}
+        actual companion object;
 
         actual fun build() =
             delegate.build().toMpp()
@@ -91,10 +79,7 @@ actual class OAuthProvider(
             return this
         }
 
-        actual fun setIdTokenWithRawNonce(
-            idToken: String,
-            rawNonce: String?
-        ): CredentialsBuilder {
+        fun setIdTokenWithRawNonce(idToken: String, rawNonce: String?): CredentialsBuilder {
             delegate.setIdTokenWithRawNonce(idToken, rawNonce)
             return this
         }

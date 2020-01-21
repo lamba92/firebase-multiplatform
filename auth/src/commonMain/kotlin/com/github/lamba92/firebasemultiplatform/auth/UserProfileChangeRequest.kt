@@ -7,8 +7,10 @@ expect class UserProfileChangeRequest {
 
     class Builder() {
 
+        var displayName: String?
+        var photoUrl: String?
+
         fun build(): UserProfileChangeRequest
-        fun setDisplayName(displayName: String?): Builder
-        fun setPhotoUri(photoUri: String?): Builder
+
     }
 }

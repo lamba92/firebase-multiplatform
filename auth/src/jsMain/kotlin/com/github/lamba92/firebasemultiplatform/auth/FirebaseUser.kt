@@ -1,64 +1,74 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
 import firebase.User
+import kotlinx.coroutines.await
 
 actual class FirebaseUser(val delegate: User) {
+
     actual val displayName: String?
-        get() = TODO("Not yet implemented")
+        get() = delegate.displayName
+
     actual val email: String?
-        get() = TODO("Not yet implemented")
+        get() = delegate.email
+
     actual val metadata: FirebaseUserMetadata?
-        get() = TODO("Not yet implemented")
+        get() = delegate.metadata.toMpp()
+
     actual val phoneNumber: String?
-        get() = TODO("Not yet implemented")
+        get() = delegate.phoneNumber
+
     actual val photoUrl: String?
-        get() = TODO("Not yet implemented")
-    actual val providerData: List<UserInfo>
-        get() = TODO("Not yet implemented")
+        get() = delegate.photoURL
+
+    actual val providerData: List<FirebaseUserInfo>
+        get() = delegate.providerData.mapNotNull { it?.toMpp() }
+
     actual val providerId: String
-        get() = TODO("Not yet implemented")
+        get() = delegate.providerId
+
     actual val uid: String
-        get() = TODO("Not yet implemented")
+        get() = delegate.uid
+
     actual val isAnonymous: Boolean
-        get() = TODO("Not yet implemented")
+        get() = delegate.isAnonymous
 
-    actual suspend fun delete() {
-    }
 
-    actual suspend fun getIdToken(forceRefresh: Boolean): GetTokenResults {
-        TODO("Not yet implemented")
-    }
+    actual suspend fun delete() =
+        delegate.delete().await()
 
-    actual suspend fun linkWithCredentials(credential: AuthCredential): AuthResult {
-        TODO("Not yet implemented")
-    }
+    actual suspend fun getIdToken(forceRefresh: Boolean) =
+        delegate.getIdTokenResult(forceRefresh).await().toMpp()
+
+    actual suspend fun linkWithCredentials(credential: AuthCredential) =
+        delegate.linkWithCredential(credential.delegate).await().toMpp()
 
     actual suspend fun reauthenticate(credential: AuthCredential) {
+        delegate.reauthenticateWithCredential(credential.delegate).await()
     }
 
-    actual suspend fun reauthenticateAndRetrieveData(credential: AuthCredential): AuthResult {
-        TODO("Not yet implemented")
+    actual suspend fun reauthenticateAndRetrieveData(credential: AuthCredential) =
+        delegate.reauthenticateAndRetrieveDataWithCredential(credential.delegate).await().toMpp()
+
+    actual suspend fun reload() =
+        delegate.reload().await()
+
+    actual suspend fun sendEmailVerification() =
+        delegate.sendEmailVerification().await()
+
+    actual suspend fun unlink(providerId: String) {
+        delegate.unlink(this.providerId).await()
     }
 
-    actual suspend fun reload() {
-    }
+    actual suspend fun updateEmail(email: String) =
+        delegate.updateEmail(email).await()
 
-    actual suspend fun sendEmailVerification() {
-    }
+    actual suspend fun updatePassword(password: String) =
+        delegate.updatePassword(password).await()
 
-    actual suspend fun unlink(provider: String) {
-    }
+    actual suspend fun updatePhoneNumber(phoneAuthCredential: PhoneAuthCredential) =
+        delegate.updatePhoneNumber(phoneAuthCredential.delegate).await()
 
-    actual suspend fun updateEmail(email: String) {
-    }
-
-    actual suspend fun updatePassword(password: String) {
-    }
-
-    actual suspend fun updatePhoneNumber(phoneAuthCredential: PhoneAuthCredential) {
-    }
-
-    actual suspend fun updateProfile(userProfileChangeRequest: UserProfileChangeRequest) {
-    }
+    actual suspend fun updateProfile(userProfileChangeRequest: UserProfileChangeRequest) =
+        delegate.updateProfile(userProfileChangeRequest.delegate).await()
 
 }

@@ -1,10 +1,8 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
 import firebase.User
-import firebase.auth.ActionCodeInfo
-import firebase.auth.Auth
-import firebase.auth.Error
-import firebase.auth.UserCredential
+import firebase.UserInfo
+import firebase.auth.*
 
 fun Auth.toMpp() =
     FirebaseAuth(this)
@@ -35,3 +33,15 @@ fun UserCredential.toMpp() =
 
 fun User.toMpp() =
     FirebaseUser(this)
+
+fun UserMetadata.toMpp() =
+    FirebaseUserMetadata(this)
+
+fun IdTokenResult.toMpp() =
+    GetTokenResults(this)
+
+fun UserInfo.toMpp() =
+    FirebaseUserInfo(this)
+
+fun PhoneAuthProvider_Instance.toMpp() =
+    PhoneAuthProvider(this)

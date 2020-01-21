@@ -41,18 +41,25 @@ kotlin.sourceSets {
         }
     }
 
-//    val iosArm64Main by getting {
-//        dependencies {
-//            api(kotlinx("coroutines-core-iosarm64", coroutinesVersion))
-//            api(firebaseKt("core-iosarm64", firebaseKtVersion))
-//        }
-//    }
-//
-//    val iosX64Main by getting {
-//        dependencies {
-//            api(kotlinx("coroutines-core-iosx64", coroutinesVersion))
-//            api(firebaseKt("core-iosx64", firebaseKtVersion))
-//        }
-//    }
+    val iosArm64Main by getting {
+        dependencies {
+            api(kotlinx("coroutines-core-iosarm64", coroutinesVersion))
+        }
+    }
 
+    val iosX64Main by getting {
+        dependencies {
+            api(kotlinx("coroutines-core-iosx64", coroutinesVersion))
+        }
+    }
+
+}
+
+val copyFirebaseJsExternals = task<Sync>("copyFirebaseJsExternals") {
+    from(zipTree("${rootProject.rootDir}/firebasejs_kotlin_externals.zip"))
+    into("build/externals/${rootProject.name}-${project.name}/src")
+}
+
+tasks.compileKotlinJs {
+    dependsOn(copyFirebaseJsExternals)
 }

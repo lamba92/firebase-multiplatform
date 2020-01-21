@@ -4,13 +4,17 @@ import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.LibraryPlugin
 import com.jfrog.bintray.gradle.BintrayExtension
 import org.gradle.api.Project
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.tasks.Sync
 import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.named
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 import org.jetbrains.kotlin.util.suffixIfNot
+import kotlin.reflect.KProperty
 
 typealias AndroidLibraryPlugin = LibraryPlugin
 typealias AndroidLibraryExtension = LibraryExtension
@@ -92,3 +96,12 @@ fun BintrayExtension.setPublications(builder: () -> Iterable<String>) =
 
 fun Project.log(message: String) =
     println("> project $name: ${message.suffixIfNot(".")}")
+
+operator fun <T> ListProperty<T>.getValue(receiver: Any?, property: KProperty<*>): List<T> =
+    get()
+
+operator fun <T> ListProperty<T>.setValue(receiver: Any?, property: KProperty<*>, value: Iterable<T>) =
+    set(value)
+
+val Project.extractFirebaseIosZipProvider
+    get() = rootProject.tasks.named<Sync>("extractFirebaseIosZip")

@@ -7,7 +7,7 @@ expect class FirebaseUser {
     val metadata: FirebaseUserMetadata?
     val phoneNumber: String?
     val photoUrl: String?
-    val providerData: List<UserInfo>
+    val providerData: List<FirebaseUserInfo>
     val providerId: String
     val uid: String
     val isAnonymous: Boolean
@@ -19,7 +19,7 @@ expect class FirebaseUser {
     suspend fun reauthenticateAndRetrieveData(credential: AuthCredential): AuthResult
     suspend fun reload()
     suspend fun sendEmailVerification()
-    suspend fun unlink(provider: String)
+    suspend fun unlink(providerId: String)
     suspend fun updateEmail(email: String)
     suspend fun updatePassword(password: String)
     suspend fun updatePhoneNumber(phoneAuthCredential: PhoneAuthCredential)

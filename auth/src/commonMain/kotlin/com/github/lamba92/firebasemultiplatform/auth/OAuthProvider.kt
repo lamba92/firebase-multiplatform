@@ -11,7 +11,6 @@ expect class OAuthProvider : FederatedAuthProvider {
         )
         fun getCredential(providerId: String, idToken: String, accessToken: String): AuthCredential
 
-        fun newBuilder(providerId: String, firebaseAuth: FirebaseAuth): Builder
         fun newBuilder(providerId: String): Builder
         fun newCredentialBuilder(providerId: String): CredentialsBuilder
     }
@@ -21,8 +20,7 @@ expect class OAuthProvider : FederatedAuthProvider {
         companion object
 
         fun build(): OAuthProvider
-        fun addCustomParameter(paramKey: String, paramValue: String): Builder
-        fun addCustomParameters(customParameters: Map<String, String>): Builder
+        fun setCustomParameters(customParameters: Map<String, String>): Builder
         fun setScopes(scopes: List<String>): Builder
 
     }
@@ -34,7 +32,6 @@ expect class OAuthProvider : FederatedAuthProvider {
         fun build(): AuthCredential
         fun setAccessToken(accessToken: String): CredentialsBuilder
         fun setIdToken(idToken: String): CredentialsBuilder
-        fun setIdTokenWithRawNonce(idToken: String, rawNonce: String? = null): CredentialsBuilder
     }
 
 }

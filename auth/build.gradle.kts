@@ -9,7 +9,6 @@ plugins {
 kotlin.sourceSets {
 
     val firebaseAuthAndroidVersion: String by project
-    val firebaseKtVersion: String by project
 
     val commonMain by getting {
         dependencies {
@@ -22,17 +21,5 @@ kotlin.sourceSets {
             api(firebase("auth", firebaseAuthAndroidVersion))
         }
     }
-
-//    val iosArm64Main by getting {
-//        dependencies {
-//            api(firebaseKt("auth-iosarm64", firebaseKtVersion))
-//        }
-//    }
-//
-//    val iosX64Main by getting {
-//        dependencies {
-//            api(firebaseKt("auth-iosx64", firebaseKtVersion))
-//        }
-//    }
 
 }

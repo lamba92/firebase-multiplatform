@@ -1,6 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-expect class UserInfo {
+expect class FirebaseUserInfo {
 
     val displayName: String?
     val email: String?

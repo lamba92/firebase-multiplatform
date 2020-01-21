@@ -9,7 +9,6 @@ plugins {
 kotlin.sourceSets {
 
     val firebaseStorageAndroidVersion: String by project
-    val firebaseKtVersion: String by project
 
     val commonMain by getting {
         dependencies {
@@ -22,17 +21,5 @@ kotlin.sourceSets {
             api(firebase("storage", firebaseStorageAndroidVersion))
         }
     }
-
-//    val iosArm64Main by getting {
-//        dependencies {
-//            api(firebaseKt("storage-iosarm64", firebaseKtVersion))
-//        }
-//    }
-//
-//    val iosX64Main by getting {
-//        dependencies {
-//            api(firebaseKt("storage-iosx64", firebaseKtVersion))
-//        }
-//    }
 
 }

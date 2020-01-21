@@ -17,7 +17,7 @@ actual class FirebaseUser(
         get() = delegate.phoneNumber
     actual val photoUrl: String?
         get() = delegate.photoUrl?.toString()
-    actual val providerData: List<UserInfo>
+    actual val providerData: List<FirebaseUserInfo>
         get() = delegate.providerData.map { it.toMpp() }
     actual val providerId: String
         get() = delegate.providerId
@@ -47,8 +47,8 @@ actual class FirebaseUser(
     actual suspend fun sendEmailVerification() =
         delegate.sendEmailVerification().awaitUnit()
 
-    actual suspend fun unlink(provider: String) {
-        delegate.unlink(provider).await()
+    actual suspend fun unlink(providerId: String) {
+        delegate.unlink(providerId).await()
     }
 
     actual suspend fun updateEmail(email: String) =

@@ -1,6 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
-actual class UserInfo(
+actual class FirebaseUserInfo(
     val delegate: PlatformSpecificUserInfo
 ) {
     actual val displayName: String?

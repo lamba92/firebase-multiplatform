@@ -4,7 +4,7 @@ actual class PhoneAuthCredential(
     override val delegate: PlatformSpecificPhoneAuthCredential
 ) : AuthCredential(delegate) {
 
-    actual val smsCode: String?
+    val smsCode: String?
         get() = delegate.smsCode
 
 }
