@@ -22,6 +22,7 @@ before_script:
   - ./install_android_sdk.sh
   - chmod +x gradlew
   - chmod +x crappy_osx_permissions_workaround.sh
+  - ./crappy_osx_permissions_workaround.sh
 
 script: ./gradlew build --console=plain --parallel
 
