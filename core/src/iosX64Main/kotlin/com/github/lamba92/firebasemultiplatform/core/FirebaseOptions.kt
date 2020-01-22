@@ -27,35 +27,37 @@ actual class FirebaseOptions(val delegate: FIROptions) {
         actual fun build() =
             delegate.toMpp()
 
-        actual fun setApiKey(apiKey: String): Builder {
-            delegate.APIKey = apiKey
-            return this
-        }
+        actual var apiKey: String?
+            get() = delegate.APIKey
+            set(value) {
+                delegate.setAPIKey(value)
+            }
+        actual var applicationId: String?
+            get() = delegate.googleAppID
+            set(value) {
+                value?.let { delegate.setGoogleAppID(it) }
+            }
+        actual var databaseUrl: String?
+            get() = delegate.databaseURL
+            set(value) {
+                delegate.setDatabaseURL(value)
+            }
+        actual var gcmSenderId: String?
+            get() = delegate.GCMSenderID
+            set(value) {
+                value?.let { delegate.setGCMSenderID(it) }
+            }
+        actual var projectId: String?
+            get() = delegate.projectID
+            set(value) {
+                delegate.setProjectID(value)
+            }
+        actual var storageBucket: String?
+            get() = delegate.storageBucket
+            set(value) {
+                delegate.setStorageBucket(value)
+            }
 
-        actual fun setApplicationId(applicationId: String): Builder {
-            delegate.googleAppID = applicationId
-            return this
-        }
-
-        actual fun setDatabaseUrl(databaseUrl: String): Builder {
-            delegate.databaseURL = databaseUrl
-            return this
-        }
-
-        actual fun setGcmSenderId(gcmSenderId: String): Builder {
-            delegate.GCMSenderID = gcmSenderId
-            return this
-        }
-
-        actual fun setProjectId(projectId: String): Builder {
-            delegate.projectID = projectId
-            return this
-        }
-
-        actual fun setStorageBucket(storageBucket: String): Builder {
-            delegate.storageBucket = storageBucket
-            return this
-        }
 
     }
 

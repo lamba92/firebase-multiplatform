@@ -7,21 +7,12 @@ actual data class UserProfileChangeRequest(
 
     actual class Builder actual constructor() {
 
-        private var delegateDN: String? = null
-        private var delegatePU: String? = null
-
         actual fun build() =
-            UserProfileChangeRequest(delegateDN, delegatePU)
+            UserProfileChangeRequest(displayName, photoUrl)
 
-        actual fun setDisplayName(displayName: String?): Builder {
-            delegateDN = displayName
-            return this
-        }
+        actual var displayName: String? = null
+        actual var photoUrl: String? = null
 
-        actual fun setPhotoUri(photoUri: String?): Builder {
-            delegatePU = photoUri
-            return this
-        }
 
     }
 

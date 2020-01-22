@@ -2,7 +2,7 @@ package com.github.lamba92.firebasemultiplatform.auth
 
 import com.google.firebase.FIRUserInfoProtocol
 
-actual class UserInfo(val delegate: FIRUserInfoProtocol) {
+actual class FirebaseUserInfo(val delegate: FIRUserInfoProtocol) {
     actual val displayName: String?
         get() = delegate.displayName
     actual val email: String?

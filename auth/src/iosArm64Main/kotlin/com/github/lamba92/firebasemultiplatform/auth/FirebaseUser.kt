@@ -22,7 +22,7 @@ actual class FirebaseUser(val delegate: FIRUser) {
         get() = delegate.phoneNumber
     actual val photoUrl: String?
         get() = delegate.phoneNumber
-    actual val providerData: List<UserInfo>
+    actual val providerData: List<FirebaseUserInfo>
         get() = delegate.providerData.mapNotNull { (it as? FIRUserInfoProtocol)?.toMpp() }
     actual val providerId: String
         get() = delegate.providerID
@@ -83,8 +83,8 @@ actual class FirebaseUser(val delegate: FIRUser) {
         }
     }
 
-    actual suspend fun unlink(provider: String) = suspendCancellableCoroutine<Unit> { cont ->
-        delegate.unlinkFromProvider(provider) { _, nsError ->
+    actual suspend fun unlink(providerId: String) = suspendCancellableCoroutine<Unit> { cont ->
+        delegate.unlinkFromProvider(providerId) { _, nsError ->
             nsError?.let { cont.resumeWithException(it) }
                 ?: cont.resume(Unit)
         }

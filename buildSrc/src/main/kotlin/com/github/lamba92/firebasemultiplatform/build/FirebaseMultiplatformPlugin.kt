@@ -12,6 +12,7 @@ import org.gradle.api.tasks.Sync
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.tasks.CInteropProcess
 import org.jetbrains.kotlin.util.prefixIfNot
 import java.io.File
 
@@ -66,7 +67,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 staticLibraries = listOf(File(rootFrameworkDir, fName))
                 packageName = "com.google.firebase"
                 output = file("$buildDir/interop/def/$fName.def")
-                buildStatic = "static" in project.name
+                buildStatic = true
             }
 
         } else
@@ -102,7 +103,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 targets.withType<KotlinNativeTarget> {
                     compilations["main"].apply {
                         cinterops {
-                            create("${project.name}Interop") {
+                            val interop = create(project.name) {
                                 defFile = generateDefFileTask.output
                                 includeDirs(file("${task.framework.absolutePath}/Headers"))
                                 compilerOpts("-F${task.framework.parentFile.absolutePath}")
@@ -110,6 +111,9 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                         }
                         enableEndorsedLibs = true
                     }
+                }
+                tasks.withType<CInteropProcess> {
+                    dependsOn(task)
                 }
             }
         }

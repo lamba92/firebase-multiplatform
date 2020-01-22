@@ -9,18 +9,11 @@
 
 package firebase.functions
 
-import kotlin.js.Promise
-
 external interface HttpsCallableResult {
     var data: Any
 }
 
 external interface HttpsCallable
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun HttpsCallable.invoke(data: Any? = definedExternally): Promise<HttpsCallableResult> {
-    asDynamic()(data)
-}
 
 external interface HttpsCallableOptions {
     var timeout: Number?

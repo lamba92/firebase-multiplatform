@@ -3,6 +3,7 @@
 package com.github.lamba92.firebasemultiplatform.auth
 
 import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
+import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 import com.github.lamba92.firebasemultiplatform.core.toMpp
 import com.google.firebase.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,7 +12,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.Foundation.NSError
 import kotlin.coroutines.resume
-import com.github.lamba92.firebasemultiplatform.core.resumeWithException
 
 actual class FirebaseAuth(val delegate: FIRAuth) {
 
@@ -171,7 +171,7 @@ actual class FirebaseAuth(val delegate: FIRAuth) {
     actual fun setLanguageCode(languageCode: String) =
         delegate.setLanguageCode(languageCode)
 
-    actual fun signOut() {
+    actual suspend fun signOut() {
         delegate.signOut(null)
     }
 

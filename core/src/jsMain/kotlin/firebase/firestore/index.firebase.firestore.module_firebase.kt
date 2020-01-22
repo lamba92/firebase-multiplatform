@@ -16,23 +16,7 @@ import kotlin.js.Promise
 
 external interface DocumentData
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun DocumentData.get(field: String): Any? = asDynamic()[field]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun DocumentData.set(field: String, value: Any) {
-    asDynamic()[field] = value
-}
-
 external interface UpdateData
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun UpdateData.get(fieldPath: String): Any? = asDynamic()[fieldPath]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun UpdateData.set(fieldPath: String, value: Any) {
-    asDynamic()[fieldPath] = value
-}
 
 external var CACHE_SIZE_UNLIMITED: Number
 

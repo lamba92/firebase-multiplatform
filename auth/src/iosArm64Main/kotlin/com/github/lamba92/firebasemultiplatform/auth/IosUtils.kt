@@ -24,7 +24,7 @@ fun FIRUserMetadata.toMpp() =
     FirebaseUserMetadata(this)
 
 fun FIRUserInfoProtocol.toMpp() =
-    UserInfo(this)
+    FirebaseUserInfo(this)
 
 fun FIRAuthTokenResult.toMpp() =
     GetTokenResults(this)

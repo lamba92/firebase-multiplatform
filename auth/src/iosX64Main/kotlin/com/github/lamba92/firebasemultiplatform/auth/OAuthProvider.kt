@@ -21,9 +21,6 @@ actual class OAuthProvider(override val delegate: FIROAuthProvider) : FederatedA
             )
                 .toMpp()
 
-        actual fun newBuilder(providerId: String, firebaseAuth: FirebaseAuth) =
-            Builder(FIROAuthProvider.providerWithProviderID(providerId, firebaseAuth.delegate))
-
         actual fun newBuilder(providerId: String) =
             Builder(FIROAuthProvider.providerWithProviderID(providerId))
 
@@ -34,27 +31,18 @@ actual class OAuthProvider(override val delegate: FIROAuthProvider) : FederatedA
 
     actual class Builder(val delegate: FIROAuthProvider) {
 
-        actual companion object {}
+        actual companion object;
 
         actual fun build() =
             delegate.toMpp()
 
-        actual fun addCustomParameter(
-            paramKey: String,
-            paramValue: String
-        ): Builder {
-            delegate.customParameters = (delegate.customParameters ?: mutableMapOf<Any, Any>())
-                .plus(paramKey to paramValue)
-            return this
-        }
-
-        actual fun addCustomParameters(customParameters: Map<String, String>): Builder {
-            delegate.customParameters = customParameters as Map<Any?, Any>
-            return this
-        }
-
         actual fun setScopes(scopes: List<String>): Builder {
             delegate.scopes = scopes
+            return this
+        }
+
+        actual fun setCustomParameters(customParameters: Map<String, String>): Builder {
+            delegate.customParameters = customParameters as Map<Any?, *>
             return this
         }
 
@@ -66,7 +54,7 @@ actual class OAuthProvider(override val delegate: FIROAuthProvider) : FederatedA
         private var idToken: String? = null
         private var rawNonce: String? = null
 
-        actual companion object {}
+        actual companion object;
 
         actual fun build() = when {
             accessToken != null && idToken == null && rawNonce == null ->
@@ -89,15 +77,6 @@ actual class OAuthProvider(override val delegate: FIROAuthProvider) : FederatedA
 
         actual fun setIdToken(idToken: String): CredentialsBuilder {
             this.idToken = idToken
-            return this
-        }
-
-        actual fun setIdTokenWithRawNonce(
-            idToken: String,
-            rawNonce: String?
-        ): CredentialsBuilder {
-            this.idToken = idToken
-            this.rawNonce = rawNonce
             return this
         }
 

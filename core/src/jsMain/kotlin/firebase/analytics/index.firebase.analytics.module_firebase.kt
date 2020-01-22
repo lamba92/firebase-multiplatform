@@ -24,14 +24,6 @@ external interface `T$9` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$9`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$9`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$10` {
     var currency: Any?
         get() = definedExternally
@@ -45,14 +37,6 @@ external interface `T$10` {
     var items: Any?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$10`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$10`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface `T$11` {
@@ -76,14 +60,6 @@ external interface `T$11` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$11`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$11`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$12` {
     var description: Any?
         get() = definedExternally
@@ -91,14 +67,6 @@ external interface `T$12` {
     var fatal: Any?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$12`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$12`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface `T$13` {
@@ -113,26 +81,10 @@ external interface `T$13` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$13`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$13`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$14` {
     var method: Any?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$14`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$14`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface `T$15` {
@@ -145,14 +97,6 @@ external interface `T$15` {
     var page_path: String?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$15`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$15`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface `T$16` {
@@ -177,14 +121,6 @@ external interface `T$16` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$16`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$16`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$17` {
     var value: Any?
         get() = definedExternally
@@ -204,14 +140,6 @@ external interface `T$17` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$17`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$17`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$18` {
     var app_name: String
     var screen_name: Any
@@ -226,26 +154,10 @@ external interface `T$18` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$18`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$18`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$19` {
     var search_term: Any?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$19`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$19`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface `T$20` {
@@ -263,14 +175,6 @@ external interface `T$20` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$20`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$20`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$21` {
     var checkout_step: Any?
         get() = definedExternally
@@ -278,14 +182,6 @@ external interface `T$21` {
     var checkout_option: Any?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$21`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$21`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface `T$22` {
@@ -300,14 +196,6 @@ external interface `T$22` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$22`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$22`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$23` {
     var name: String
     var value: Number
@@ -319,40 +207,16 @@ external interface `T$23` {
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$23`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$23`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$24` {
     var items: Any?
         get() = definedExternally
         set(value) = definedExternally
 }
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$24`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$24`.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
-
 external interface `T$25` {
     var promotions: Any?
         get() = definedExternally
         set(value) = definedExternally
-}
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$25`.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$25`.set(key: String, value: Any) {
-    asDynamic()[key] = value
 }
 
 external interface Analytics {
@@ -445,8 +309,8 @@ external interface Analytics {
         options: AnalyticsCallOptions? = definedExternally
     )
 
-    fun <T : String> logEvent(
-        eventName: CustomEventName<T>,
+    fun logEvent(
+        eventName: CustomEventName<String>,
         eventParams: Json? = definedExternally,
         options: AnalyticsCallOptions? = definedExternally
     )
@@ -549,14 +413,6 @@ external interface EventParams {
 }
 
 external interface CustomParams
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun CustomParams.get(key: String): Any? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun CustomParams.set(key: String, value: Any) {
-    asDynamic()[key] = value
-}
 
 external enum class EventName {
     ADD_PAYMENT_INFO /* = 'add_payment_info' */,

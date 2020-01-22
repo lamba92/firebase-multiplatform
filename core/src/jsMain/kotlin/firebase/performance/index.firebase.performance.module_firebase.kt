@@ -17,23 +17,7 @@ external interface Performance {
 
 external interface `T$1`
 
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$1`.get(key: String): Number? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$1`.set(key: String, value: Number) {
-    asDynamic()[key] = value
-}
-
 external interface `T$2`
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$2`.get(key: String): String? = asDynamic()[key]
-
-@Suppress("NOTHING_TO_INLINE")
-inline operator fun `T$2`.set(key: String, value: String) {
-    asDynamic()[key] = value
-}
 
 external interface `T$3` {
     var metrics: `T$1`?

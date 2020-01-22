@@ -2,9 +2,7 @@ package com.github.lamba92.firebasemultiplatform.auth
 
 import com.google.firebase.*
 
-actual class ActionCodeResult(
-    val delegate: FIRActionCodeInfo
-) {
+actual class ActionCodeResult(val delegate: FIRActionCodeInfo) {
 
     actual val operation: Int
         get() = delegate.operation.toInt()
@@ -16,13 +14,13 @@ actual class ActionCodeResult(
             get() = FIRActionCodeOperationVerifyEmail.toInt()
         actual val RECOVER_EMAIL: Int
             get() = FIRActionCodeOperationRecoverEmail.toInt()
-        actual val ERROR: Int
+        val ERROR: Int
             get() = FIRActionCodeOperationUnknown.toInt()
         actual val SIGN_IN_WITH_EMAIL_LINK: Int
             get() = FIRActionCodeOperationEmailLink.toInt()
-        actual val EMAIL: Int
+        val EMAIL: Int
             get() = FIRActionCodeEmailKey.toInt()
-        actual val FROM_EMAIL: Int
+        val FROM_EMAIL: Int
             get() = FIRActionCodeFromEmailKey.toInt()
     }
 
