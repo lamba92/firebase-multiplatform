@@ -21,9 +21,9 @@ before_script:
   - chmod +x install_android_sdk.sh
   - ./install_android_sdk.sh
   - chmod +x gradlew
-  - chmod +x travis_script.sh
+  - chmod +x crappy_osx_permissions_workaround.sh
 
-script: ./travis_script.sh
+script: ./gradlew build --console=plain --parallel
 
 cache:
   directories:
