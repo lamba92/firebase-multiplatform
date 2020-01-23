@@ -6,8 +6,9 @@ import com.google.firebase.FIRGoogleAuthSignInMethod
 
 actual object GoogleAuthProvider {
 
-    actual val GITHUB_SIGN_IN_METHOD: String
+    actual val GOOGLE_SIGN_IN_METHOD: String
         get() = FIRGoogleAuthSignInMethod
+
     actual val PROVIDER_ID: String
         get() = FIRGoogleAuthProviderID
 

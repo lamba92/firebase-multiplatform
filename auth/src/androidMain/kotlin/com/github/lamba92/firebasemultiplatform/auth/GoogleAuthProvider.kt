@@ -4,8 +4,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 actual object GoogleAuthProvider {
 
-    actual val GITHUB_SIGN_IN_METHOD: String
+    actual val GOOGLE_SIGN_IN_METHOD: String
         get() = GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD
+
     actual val PROVIDER_ID: String
         get() = GoogleAuthProvider.PROVIDER_ID
 
