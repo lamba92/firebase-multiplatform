@@ -12,3 +12,6 @@ expect fun StorageReference.putStream(stream: Input, metadata: StorageMetadata):
 expect fun StorageReference.putStream(stream: Input): UploadTask
 
 expect val StorageReference.activeDownloadTasks: List<DownloadTask>
+
+@ExperimentalTime
+expect var FirebaseStorage.maxDownloadRetryTime: Duration

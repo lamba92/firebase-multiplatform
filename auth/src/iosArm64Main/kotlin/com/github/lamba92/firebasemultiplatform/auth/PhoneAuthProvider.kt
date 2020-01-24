@@ -8,16 +8,15 @@ actual class PhoneAuthProvider(val delegate: FIRPhoneAuthProvider) {
     actual companion object {
 
         actual fun getCredential(verificationId: String, smsCode: String) =
-            object : FIRPhoneAuthProviderMeta() {}.provider().credentialWithVerificationID(
-                verificationId,
-                smsCode
-            ).toMpp()
+            FIRPhoneAuthProvider.provider()
+                .credentialWithVerificationID(verificationId, smsCode)
+                .toMpp()
 
         actual fun getInstance() =
-            object : FIRPhoneAuthProviderMeta() {}.provider().toMpp()
+            FIRPhoneAuthProvider.provider().toMpp()
 
         actual fun getInstance(firebaseAuth: FirebaseAuth) =
-            object : FIRPhoneAuthProviderMeta() {}.providerWithAuth(firebaseAuth.delegate).toMpp()
+            FIRPhoneAuthProvider.providerWithAuth(firebaseAuth.delegate).toMpp()
 
     }
 

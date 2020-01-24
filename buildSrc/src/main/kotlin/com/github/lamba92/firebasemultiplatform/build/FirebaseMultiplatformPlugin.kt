@@ -86,11 +86,11 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             if (project.name != "storage-mobile")
                 js {
                     nodejs()
-                    compilations.all {
-                        kotlinOptions {
-                            freeCompilerArgs += listOf("-Xir-produce-js", "-Xgenerate-dts")
-                        }
-                    }
+//                    compilations.all {
+//                        kotlinOptions {
+//                            freeCompilerArgs += listOf("-Xir-produce-js", "-Xgenerate-dts")
+//                        }
+//                    }
                 }
 
             val mainTarget = iosArm64()

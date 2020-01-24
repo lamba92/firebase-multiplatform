@@ -12,7 +12,10 @@ actual object GoogleAuthProvider {
     actual val PROVIDER_ID: String
         get() = FIRGoogleAuthProviderID
 
-    actual fun getCredentials(idToken: String, accessToken: String) =
-        FIRGoogleAuthProvider.credentialWithIDToken(idToken, accessToken).toMpp()
+    actual fun getCredentials(idToken: String, accessToken: String?) =
+        accessToken?.let { FIRGoogleAuthProvider.credentialWithIDToken(idToken, it).toMpp() }
+            ?: throw IllegalStateException("Platform iOS needs both parameters idToken " +
+                    "and accessToken not null.")
+
 
 }

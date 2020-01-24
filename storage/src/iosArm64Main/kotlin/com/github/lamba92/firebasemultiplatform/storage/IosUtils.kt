@@ -36,9 +36,6 @@ fun FIRStorageTaskStatus.toMpp() = when (this) {
     FIRStorageTaskStatus.FIRStorageTaskStatusFailure -> StorageTask.Snapshot.State.ERRORED
 }
 
-fun FIRStorageTaskSnapshot.toMppDownloadTaskSnapshot() =
-    DownloadTask.Snapshot(this)
-
 fun FIRStorageTaskSnapshot.toMppUploadTaskSnapshot() =
     UploadTask.Snapshot(this)
 
@@ -72,6 +69,3 @@ val FIRStorageObservableTask.statusFlow
 
 fun FIRStorageUploadTask.toMpp() =
     UploadTask(this)
-
-fun FIRStorageDownloadTask.toMpp() =
-    DownloadTask(this)

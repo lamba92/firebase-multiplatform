@@ -20,7 +20,7 @@ actual class StorageMetadata(val delegate: FIRStorageMetadata) {
         get() = delegate.contentLanguage
     actual val contentType: String?
         get() = delegate.contentType
-    actual val contentCreationTimeMillis: Long
+    actual val contentCreationTimeMillis: Long?
         get() = delegate.timeCreated()!!.timeIntervalSinceReferenceDate.toLong()
     actual val customMetadataKeys: Set<String>
         get() = delegate.customMetadata?.keys?.mapNotNull { it as? String }?.toSet() ?: emptySet()
@@ -32,13 +32,13 @@ actual class StorageMetadata(val delegate: FIRStorageMetadata) {
         get() = delegate.metageneration.toString()
     actual val name: String?
         get() = delegate.name
-    actual val path: String
+    actual val path: String?
         get() = delegate.path ?: ""
-    actual val reference: StorageReference?
+    val reference: StorageReference?
         get() = delegate.storageReference?.toMpp()
-    actual val sizeBytes: Long
+    actual val sizeBytes: Long?
         get() = delegate.size
-    actual val updatedTimeMillis: Long
+    actual val updatedTimeMillis: Long?
         get() = delegate.updated?.timeIntervalSinceReferenceDate?.toLong() ?: 0L
 
     actual fun getCustomMetadata(key: String) =

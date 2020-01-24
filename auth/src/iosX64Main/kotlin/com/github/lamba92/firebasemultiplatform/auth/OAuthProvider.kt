@@ -42,6 +42,7 @@ actual class OAuthProvider(override val delegate: FIROAuthProvider) : FederatedA
         }
 
         actual fun setCustomParameters(customParameters: Map<String, String>): Builder {
+            @Suppress("UNCHECKED_CAST")
             delegate.customParameters = customParameters as Map<Any?, *>
             return this
         }
