@@ -31,7 +31,7 @@ actual class FirebaseUser(val delegate: FIRUser) {
     actual val isAnonymous: Boolean
         get() = delegate.anonymous
     actual val isEmailVerified: Boolean
-        get() = TODO()
+        get() = delegate.isEmailVerified()
 
     @ExperimentalCoroutinesApi
     actual suspend fun delete() = suspendCancellableCoroutine<Unit> { cont ->
