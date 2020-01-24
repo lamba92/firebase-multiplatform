@@ -25,6 +25,8 @@ actual class FirebaseUser(
         get() = delegate.uid
     actual val isAnonymous: Boolean
         get() = delegate.isAnonymous
+    actual val isEmailVerified: Boolean
+        get() = delegate.isEmailVerified
 
     actual suspend fun delete() =
         delegate.delete().awaitUnit()
