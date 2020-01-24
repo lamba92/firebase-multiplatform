@@ -23,6 +23,7 @@ actual class FirebaseApp(val delegate: App) {
 
         actual fun initializeApp(firebaseOptions: FirebaseOptions, name: String) =
             firebase.initializeApp(firebaseOptions, name).toMpp()
+
     }
 
     actual val name: String

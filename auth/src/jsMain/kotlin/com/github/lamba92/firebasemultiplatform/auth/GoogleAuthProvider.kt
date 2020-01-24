@@ -8,7 +8,7 @@ actual object GoogleAuthProvider {
     actual val PROVIDER_ID: String
         get() = firebase.auth.GoogleAuthProvider.PROVIDER_ID
 
-    actual fun getCredentials(idToken: String, accessToken: String) =
+    actual fun getCredentials(idToken: String, accessToken: String?) =
         firebase.auth.GoogleAuthProvider.credential(idToken, accessToken).toMpp()
 
 }

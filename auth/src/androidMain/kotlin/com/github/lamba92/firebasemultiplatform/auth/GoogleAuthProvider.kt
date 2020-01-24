@@ -10,13 +10,7 @@ actual object GoogleAuthProvider {
     actual val PROVIDER_ID: String
         get() = GoogleAuthProvider.PROVIDER_ID
 
-    actual fun getCredentials(idToken: String, accessToken: String) =
+    actual fun getCredentials(idToken: String, accessToken: String?) =
         GoogleAuthProvider.getCredential(idToken, accessToken).toMpp()
-
-    fun getCredentialsWithIdToken(idToken: String) =
-        GoogleAuthProvider.getCredential(idToken, null).toMpp()
-
-    fun getCredentialsWithAccessToken(accessToken: String) =
-        GoogleAuthProvider.getCredential(null, accessToken).toMpp()
 
 }

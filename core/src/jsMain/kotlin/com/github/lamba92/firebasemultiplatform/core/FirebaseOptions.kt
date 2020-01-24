@@ -1,3 +1,5 @@
+@file:JsExport
+
 package com.github.lamba92.firebasemultiplatform.core
 
 actual data class FirebaseOptions(

@@ -86,6 +86,11 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             if (project.name != "storage-mobile")
                 js {
                     nodejs()
+                    compilations.all {
+                        kotlinOptions {
+                            freeCompilerArgs += listOf("-Xir-produce-js", "-Xgenerate-dts")
+                        }
+                    }
                 }
 
             val mainTarget = iosArm64()
@@ -102,9 +107,15 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             generateDefFileTask?.let { task ->
                 targets.withType<KotlinNativeTarget> {
                     compilations["main"].apply {
+                        kotlinOptions {
+                            freeCompilerArgs += mutableListOf(
+                                "-module-name",
+                                "com.github.lamba92.firebase-multiplatform-${project.name}"
+                            )
+                        }
                         cinterops {
-                            val interop = create(project.name) {
-                                defFile = generateDefFileTask.output
+                            create(project.name) {
+                                defFile = task.output
                                 includeDirs(file("${task.framework.absolutePath}/Headers"))
                                 compilerOpts("-F${task.framework.parentFile.absolutePath}")
                             }
