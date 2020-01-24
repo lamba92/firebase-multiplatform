@@ -14,7 +14,7 @@ Since Firebase has many platforms and services, covering them all by myself is k
    - core ✅
    - auth ✅
    - storage ✅
-     - storage-mobile ✅
+     - storage-mobile **[IN PROGRESS]**
    - firestore **[TODO]**
  - JS web client:
    - core ✅ (probably bugged)
@@ -23,8 +23,8 @@ Since Firebase has many platforms and services, covering them all by myself is k
    - firestore **[TODO]**
  - iOS:
     - core ✅
-    - auth **[IN PROGRESS]**
-    - storage **[IN PROGRESS]**
+    - auth ✅
+    - storage ✅
       - storage-mobile **[IN PROGRESS]**
     - firestore **[TODO]**
    
