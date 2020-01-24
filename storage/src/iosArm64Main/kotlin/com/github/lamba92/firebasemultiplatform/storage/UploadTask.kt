@@ -1,10 +1,12 @@
 package com.github.lamba92.firebasemultiplatform.storage
 
+import com.github.lamba92.firebasemultiplatform.core.resume
 import com.google.firebase.FIRStorageTaskSnapshot
 import com.google.firebase.FIRStorageTaskStatus
 import com.google.firebase.FIRStorageUploadTask
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 actual class UploadTask(
     val delegate: FIRStorageUploadTask
@@ -21,9 +23,6 @@ actual class UploadTask(
     override val isSuccessful: Boolean
         get() = delegate.snapshot.status == FIRStorageTaskStatus.FIRStorageTaskStatusSuccess
 
-    init {
-
-    }
 
     @ExperimentalCoroutinesApi
     override val progressFlow by lazy {
@@ -50,6 +49,17 @@ actual class UploadTask(
 
     override fun resume() =
         delegate.resume()
+
+    override suspend fun await() = suspendCancellableCoroutine<Unit> { cont ->
+        val handles =
+            listOf(FIRStorageTaskStatus.FIRStorageTaskStatusSuccess, FIRStorageTaskStatus.FIRStorageTaskStatusFailure)
+                .map {
+                    delegate.observeStatus(it) {
+                        cont.resume()
+                    }
+                }
+        cont.invokeOnCancellation { handles.forEach { delegate.removeObserverWithHandle(it) } }
+    }
 
     actual class Snapshot(val delegate: FIRStorageTaskSnapshot) : StorageTask.Snapshot {
         actual val metadata: StorageMetadata?

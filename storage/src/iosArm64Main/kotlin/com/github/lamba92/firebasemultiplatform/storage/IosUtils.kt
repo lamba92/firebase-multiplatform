@@ -49,7 +49,7 @@ fun FIRStorageMetadata.toMpp() =
     StorageMetadata(this)
 
 @ExperimentalCoroutinesApi
-val FIRStorageObservableTask.statusFlow
+internal val FIRStorageObservableTask.statusFlow
     get() = callbackFlow {
         val handlers = listOf(
             FIRStorageTaskStatus.FIRStorageTaskStatusUnknown,
