@@ -139,21 +139,21 @@ external interface UploadTask {
         nextOrObserver: Observer<UploadTaskSnapshot, Error>? = definedExternally,
         error: ((a: Error) -> Any)? = definedExternally,
         complete: Unsubscribe? = definedExternally
-    ): Function<*>
+    ): () -> Unit
 
     fun on(
         event: String,
         nextOrObserver: Nothing? = definedExternally,
         error: ((a: Error) -> Any)? = definedExternally,
         complete: Unsubscribe? = definedExternally
-    ): Function<*>
+    ): () -> Unit
 
     fun on(
         event: String,
         nextOrObserver: ((a: UploadTaskSnapshot) -> Any)? = definedExternally,
         error: ((a: Error) -> Any)? = definedExternally,
         complete: Unsubscribe? = definedExternally
-    ): Function<*>
+    ): () -> Unit
 
     fun pause(): Boolean
     fun resume(): Boolean

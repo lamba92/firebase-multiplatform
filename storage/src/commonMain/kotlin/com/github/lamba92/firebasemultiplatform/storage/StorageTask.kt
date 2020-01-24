@@ -16,6 +16,7 @@ interface StorageTask<T : StorageTask.Snapshot> {
     fun cancel()
     fun pause()
     fun resume()
+    suspend fun await()
 
     interface Snapshot {
 

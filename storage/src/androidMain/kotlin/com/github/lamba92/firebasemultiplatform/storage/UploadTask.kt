@@ -1,6 +1,8 @@
 package com.github.lamba92.firebasemultiplatform.storage
 
+import com.github.lamba92.firebasemultiplatform.core.resume
 import com.google.android.gms.tasks.OnCanceledListener
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.OnPausedListener
@@ -10,6 +12,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 actual class UploadTask(
     val delegate: PlatformSpecificUploadTask
@@ -85,6 +88,14 @@ actual class UploadTask(
 
     override fun resume() {
         delegate.resume()
+    }
+
+    override suspend fun await() = suspendCancellableCoroutine<Unit> { cont ->
+        val l = OnCompleteListener<com.google.firebase.storage.UploadTask.TaskSnapshot> {
+            cont.resume()
+        }
+        delegate.addOnCompleteListener(l)
+        cont.invokeOnCancellation { delegate.removeOnCompleteListener(l) }
     }
 
     actual class Snapshot(

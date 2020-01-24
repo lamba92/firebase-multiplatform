@@ -1,5 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.storage
 
+import com.github.lamba92.firebasemultiplatform.core.resume
 import firebase.CompleteFn
 import firebase.ErrorFn
 import firebase.NextFn
@@ -10,6 +11,7 @@ import firebase.storage.UploadTaskSnapshot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask<UploadTask.Snapshot> {
 
@@ -60,7 +62,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
     @ExperimentalCoroutinesApi
     override val stateChangesFlow by lazy {
         callbackFlow<StorageTask.Snapshot.State> {
-            val unsubscriber: dynamic = delegate.on(TaskEvent.STATE_CHANGED,
+            val unsubscriber = delegate.on(TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {
                     override var next: NextFn<UploadTaskSnapshot> = {
                         offer(
@@ -96,6 +98,18 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
 
     override fun resume() {
         delegate.resume()
+    }
+
+    override suspend fun await() = suspendCancellableCoroutine<Unit> { cont ->
+        listOf(TaskState.CANCELED, TaskState.ERROR, TaskState.SUCCESS)
+            .map {
+                delegate.on(it, object : Observer<UploadTaskSnapshot, Error> {
+                    override var next: NextFn<UploadTaskSnapshot> = { cont.resume() }
+                    override var error: ErrorFn<Error> = {}
+                    override var complete: CompleteFn = {}
+                })
+            }
+            .map { cont.invokeOnCancellation { it() } }
     }
 
 }
