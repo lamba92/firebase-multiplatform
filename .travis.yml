@@ -28,11 +28,9 @@ script: ./gradlew build --console=plain --parallel
 
 cache:
   directories:
-    - $HOME/.gradle/caches
-    - $HOME/.gradle/wrapper
+    - $HOME/.gradle/
     - $HOME/.konan/
     - $TRAVIS_BUILD_DIR/build/firebaseIosSetup
-    - $TRAVIS_BUILD_DIR/.gradle
 
 deploy:
   provider: script
