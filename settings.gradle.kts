@@ -13,9 +13,10 @@ gradleEnterprise {
     }
 }
 
-include(
-    ":core",
-    ":auth",
-    ":storage"
+if (System.getProperty("user.name") != "root")
+    include(
+        ":core",
+        ":auth",
+        ":storage"
 //    ":storage-mobile"
-)
+    )

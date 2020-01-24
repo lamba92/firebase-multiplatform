@@ -1,3 +1,3 @@
 sudo ./gradlew extractFirebaseIosZip --console=plain
 sudo chmod -R a+rwx .
-sudo chown -R $USER .
+sudo chown -R "$USER" .
