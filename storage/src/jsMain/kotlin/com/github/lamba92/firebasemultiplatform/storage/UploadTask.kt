@@ -43,8 +43,8 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
 
     @ExperimentalCoroutinesApi
     override val progressFlow by lazy {
-        callbackFlow<Snapshot> {
-            val unsubscriber: dynamic = delegate.on(TaskEvent.STATE_CHANGED,
+        callbackFlow {
+            val unsubscriber = delegate.on(TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {
                     override var next: NextFn<UploadTaskSnapshot> = {
                         offer(it.toMpp())
@@ -61,7 +61,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
 
     @ExperimentalCoroutinesApi
     override val stateChangesFlow by lazy {
-        callbackFlow<StorageTask.Snapshot.State> {
+        callbackFlow {
             val unsubscriber = delegate.on(TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {
                     override var next: NextFn<UploadTaskSnapshot> = {
@@ -76,9 +76,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
                             }
                         )
                     }
-                    override var error: ErrorFn<Error> = {
-                        close(it)
-                    }
+                    override var error: ErrorFn<Error> = { close(it) }
                     override var complete: CompleteFn = {}
                 }
             )
@@ -101,7 +99,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
     }
 
     override suspend fun await() = suspendCancellableCoroutine<Unit> { cont ->
-        listOf(TaskState.CANCELED, TaskState.ERROR, TaskState.SUCCESS)
+        val handles = listOf(TaskState.CANCELED, TaskState.ERROR, TaskState.SUCCESS)
             .map {
                 delegate.on(it, object : Observer<UploadTaskSnapshot, Error> {
                     override var next: NextFn<UploadTaskSnapshot> = { cont.resume() }
@@ -109,7 +107,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
                     override var complete: CompleteFn = {}
                 })
             }
-            .map { cont.invokeOnCancellation { it() } }
+            cont.invokeOnCancellation { handles.forEach { it() } }
     }
 
 }
