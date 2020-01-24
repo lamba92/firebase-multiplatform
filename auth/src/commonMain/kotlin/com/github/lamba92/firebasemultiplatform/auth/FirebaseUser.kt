@@ -11,6 +11,7 @@ expect class FirebaseUser {
     val providerId: String
     val uid: String
     val isAnonymous: Boolean
+    val isEmailVerified: Boolean
 
     suspend fun delete()
     suspend fun getIdToken(forceRefresh: Boolean): GetTokenResults
