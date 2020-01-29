@@ -12,6 +12,7 @@ import org.gradle.api.tasks.Sync
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinPackageJsonTask
 import org.jetbrains.kotlin.gradle.tasks.CInteropProcess
 import org.jetbrains.kotlin.util.prefixIfNot
 import java.io.File
@@ -91,6 +92,10 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
 //                            freeCompilerArgs += listOf("-Xir-produce-js", "-Xgenerate-dts")
 //                        }
 //                    }
+                    mavenPublication {
+                        val jsPackageJson: KotlinPackageJsonTask by tasks
+                        artifact(jsPackageJson.packageJson)
+                    }
                 }
 
             val mainTarget = iosArm64()
