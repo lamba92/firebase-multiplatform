@@ -15,7 +15,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask<UploadTask.Snapshot> {
 
-    actual class Snapshot(val delegate: firebase.storage.UploadTaskSnapshot) : StorageTask.Snapshot {
+    actual class Snapshot(val delegate: UploadTaskSnapshot) : StorageTask.Snapshot {
         actual val metadata: StorageMetadata?
             get() = delegate.metadata.toMpp()
         override val storage: StorageReference
@@ -42,9 +42,10 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
         get() = delegate.snapshot.state == TaskState.SUCCESS
 
     @ExperimentalCoroutinesApi
-    override val progressFlow by lazy {
-        callbackFlow {
-            val unsubscriber = delegate.on(TaskEvent.STATE_CHANGED,
+    override val progressFlow
+        get() = callbackFlow {
+            val unsubscriber = delegate.on(
+                TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {
                     override var next: NextFn<UploadTaskSnapshot> = {
                         offer(it.toMpp())
@@ -57,12 +58,13 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
             )
             awaitClose { unsubscriber() }
         }
-    }
+
 
     @ExperimentalCoroutinesApi
-    override val stateChangesFlow by lazy {
-        callbackFlow {
-            val unsubscriber = delegate.on(TaskEvent.STATE_CHANGED,
+    override val stateChangesFlow
+        get() = callbackFlow {
+            val unsubscriber = delegate.on(
+                TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {
                     override var next: NextFn<UploadTaskSnapshot> = {
                         offer(
@@ -82,7 +84,8 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
             )
             awaitClose { unsubscriber() }
         }
-    }
+
+
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
 
@@ -107,7 +110,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
                     override var complete: CompleteFn = {}
                 })
             }
-            cont.invokeOnCancellation { handles.forEach { it() } }
+        cont.invokeOnCancellation { handles.forEach { it() } }
     }
 
 }

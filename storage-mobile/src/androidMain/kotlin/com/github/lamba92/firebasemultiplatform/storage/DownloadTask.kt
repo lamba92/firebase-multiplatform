@@ -1,6 +1,8 @@
 package com.github.lamba92.firebasemultiplatform.storage
 
+import com.github.lamba92.firebasemultiplatform.core.resume
 import com.google.android.gms.tasks.OnCanceledListener
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.FileDownloadTask
@@ -10,10 +12,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.suspendCancellableCoroutine
 
-actual class DownloadTask(
-    val delegate: PlatformSpecificDownloadTask
-) : StorageTask<DownloadTask.Snapshot> {
+actual class DownloadTask(val delegate: PlatformSpecificDownloadTask) : StorageTask<DownloadTask.Snapshot> {
 
     override val isCanceled: Boolean
         get() = delegate.isCanceled
@@ -27,37 +28,22 @@ actual class DownloadTask(
         get() = delegate.isSuccessful
 
     @ExperimentalCoroutinesApi
-    override val stateChangesFlow by lazy {
-        callbackFlow {
+    override val stateChangesFlow
+        get() = callbackFlow {
             val pauseCallback = OnPausedListener<FileDownloadTask.TaskSnapshot> {
-                offer(
-                    StorageTask.Snapshot.State
-                        .PAUSED
-                )
+                offer(StorageTask.Snapshot.State.PAUSED)
             }
             val cancelCallback = OnCanceledListener {
-                offer(
-                    StorageTask.Snapshot.State
-                        .CANCELED
-                )
+                offer(StorageTask.Snapshot.State.CANCELED)
             }
             val successCallback = OnSuccessListener<FileDownloadTask.TaskSnapshot> {
-                offer(
-                    StorageTask.Snapshot.State
-                        .FINISHED_SUCCESSFULLY
-                )
+                offer(StorageTask.Snapshot.State.FINISHED_SUCCESSFULLY)
             }
             val progressCallback = OnProgressListener<FileDownloadTask.TaskSnapshot> {
-                offer(
-                    StorageTask.Snapshot.State
-                        .RUNNING
-                )
+                offer(StorageTask.Snapshot.State.RUNNING)
             }
             val errorCallback = OnFailureListener {
-                offer(
-                    StorageTask.Snapshot.State
-                        .ERRORED
-                )
+                offer(StorageTask.Snapshot.State.ERRORED)
             }
             with(delegate) {
                 addOnPausedListener(pauseCallback)
@@ -65,9 +51,7 @@ actual class DownloadTask(
                 addOnSuccessListener(successCallback)
                 addOnProgressListener(progressCallback)
                 addOnFailureListener(errorCallback)
-            }
-            awaitClose {
-                with(delegate) {
+                awaitClose {
                     removeOnPausedListener(pauseCallback)
                     removeOnCanceledListener(cancelCallback)
                     removeOnSuccessListener(successCallback)
@@ -75,17 +59,14 @@ actual class DownloadTask(
                 }
             }
         }
-            .distinctUntilChanged()
-    }
 
     @ExperimentalCoroutinesApi
-    override val progressFlow by lazy {
-        callbackFlow {
+    override val progressFlow
+        get() = callbackFlow {
             val progressCallback = OnProgressListener<FileDownloadTask.TaskSnapshot> { offer(it.toMpp()) }
             delegate.addOnProgressListener(progressCallback)
             awaitClose { delegate.removeOnProgressListener(progressCallback) }
         }
-    }
 
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
@@ -102,9 +83,7 @@ actual class DownloadTask(
         delegate.resume()
     }
 
-    actual class Snapshot(
-        private val delegate: FileDownloadTask.TaskSnapshot
-    ) : StorageTask.Snapshot {
+    actual class Snapshot(private val delegate: FileDownloadTask.TaskSnapshot) : StorageTask.Snapshot {
 
         override val storage: StorageReference
             get() = delegate.storage.toMpp()
@@ -113,6 +92,14 @@ actual class DownloadTask(
         override val totalByteCount: Long
             get() = delegate.totalByteCount
 
+    }
+
+    override suspend fun await() = suspendCancellableCoroutine<Unit> { cont ->
+        val l = OnCompleteListener<FileDownloadTask.TaskSnapshot> {
+            cont.resume()
+        }
+        delegate.addOnCompleteListener(l)
+        cont.invokeOnCancellation { delegate.removeOnCompleteListener(l) }
     }
 
 }

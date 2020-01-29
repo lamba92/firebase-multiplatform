@@ -11,12 +11,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.suspendCancellableCoroutine
 
-actual class UploadTask(
-    val delegate: PlatformSpecificUploadTask
-) : StorageTask<UploadTask.Snapshot> {
+actual class UploadTask(val delegate: PlatformSpecificUploadTask) : StorageTask<UploadTask.Snapshot> {
 
     override val isCanceled: Boolean
         get() = delegate.isCanceled
@@ -30,18 +27,17 @@ actual class UploadTask(
         get() = delegate.isSuccessful
 
     @ExperimentalCoroutinesApi
-    override val progressFlow: Flow<Snapshot> by lazy {
-        callbackFlow {
+    override val progressFlow: Flow<Snapshot>
+        get() = callbackFlow {
             val progressCallback =
                 OnProgressListener<com.google.firebase.storage.UploadTask.TaskSnapshot> { offer(it.toMpp()) }
             delegate.addOnProgressListener(progressCallback)
             awaitClose { delegate.removeOnProgressListener(progressCallback) }
         }
-    }
 
     @ExperimentalCoroutinesApi
-    override val stateChangesFlow by lazy {
-        callbackFlow {
+    override val stateChangesFlow
+        get() = callbackFlow {
             val pauseCallback = OnPausedListener<PlatformSpecificUploadTaskSnapshot> {
                 offer(StorageTask.Snapshot.State.PAUSED)
             }
@@ -73,8 +69,7 @@ actual class UploadTask(
                 }
             }
         }
-            .distinctUntilChanged()
-    }
+
     override val snapshot: Snapshot
         get() = delegate.snapshot.toMpp()
 

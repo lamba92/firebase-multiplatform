@@ -2,7 +2,11 @@ package com.github.lamba92.firebasemultiplatform.storage
 
 import android.net.Uri
 import com.github.lamba92.firebasemultiplatform.core.await
+import com.github.lamba92.firebasemultiplatform.core.resume
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.StorageTask
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.io.core.Input
 import java.io.InputStream
 
@@ -60,6 +64,7 @@ fun Input.asStream(): InputStream = object : InputStream() {
     override fun close() {
         this@asStream.close()
     }
+
 }
 
 fun FileDownloadTask.TaskSnapshot.toMpp() =
@@ -70,3 +75,10 @@ fun PlatformSpecificDownloadTask.toMpp() =
 
 actual val StorageReference.activeDownloadTasks: List<DownloadTask>
     get() = delegate.activeDownloadTasks.map { it.toMpp() }
+
+// have a look at https://github.com/firebase/firebase-android-sdk/issues/1165
+//suspend fun <T : StorageTask.ProvideError?> StorageTask<T>.await() = suspendCancellableCoroutine<Unit> { cont ->
+//    val l = OnCompleteListener<T> { cont.resume() }
+//    addOnCompleteListener(l)
+//    cont.invokeOnCancellation { removeOnCompleteListener(l) }
+//}

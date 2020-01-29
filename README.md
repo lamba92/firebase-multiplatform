@@ -6,7 +6,7 @@ This library aims to bridge the common Firebase APIs in different platforms so t
 All APIs look and feel will try to stay faithful to the Android version as much as possible since Kotlin has been created mostly with Java into account. As consequence of that, until a proper documentation is available use the official Firebase Android/Java documentation
 
 ## How it works
-Each class or interface has a platform specific delegate that is actually doing all the stuff inside the object. You can always access this delegate but only when ia a specific platform sources you will be able to see it's method.
+Each class or interface has a platform specific delegate that is actually doing all the stuff inside the object. You can access this delegate only when ia a specific platform sources.
 
 ## Platforms
 Since Firebase has many platforms and services, covering them all by myself is kind of hard, especially for the Objective-C one. I will list the ones that i want to support by myself, but pull requests are welcome! 
@@ -14,7 +14,7 @@ Since Firebase has many platforms and services, covering them all by myself is k
    - core ✅
    - auth ✅
    - storage ✅
-     - storage-mobile **[IN PROGRESS]**
+     - storage-mobile **[HALTED]** [#10](https://github.com/lamba92/firebase-multiplatform/issues/10)
    - firestore **[TODO]**
  - JS web client:
    - core ✅ (probably bugged)
@@ -25,7 +25,7 @@ Since Firebase has many platforms and services, covering them all by myself is k
     - core ✅
     - auth ✅
     - storage ✅
-      - storage-mobile **[IN PROGRESS]**
+      - storage-mobile **[HALTED]** [#10](https://github.com/lamba92/firebase-multiplatform/issues/10)
     - firestore **[TODO]**
    
 ## Some examples
