@@ -6,12 +6,12 @@ expect class FirebaseFirestore {
 
     val app: FirebaseApp
     var firestoreSettings: FirebaseFirestoreSettings
-    var isLoggingEnabled: Boolean
 
     companion object {
 
         val default: FirebaseFirestore
 
+        fun setLoggingEnabled(loggingEnabled: Boolean)
         fun getInstance(app: FirebaseApp): FirebaseFirestore
 
     }

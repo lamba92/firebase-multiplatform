@@ -17,7 +17,7 @@ if (System.getProperty("user.name") != "root")
     include(
         ":core",
         ":auth",
-        ":storage",
-        ":firestore"
+        ":storage"
+//        ":firestore"
 //        ":storage-mobile"
     )

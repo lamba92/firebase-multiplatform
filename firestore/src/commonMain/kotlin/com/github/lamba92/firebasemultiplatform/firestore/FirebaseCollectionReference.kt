@@ -2,8 +2,8 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 expect class FirebaseCollectionReference {
 
-    val document: FirebaseDocumentReference
-    val parent: FirebaseDocumentReference
+    fun document(path: String? = null): FirebaseDocumentReference
+    val parent: FirebaseDocumentReference?
     val id: String
     val path: String
 

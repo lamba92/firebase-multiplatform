@@ -5,7 +5,7 @@ expect class FirebaseSetOptions {
     companion object {
 
         fun merge(): FirebaseSetOptions
-        fun mergeFieldPaths(fields: List<String>): FirebaseSetOptions
+        fun mergeFields(fields: List<String>): FirebaseSetOptions
         fun mergeFieldPaths(fields: List<FieldPath>): FirebaseSetOptions
 
     }
