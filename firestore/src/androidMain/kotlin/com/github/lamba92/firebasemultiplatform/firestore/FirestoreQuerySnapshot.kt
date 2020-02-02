@@ -2,27 +2,27 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 import com.google.firebase.firestore.QuerySnapshot
 
-actual class FirebaseQuerySnapshot(val delegate: QuerySnapshot) : Iterable<FirebaseDocumentSnapshot> {
+actual class FirestoreQuerySnapshot(val delegate: QuerySnapshot) : Iterable<FirestoreDocumentSnapshot> {
 
-    actual val documents: List<FirebaseDocumentSnapshot>
+    actual val documents: List<FirestoreDocumentSnapshot>
         get() = delegate.documents.map { it.toMpp() }
 
-    actual val metadata: FirebaseSnapshotMetadata
+    actual val metadata: FirestoreSnapshotMetadata
         get() = delegate.metadata.toMpp()
 
-    actual val query: FirebaseQuery
+    actual val query: FirestoreQuery
         get() = delegate.query.toMpp()
 
-    actual fun getDocumentChanges(metadataChanges: FirebaseMetadataChanges?) =
+    actual fun getDocumentChanges(metadataChanges: FirestoreMetadataChanges?) =
         metadataChanges?.let { delegate.getDocumentChanges(it).map { it.toMpp() } }
             ?: delegate.documentChanges.map { it.toMpp() }
 
-    actual inline fun <reified T> toObjects(serverTimestampBehaviour: FirebaseDocumentSnapshot.ServerTimestampBehaviour?): List<T> =
+    actual inline fun <reified T> toObjects(serverTimestampBehaviour: FirestoreDocumentSnapshot.ServerTimestampBehaviour?): List<T> =
         serverTimestampBehaviour?.let { delegate.toObjects(T::class.java, it.asNative()) }
             ?: delegate.toObjects(T::class.java)
 
     actual override fun equals(other: Any?) = when (other) {
-        is FirebaseQuerySnapshot -> delegate == other.delegate
+        is FirestoreQuerySnapshot -> delegate == other.delegate
         else -> false
     }
 

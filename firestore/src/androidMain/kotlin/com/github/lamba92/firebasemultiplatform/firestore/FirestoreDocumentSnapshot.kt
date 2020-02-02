@@ -2,7 +2,7 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 import com.google.firebase.firestore.DocumentSnapshot
 
-actual class FirebaseDocumentSnapshot(val delegate: DocumentSnapshot) {
+actual class FirestoreDocumentSnapshot(val delegate: DocumentSnapshot) {
 
     // TODO: DATES DAMN IT
     actual val exists: Boolean
@@ -11,20 +11,20 @@ actual class FirebaseDocumentSnapshot(val delegate: DocumentSnapshot) {
     actual val id: String
         get() = delegate.id
 
-    actual val metadata: FirebaseSnapshotMetadata
+    actual val metadata: FirestoreSnapshotMetadata
         get() = delegate.metadata.toMpp()
 
-    actual val reference: FirebaseDocumentReference
+    actual val reference: FirestoreDocumentReference
         get() = delegate.reference.toMpp()
 
-    actual operator fun contains(fieldPath: FieldPath) =
+    actual operator fun contains(fieldPath: FirestoreFieldPath) =
         fieldPath.delegate in delegate
 
     actual operator fun contains(field: String) =
         field in delegate
 
     actual inline operator fun <reified T> get(
-        fieldPath: FieldPath,
+        fieldPath: FirestoreFieldPath,
         serverTimestampBehaviour: ServerTimestampBehaviour?
     ) =
         if (serverTimestampBehaviour != null)
@@ -61,44 +61,39 @@ actual class FirebaseDocumentSnapshot(val delegate: DocumentSnapshot) {
         delegate.getLong(field)
 
     actual fun getGeoPoint(field: String) =
-        delegate.getGeoPoint(field).toMpp()
+        delegate.getGeoPoint(field)?.toMpp()
 
-    actual fun getString(field: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun getString(field: String) =
+        delegate.getString(field)
 
-    actual fun <T> toObject(serverTimestampBehaviour: ServerTimestampBehaviour?): T {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual inline fun <reified T> toObject(serverTimestampBehaviour: ServerTimestampBehaviour?) =
+        serverTimestampBehaviour?.let { delegate.toObject(T::class.java, it.asNative()) }
+            ?: delegate.toObject(T::class.java)
 
     actual fun getTimestamp(
         field: String,
         serverTimestampBehaviour: ServerTimestampBehaviour?
-    ): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ) = when (serverTimestampBehaviour) {
+        null -> delegate.getTimestamp(field)
+        else -> delegate.getTimestamp(field, serverTimestampBehaviour.asNative())
+    }?.seconds
+
+    actual fun getDocumentReference(field: String) =
+        delegate.getDocumentReference(field)?.toMpp()
+
+    actual override fun equals(other: Any?) = when (other) {
+        is FirestoreDocumentSnapshot -> delegate == other.delegate
+        else -> false
     }
 
-    actual fun getDocumentReference(field: String): FirebaseDocumentReference {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun hashCode() =
+        delegate.hashCode()
 
-    actual fun equals(other: Any?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun hashCode(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun toString(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun toString() =
+        delegate.toString()
 
     actual enum class ServerTimestampBehaviour {
         ESTIMATE, NONE, PREVIOUS
     }
 
 }
-
-private fun GeoPoint?.toMpp() =
-    GeoP

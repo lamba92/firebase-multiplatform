@@ -8,17 +8,19 @@ actual class GeoPoint(val delegate: com.google.firebase.firestore.GeoPoint) : Co
     actual val longitude: Double
         get() = delegate.longitude
 
-    actual override fun equals(other: Any?) =
-        delegate.actual override fun hashCode(): Int {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-    actual override fun toString(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual override fun equals(other: Any?) = when (other) {
+        is GeoPoint -> delegate == other.delegate
+        else -> false
     }
 
-    override fun compareTo(other: GeoPoint): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun hashCode() =
+        delegate.hashCode()
+
+    actual override fun toString() =
+        delegate.toString()
+
+    override fun compareTo(other: GeoPoint) =
+        delegate.compareTo(other.delegate)
+
 
 }

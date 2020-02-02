@@ -10,12 +10,6 @@ actual class FirebaseFirestore(val delegate: com.google.firebase.firestore.Fireb
     actual val app: FirebaseApp
         get() = delegate.app.toMpp()
 
-    actual var firestoreSettings: FirebaseFirestoreSettings
-        get() = delegate.firestoreSettings.toMpp()
-        set(value) {
-            delegate.firestoreSettings = value.delegate
-        }
-
     actual companion object {
 
         actual val default: FirebaseFirestore
@@ -56,8 +50,12 @@ actual class FirebaseFirestore(val delegate: com.google.firebase.firestore.Fireb
     actual fun batch() =
         delegate.batch().toMpp()
 
-    actual suspend fun <T> runTransaction(updateFunction: FirebaseTransaction.() -> T): T =
+    actual suspend fun <T> runTransaction(updateFunction: FirestoreTransaction.() -> T): T =
         delegate.runTransaction { it.toMpp().updateFunction() }
             .await()
+
+    actual fun modifySettings(settings: FirebaseFirestoreSettings) {
+        delegate.firestoreSettings = settings.delegate
+    }
 
 }

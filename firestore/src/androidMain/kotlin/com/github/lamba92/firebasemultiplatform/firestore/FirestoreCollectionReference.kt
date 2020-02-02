@@ -3,9 +3,9 @@ package com.github.lamba92.firebasemultiplatform.firestore
 import com.github.lamba92.firebasemultiplatform.core.await
 import com.google.firebase.firestore.CollectionReference
 
-actual class FirebaseCollectionReference(val delegate: CollectionReference) {
+actual class FirestoreCollectionReference(val delegate: CollectionReference) {
 
-    actual val parent: FirebaseDocumentReference?
+    actual val parent: FirestoreDocumentReference?
         get() = delegate.parent?.toMpp()
     actual val id: String
         get() = delegate.id

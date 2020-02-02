@@ -1,9 +1,9 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
 
-actual class DocumentChange(val delegate: com.google.firebase.firestore.DocumentChange) {
+actual class FirestoreDocumentChange(val delegate: com.google.firebase.firestore.DocumentChange) {
 
-    actual val document: FirebaseDocumentSnapshot
+    actual val document: FirestoreDocumentSnapshot
         get() = delegate.document.toMpp()
 
     actual val newIndex: Int
@@ -13,7 +13,7 @@ actual class DocumentChange(val delegate: com.google.firebase.firestore.Document
         get() = delegate.oldIndex
 
     actual override fun equals(other: Any?) = when (other) {
-        is DocumentChange -> delegate == other.delegate
+        is FirestoreDocumentChange -> delegate == other.delegate
         else -> false
     }
 

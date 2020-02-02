@@ -1,17 +1,17 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class FirebaseDocumentSnapshot {
+expect class FirestoreDocumentSnapshot {
 
     val exists: Boolean
     val id: String
-    val metadata: FirebaseSnapshotMetadata
-    val reference: FirebaseDocumentReference
+    val metadata: FirestoreSnapshotMetadata
+    val reference: FirestoreDocumentReference
 
-    operator fun contains(fieldPath: FieldPath): Boolean
+    operator fun contains(fieldPath: FirestoreFieldPath): Boolean
     operator fun contains(field: String): Boolean
 
     inline operator fun <reified T> get(
-        fieldPath: FieldPath,
+        fieldPath: FirestoreFieldPath,
         serverTimestampBehaviour: ServerTimestampBehaviour? = null
     ): T?
 
@@ -20,7 +20,7 @@ expect class FirebaseDocumentSnapshot {
         serverTimestampBehaviour: ServerTimestampBehaviour? = null
     ): T?
 
-    fun getBlob(field: String): FirebaseBlob?
+    fun getBlob(field: String): FirestoreBlob?
     fun getBoolean(field: String): Boolean?
     fun getData(serverTimestampBehaviour: ServerTimestampBehaviour? = null): Map<String, Any>?
     fun getDouble(field: String): Double?
@@ -28,16 +28,16 @@ expect class FirebaseDocumentSnapshot {
     fun getGeoPoint(field: String): GeoPoint?
     fun getString(field: String): String?
 
-    fun <T> toObject(serverTimestampBehaviour: ServerTimestampBehaviour? = null): T
+    inline fun <reified T> toObject(serverTimestampBehaviour: ServerTimestampBehaviour? = null): T?
 
     fun getTimestamp(
         field: String,
         serverTimestampBehaviour: ServerTimestampBehaviour? = null
-    ): Long
+    ): Long?
 
     // TODO: DATES DAMN IT
 
-    fun getDocumentReference(field: String): FirebaseDocumentReference
+    fun getDocumentReference(field: String): FirestoreDocumentReference?
 
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int

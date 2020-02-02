@@ -1,8 +1,8 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class DocumentChange {
+expect class FirestoreDocumentChange {
 
-    val document: FirebaseDocumentSnapshot
+    val document: FirestoreDocumentSnapshot
     val newIndex: Int
     val oldIndex: Int
 

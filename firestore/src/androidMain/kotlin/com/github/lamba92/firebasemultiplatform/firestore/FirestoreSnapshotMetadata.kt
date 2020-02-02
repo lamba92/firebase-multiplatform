@@ -2,7 +2,7 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 import com.google.firebase.firestore.SnapshotMetadata
 
-actual class FirebaseSnapshotMetadata(val delegate: SnapshotMetadata) {
+actual class FirestoreSnapshotMetadata(val delegate: SnapshotMetadata) {
 
     actual val hasPendingWrites: Boolean
         get() = delegate.hasPendingWrites()
@@ -11,7 +11,7 @@ actual class FirebaseSnapshotMetadata(val delegate: SnapshotMetadata) {
         get() = delegate.isFromCache
 
     actual override fun equals(other: Any?) = when (other) {
-        is FirebaseSnapshotMetadata -> delegate == other.delegate
+        is FirestoreSnapshotMetadata -> delegate == other.delegate
         else -> false
     }
 

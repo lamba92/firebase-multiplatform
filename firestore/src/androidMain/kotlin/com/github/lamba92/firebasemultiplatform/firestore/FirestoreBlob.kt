@@ -2,7 +2,7 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 import com.google.firebase.firestore.Blob
 
-actual class FirebaseBlob(val delegate: Blob) : Comparable<FirebaseBlob> {
+actual class FirestoreBlob(val delegate: Blob) : Comparable<FirestoreBlob> {
 
     actual val bytes: ByteArray
         get() = delegate.toBytes()
@@ -14,7 +14,7 @@ actual class FirebaseBlob(val delegate: Blob) : Comparable<FirebaseBlob> {
     }
 
     actual override fun equals(other: Any?) = when (other) {
-        is FirebaseBlob -> delegate == other.delegate
+        is FirestoreBlob -> delegate == other.delegate
         else -> false
     }
 
@@ -24,7 +24,7 @@ actual class FirebaseBlob(val delegate: Blob) : Comparable<FirebaseBlob> {
     actual override fun toString() =
         delegate.toString()
 
-    override fun compareTo(other: FirebaseBlob) =
+    override fun compareTo(other: FirestoreBlob) =
         delegate.compareTo(other.delegate)
 
 }

@@ -7,10 +7,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-actual class FirebaseDocumentReference(val delegate: DocumentReference) {
+actual class FirestoreDocumentReference(val delegate: DocumentReference) {
 
     actual val firestore: FirebaseFirestore
         get() = delegate.firestore.toMpp()
@@ -20,7 +19,7 @@ actual class FirebaseDocumentReference(val delegate: DocumentReference) {
         get() = delegate.path
 
     @ExperimentalCoroutinesApi
-    actual fun snapshotChangesFlow(metadataChanges: FirebaseMetadataChanges?) =
+    actual fun snapshotChangesFlow(metadataChanges: FirestoreMetadataChanges?) =
         callbackFlow {
             val callback = EventListener<DocumentSnapshot> { snapshot, exception ->
                 snapshot?.let { offer(it.toMpp()) }
@@ -41,7 +40,7 @@ actual class FirebaseDocumentReference(val delegate: DocumentReference) {
     actual suspend fun delete() =
         delegate.delete().awaitUnit()
 
-    actual suspend fun set(data: Any, options: FirebaseSetOptions?) =
+    actual suspend fun set(data: Any, options: FirestoreSetOptions?) =
         options?.let { delegate.set(data, it.delegate) }?.awaitUnit()
             ?: delegate.set(data).awaitUnit()
 
@@ -49,7 +48,7 @@ actual class FirebaseDocumentReference(val delegate: DocumentReference) {
         delegate.update(data).awaitUnit()
 
     actual override fun equals(other: Any?) = when (other) {
-        is FirebaseDocumentReference -> delegate == other.delegate
+        is FirestoreDocumentReference -> delegate == other.delegate
         else -> false
     }
 

@@ -8,13 +8,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
-actual class FirebaseQuery(val delegate: Query) {
+actual class FirestoreQuery(val delegate: Query) {
 
     actual val firestore: FirebaseFirestore
         get() = delegate.firestore.toMpp()
 
     @ExperimentalCoroutinesApi
-    actual fun snapshotsFlow(metadataChanges: FirebaseMetadataChanges?) = callbackFlow {
+    actual fun snapshotsFlow(metadataChanges: FirestoreMetadataChanges?) = callbackFlow {
         val callback = EventListener<QuerySnapshot> { snapshot, exception ->
             snapshot?.let { offer(it.toMpp()) }
             exception?.let { close(it) }
@@ -25,25 +25,25 @@ actual class FirebaseQuery(val delegate: Query) {
         awaitClose { unsubscriber.remove() }
     }
 
-    actual fun endAt(snapshot: FirebaseDocumentSnapshot) =
+    actual fun endAt(snapshot: FirestoreDocumentSnapshot) =
         delegate.endAt(snapshot.delegate).toMpp()
 
     actual fun endAt(vararg fieldValues: Any) =
         delegate.endAt(*fieldValues.expelDelegates()).toMpp()
 
-    actual fun startAt(snapshot: FirebaseDocumentSnapshot) =
+    actual fun startAt(snapshot: FirestoreDocumentSnapshot) =
         delegate.startAt(snapshot.delegate).toMpp()
 
     actual fun startAt(vararg fieldValues: Any) =
         delegate.startAt(*fieldValues.expelDelegates()).toMpp()
 
-    actual fun endBefore(snapshot: FirebaseDocumentSnapshot) =
+    actual fun endBefore(snapshot: FirestoreDocumentSnapshot) =
         delegate.endBefore(snapshot.delegate).toMpp()
 
     actual fun endBefore(vararg fieldValues: Any) =
         delegate.endBefore(*fieldValues.expelDelegates()).toMpp()
 
-    actual fun startAfter(snapshot: FirebaseDocumentSnapshot) =
+    actual fun startAfter(snapshot: FirestoreDocumentSnapshot) =
         delegate.startAfter(snapshot.delegate).toMpp()
 
     actual fun startAfter(vararg fieldValues: Any) =
@@ -55,44 +55,44 @@ actual class FirebaseQuery(val delegate: Query) {
     actual fun limitToLast(limit: Long) =
         delegate.limitToLast(limit).toMpp()
 
-    actual fun orderBy(fieldPath: FieldPath, direction: Direction?) =
+    actual fun orderBy(fieldPath: FirestoreFieldPath, direction: Direction?) =
         direction?.asNative()?.let { delegate.orderBy(fieldPath.delegate, it).toMpp() }
             ?: delegate.orderBy(fieldPath.delegate).toMpp()
 
     actual fun orderBy(field: String) =
         delegate.orderBy(field).toMpp()
 
-    actual fun whereArrayContainsAny(fieldPath: FieldPath, values: List<Any>) =
+    actual fun whereArrayContainsAny(fieldPath: FirestoreFieldPath, values: List<Any>) =
         delegate.whereArrayContainsAny(fieldPath.delegate, values).toMpp()
 
     actual fun whereArrayContainsAny(field: String, values: List<Any>) =
         delegate.whereArrayContainsAny(field, values).toMpp()
 
-    actual fun whereEqualTo(fieldPath: FieldPath, value: Any) =
+    actual fun whereEqualTo(fieldPath: FirestoreFieldPath, value: Any) =
         delegate.whereEqualTo(fieldPath.delegate, value).toMpp()
 
     actual fun whereEqualTo(field: String, value: Any) =
         delegate.whereEqualTo(field, value).toMpp()
 
-    actual fun whereGreaterThan(fieldPath: FieldPath, value: Any) =
+    actual fun whereGreaterThan(fieldPath: FirestoreFieldPath, value: Any) =
         delegate.whereGreaterThan(fieldPath.delegate, value).toMpp()
 
     actual fun whereGreaterThan(field: String, value: Any) =
         delegate.whereGreaterThan(field, value).toMpp()
 
-    actual fun whereGreaterThanOrEqualTo(fieldPath: FieldPath, value: Any) =
+    actual fun whereGreaterThanOrEqualTo(fieldPath: FirestoreFieldPath, value: Any) =
         delegate.whereGreaterThanOrEqualTo(fieldPath.delegate, value).toMpp()
 
     actual fun whereGreaterThanOrEqualTo(field: String, value: Any) =
         delegate.whereGreaterThanOrEqualTo(field, value).toMpp()
 
-    actual fun whereLessThanOrEqualTo(fieldPath: FieldPath, value: Any) =
+    actual fun whereLessThanOrEqualTo(fieldPath: FirestoreFieldPath, value: Any) =
         delegate.whereLessThanOrEqualTo(fieldPath.delegate, value).toMpp()
 
     actual fun whereLessThanOrEqualTo(field: String, value: Any) =
         delegate.whereLessThanOrEqualTo(field, value).toMpp()
 
-    actual fun whereLessThan(fieldPath: FieldPath, value: Any) =
+    actual fun whereLessThan(fieldPath: FirestoreFieldPath, value: Any) =
         delegate.whereLessThan(fieldPath.delegate, value).toMpp()
 
     actual fun whereLessThan(field: String, value: Any) =
@@ -101,7 +101,7 @@ actual class FirebaseQuery(val delegate: Query) {
     actual fun whereIn(field: String, values: List<Any>) =
         delegate.whereIn(field, values).toMpp()
 
-    actual fun whereIn(fieldPath: FieldPath, values: List<Any>) =
+    actual fun whereIn(fieldPath: FirestoreFieldPath, values: List<Any>) =
         delegate.whereIn(fieldPath.delegate, values).toMpp()
 
     actual suspend fun get(source: Source?) =
@@ -109,7 +109,7 @@ actual class FirebaseQuery(val delegate: Query) {
             ?: delegate.get().await().toMpp()
 
     actual override fun equals(other: Any?) = when (other) {
-        is FirebaseQuery -> delegate == other.delegate
+        is FirestoreQuery -> delegate == other.delegate
         else -> false
     }
 

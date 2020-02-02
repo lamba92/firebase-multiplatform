@@ -1,11 +1,11 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class FieldPath {
+expect class FirestoreBlob : Comparable<FirestoreBlob> {
+
+    val bytes: ByteArray
 
     companion object {
-        val documentId: FieldPath
-
-        fun of(vararg fieldNames: String): FieldPath
+        fun fromBytes(bytes: ByteArray): FirestoreBlob
     }
 
     override fun equals(other: Any?): Boolean
