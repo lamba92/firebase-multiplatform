@@ -61,13 +61,13 @@ actual class UploadTask(
 
     actual class Snapshot(val delegate: FIRStorageTaskSnapshot) : StorageTask.Snapshot {
         actual val metadata: StorageMetadata?
-            get() = delegate.metadata.toMpp()
+            get() = delegate.metadata?.toMpp()
         override val storage: StorageReference
             get() = delegate.reference.toMpp()
         override val bytesTransferred: Long
-            get() = delegate.progress.completedUnitCount ?: 0
+            get() = delegate.progress?.completedUnitCount ?: 0
         override val totalByteCount: Long
-            get() = delegate.progress.totalUnitCount ?: 0
+            get() = delegate.progress?.totalUnitCount ?: 0
     }
 
 }
