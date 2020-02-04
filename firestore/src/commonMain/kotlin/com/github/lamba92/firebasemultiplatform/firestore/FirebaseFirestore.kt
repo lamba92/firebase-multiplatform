@@ -5,17 +5,16 @@ import com.github.lamba92.firebasemultiplatform.core.FirebaseApp
 expect class FirebaseFirestore {
 
     val app: FirebaseApp
+
     companion object {
 
         val default: FirebaseFirestore
-
         fun setLoggingEnabled(loggingEnabled: Boolean)
-
         fun getInstance(app: FirebaseApp): FirebaseFirestore
+
     }
 
     suspend fun enableNetwork()
-
     suspend fun disableNetwork()
     suspend fun terminate()
     suspend fun clearPersistence()

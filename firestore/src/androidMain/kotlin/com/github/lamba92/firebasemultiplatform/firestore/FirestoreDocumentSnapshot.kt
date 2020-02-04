@@ -78,7 +78,7 @@ actual class FirestoreDocumentSnapshot(val delegate: DocumentSnapshot) {
         else -> delegate.getTimestamp(field, serverTimestampBehaviour.asNative())
     }?.seconds
 
-    actual fun getDocumentReference(field: String) =
+    fun getDocumentReference(field: String) =
         delegate.getDocumentReference(field)?.toMpp()
 
     actual override fun equals(other: Any?) = when (other) {

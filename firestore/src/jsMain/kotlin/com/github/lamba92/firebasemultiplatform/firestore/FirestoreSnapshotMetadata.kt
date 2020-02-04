@@ -3,21 +3,25 @@ package com.github.lamba92.firebasemultiplatform.firestore
 import firebase.firestore.SnapshotMetadata
 
 actual class FirestoreSnapshotMetadata(val delegate: SnapshotMetadata) {
+
     actual val hasPendingWrites: Boolean
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.hasPendingWrites
     actual val isFromCache: Boolean
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = delegate.fromCache
 
-    actual fun equals(other: Any?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual override fun equals(other: Any?) = when (other) {
+        is FirestoreSnapshotMetadata -> hasPendingWrites == other.hasPendingWrites
+                && isFromCache == other.isFromCache
+        else -> false
     }
 
-    actual fun hashCode(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual override fun hashCode(): Int {
+        var hash = if (hasPendingWrites) 1 else 0
+        hash = hash * 31 + if (isFromCache) 1 else 0
+        return hash
     }
 
-    actual fun toString(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun toString() =
+        "FirestoreSnapshotMetadata(hasPendingWrites=$hasPendingWrites, isFromCache=$isFromCache)"
 
 }

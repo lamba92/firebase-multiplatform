@@ -42,9 +42,8 @@ actual class FirebaseFirestore(val delegate: Firestore) {
     actual fun collection(collectionPath: String) =
         delegate.collection(collectionPath).toMpp()
 
-    actual fun collectionGroup(collectionId: String): FirestoreQuery {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual fun collectionGroup(collectionId: String) =
+        delegate.collectionGroup(collectionId).toMpp()
 
     actual fun document(documentPath: String): FirestoreDocumentReference {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

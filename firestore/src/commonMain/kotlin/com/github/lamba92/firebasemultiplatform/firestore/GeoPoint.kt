@@ -1,6 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class GeoPoint : Comparable<GeoPoint> {
+expect class GeoPoint {
 
     val latitude: Double
     val longitude: Double

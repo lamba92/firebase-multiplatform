@@ -22,7 +22,7 @@ expect class FirestoreDocumentSnapshot {
 
     fun getBlob(field: String): FirestoreBlob?
     fun getBoolean(field: String): Boolean?
-    fun getData(serverTimestampBehaviour: ServerTimestampBehaviour? = null): Map<String, Any>?
+    fun getData(serverTimestampBehaviour: ServerTimestampBehaviour? = null): Map<String, Any?>?
     fun getDouble(field: String): Double?
     fun getLong(field: String): Long?
     fun getGeoPoint(field: String): GeoPoint?
@@ -36,8 +36,6 @@ expect class FirestoreDocumentSnapshot {
     ): Long?
 
     // TODO: DATES DAMN IT
-
-    fun getDocumentReference(field: String): FirestoreDocumentReference?
 
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int

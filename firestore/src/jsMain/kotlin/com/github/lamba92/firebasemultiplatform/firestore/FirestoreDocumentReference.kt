@@ -2,6 +2,7 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 import firebase.firestore.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.await
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -45,30 +46,27 @@ actual class FirestoreDocumentReference(val delegate: DocumentReference<Document
     actual fun collection(collectionPath: String) =
         delegate.collection(collectionPath).toMpp()
 
-    actual suspend fun get(source: Source?): FirestoreDocumentSnapshot {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    actual suspend fun get(source: Source?) =
+        delegate.get(object : GetOptions {
+            override var source = source?.asNative()
+                ?: Source.SERVER.asNative()
+        }).await().toMpp()
+
+    actual suspend fun delete() =
+        delegate.delete().await()
+
+    actual suspend fun set(data: Any, options: FirestoreSetOptions?) =
+        delegate.set(data, options?.delegate).await()
+
+    actual suspend fun update(data: Map<String, Any?>) =
+        delegate.update(data).await()
+
+    actual override fun equals(other: Any?) = when (other) {
+        is FirestoreDocumentReference -> delegate.isEqual(other.delegate)
+        else -> false
     }
 
-    actual suspend fun delete() {
-    }
-
-    actual suspend fun set(
-        data: Any,
-        options: FirestoreSetOptions?
-    ) {
-    }
-
-    actual suspend fun update(data: Map<String, Any?>) {
-    }
-
-    actual fun equals(other: Any?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun hashCode(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    actual override fun hashCode() =
+        super.hashCode()
 
 }
-

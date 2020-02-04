@@ -11,18 +11,15 @@ actual class FirestoreFieldPath(val delegate: com.google.firebase.firestore.Fiel
 
     }
 
-    actual fun isSamePath(other: FirestoreFieldPath) =
-        equals(other)
-
-    override fun equals(other: Any?) = when (other) {
+    actual override fun equals(other: Any?) = when (other) {
         is FirestoreFieldPath -> delegate == other.delegate
         else -> false
     }
 
-    override fun hashCode() =
+    actual override fun hashCode() =
         delegate.hashCode()
 
-    override fun toString() =
+    actual override fun toString() =
         delegate.toString()
 
 }

@@ -212,8 +212,8 @@ open external class DocumentReference<T> {
     open var path: String
     open fun collection(collectionPath: String): CollectionReference<DocumentData>
     open fun isEqual(other: DocumentReference<T>): Boolean
-    open fun set(data: T, options: SetOptions? = definedExternally): Promise<Unit>
-    open fun update(data: UpdateData): Promise<Unit>
+    open fun set(data: Any, options: SetOptions? = definedExternally): Promise<Unit>
+    open fun update(data: Map<String, Any?>): Promise<Unit>
     open fun update(field: String, value: Any, vararg moreFieldsAndValues: Any): Promise<Unit>
     open fun update(field: FieldPath, value: Any, vararg moreFieldsAndValues: Any): Promise<Unit>
     open fun delete(): Promise<Unit>
@@ -251,7 +251,7 @@ open external class DocumentSnapshot<T> {
     open var ref: DocumentReference<T>
     open var id: String
     open var metadata: SnapshotMetadata
-    open fun data(options: SnapshotOptions? = definedExternally): T?
+    open fun data(options: SnapshotOptions? = definedExternally): Map<String, Any?>?
     open fun get(fieldPath: String, options: SnapshotOptions? = definedExternally): Any?
     open fun get(fieldPath: FieldPath, options: SnapshotOptions? = definedExternally): Any?
     open fun isEqual(other: DocumentSnapshot<T>): Boolean

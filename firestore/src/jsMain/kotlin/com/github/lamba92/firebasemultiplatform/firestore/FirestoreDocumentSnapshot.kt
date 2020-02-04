@@ -2,6 +2,7 @@ package com.github.lamba92.firebasemultiplatform.firestore
 
 import firebase.firestore.DocumentData
 import firebase.firestore.DocumentSnapshot
+import firebase.firestore.SnapshotOptions
 
 actual class FirestoreDocumentSnapshot(val delegate: DocumentSnapshot<DocumentData>) {
 
@@ -16,80 +17,67 @@ actual class FirestoreDocumentSnapshot(val delegate: DocumentSnapshot<DocumentDa
         get() = delegate.ref.toMpp()
 
     actual operator fun contains(fieldPath: FirestoreFieldPath) =
-        delegate.get()
+        delegate.get(fieldPath.delegate) != null
 
-    actual operator fun contains(field: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual operator fun contains(field: String) =
+        delegate.get(field) != null
 
     actual inline operator fun <reified T> get(
         fieldPath: FirestoreFieldPath,
         serverTimestampBehaviour: ServerTimestampBehaviour?
-    ): T? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    ): T? = delegate.get(fieldPath.delegate, object : SnapshotOptions {
+        override var serverTimestamps: String =
+            serverTimestampBehaviour?.asNative() ?: ServerTimestampBehaviour.NONE.asNative()
+    }) as? T
 
     actual inline operator fun <reified T> get(
         field: String,
         serverTimestampBehaviour: ServerTimestampBehaviour?
-    ): T? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    ): T? = delegate.get(field, object : SnapshotOptions {
+        override var serverTimestamps: String =
+            serverTimestampBehaviour?.asNative() ?: ServerTimestampBehaviour.NONE.asNative()
+    }) as? T
+
+    actual fun getBlob(field: String): FirestoreBlob? =
+        get<ByteArray>(field)?.let { FirestoreBlob.fromBytes(it) }
+
+    actual fun getBoolean(field: String): Boolean? =
+        get<Boolean>(field)
+
+    actual fun getData(serverTimestampBehaviour: ServerTimestampBehaviour?): Map<String, Any?>? =
+        delegate.data(object : SnapshotOptions {
+            override var serverTimestamps = serverTimestampBehaviour?.asNative()
+                ?: ServerTimestampBehaviour.NONE.asNative()
+        })
+
+    actual fun getDouble(field: String): Double? =
+        get<Double>(field)
+
+    actual fun getLong(field: String): Long? =
+        get<Long>(field)
+
+    actual fun getGeoPoint(field: String): GeoPoint? =
+        get<firebase.firestore.GeoPoint>(field)?.toMpp()
+
+    actual fun getString(field: String): String? =
+        get<String>(field)
+
+    actual inline fun <reified T> toObject(serverTimestampBehaviour: ServerTimestampBehaviour?): T? =
+        getData(serverTimestampBehaviour) as? T
+
+    actual fun getTimestamp(field: String, serverTimestampBehaviour: ServerTimestampBehaviour?): Long? =
+        get<Long>(field, serverTimestampBehaviour)
+
+    actual override fun equals(other: Any?) = when (other) {
+        is FirestoreDocumentSnapshot -> delegate.isEqual(other.delegate)
+        else -> false
     }
 
-    actual fun getBlob(field: String): FirestoreBlob? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun hashCode(): Int =
+        getData()?.hashCode() ?: -1
 
-    actual fun getBoolean(field: String): Boolean? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getData(serverTimestampBehaviour: ServerTimestampBehaviour?): Map<String, Any>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getDouble(field: String): Double? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getLong(field: String): Long? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getGeoPoint(field: String): GeoPoint? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getString(field: String): String? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual inline fun <reified T> toObject(serverTimestampBehaviour: ServerTimestampBehaviour?): T? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getTimestamp(
-        field: String,
-        serverTimestampBehaviour: ServerTimestampBehaviour?
-    ): Long? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun getDocumentReference(field: String): FirestoreDocumentReference? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun equals(other: Any?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun hashCode(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun toString(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun toString(): String =
+        "DocumentSnapshot{key=$id}, metadata=$metadata, doc=${getData()}"
 
     actual enum class ServerTimestampBehaviour {
         ESTIMATE, NONE, PREVIOUS

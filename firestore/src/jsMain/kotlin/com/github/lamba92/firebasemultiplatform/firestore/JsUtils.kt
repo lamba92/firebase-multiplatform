@@ -19,3 +19,21 @@ fun SnapshotMetadata.toMpp() =
 
 fun FieldPath.toMpp() =
     FirestoreFieldPath(this)
+
+fun Source.asNative() =
+    name.toLowerCase()
+
+fun SetOptions.toMpp() =
+    FirestoreSetOptions(this)
+
+fun FirestoreDocumentSnapshot.ServerTimestampBehaviour.asNative() =
+    name.toLowerCase()
+
+fun Blob.toMpp() =
+    FirestoreBlob(this)
+
+fun firebase.firestore.GeoPoint.toMpp() =
+    GeoPoint(this)
+
+fun Query<DocumentData>.toMpp() =
+    FirestoreQuery(this)

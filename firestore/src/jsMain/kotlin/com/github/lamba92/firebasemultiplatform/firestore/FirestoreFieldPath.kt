@@ -18,12 +18,10 @@ actual class FirestoreFieldPath(val delegate: FieldPath) {
         else -> false
     }
 
-    actual override fun hashCode(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun hashCode() =
+        super.hashCode()
 
-    actual override fun toString(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    actual override fun toString() =
+        delegate.toString()
 
 }

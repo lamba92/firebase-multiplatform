@@ -1,6 +1,6 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-actual class GeoPoint(val delegate: com.google.firebase.firestore.GeoPoint) : Comparable<GeoPoint> {
+actual class GeoPoint(val delegate: com.google.firebase.firestore.GeoPoint) {
 
     actual val latitude: Double
         get() = delegate.latitude
@@ -18,9 +18,5 @@ actual class GeoPoint(val delegate: com.google.firebase.firestore.GeoPoint) : Co
 
     actual override fun toString() =
         delegate.toString()
-
-    override fun compareTo(other: GeoPoint) =
-        delegate.compareTo(other.delegate)
-
 
 }

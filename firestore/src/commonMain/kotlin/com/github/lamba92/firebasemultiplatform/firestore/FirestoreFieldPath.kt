@@ -8,6 +8,7 @@ expect class FirestoreFieldPath {
         fun of(vararg fieldNames: String): FirestoreFieldPath
     }
 
-    fun isSamePath(other: FirestoreFieldPath): Boolean
-
+    override fun equals(other: Any?): Boolean
+    override fun hashCode(): Int
+    override fun toString(): String
 }
