@@ -1,4 +1,6 @@
-@file:JsQualifier("firebase.storage")
+@file:JsModule("firebase")
+@file:JsNonModule
+@file:JsQualifier("storage")
 @file:Suppress(
     "INTERFACE_WITH_SUPERCLASS",
     "OVERRIDING_FINAL_MEMBER",

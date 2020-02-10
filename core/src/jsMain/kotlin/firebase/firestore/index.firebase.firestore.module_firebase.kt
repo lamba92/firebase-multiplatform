@@ -1,4 +1,6 @@
-@file:JsQualifier("firebase.firestore")
+@file:JsModule("firebase")
+@file:JsNonModule
+@file:JsQualifier("firestore")
 @file:Suppress(
     "INTERFACE_WITH_SUPERCLASS",
     "OVERRIDING_FINAL_MEMBER",

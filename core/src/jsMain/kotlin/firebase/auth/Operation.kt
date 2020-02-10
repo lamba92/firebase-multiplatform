@@ -1,7 +1,9 @@
+@file:JsModule("firebase")
+@file:JsQualifier("auth.ActionCodeInfo")
+@file:JsNonModule
+
 package firebase.auth
 
-@JsModule("firebase.auth.ActionCodeInfo")
-@JsNonModule
 external object Operations {
     val EMAIL_SIGNIN: String
     val PASSWORD_RESET: String

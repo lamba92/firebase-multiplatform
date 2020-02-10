@@ -1,4 +1,6 @@
-@file:JsQualifier("firebase.analytics")
+@file:JsModule("firebase")
+@file:JsNonModule
+@file:JsQualifier("analytics")
 @file:Suppress(
     "INTERFACE_WITH_SUPERCLASS",
     "OVERRIDING_FINAL_MEMBER",

@@ -87,11 +87,12 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             if (project.name != "storage-mobile")
                 js {
                     nodejs()
-//                    compilations.all {
-//                        kotlinOptions {
+                    compilations.all {
+                        kotlinOptions {
 //                            freeCompilerArgs += listOf("-Xir-produce-js", "-Xgenerate-dts")
-//                        }
-//                    }
+                            moduleKind = "commonjs"
+                        }
+                    }
                     mavenPublication {
                         val jsPackageJson: KotlinPackageJsonTask by tasks
                         artifact(jsPackageJson.packageJson)
@@ -113,6 +114,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 targets.withType<KotlinNativeTarget> {
                     compilations["main"].apply {
                         kotlinOptions {
+                            @Suppress("SuspiciousCollectionReassignment")
                             freeCompilerArgs += mutableListOf(
                                 "-module-name",
                                 "com.github.lamba92.firebase-multiplatform-${project.name}"

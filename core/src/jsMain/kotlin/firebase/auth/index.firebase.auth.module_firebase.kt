@@ -1,4 +1,6 @@
-@file:JsQualifier("firebase.auth")
+@file:JsModule("firebase")
+@file:JsNonModule
+@file:JsQualifier("auth")
 @file:Suppress(
     "INTERFACE_WITH_SUPERCLASS",
     "OVERRIDING_FINAL_MEMBER",
@@ -314,7 +316,7 @@ open external class PhoneAuthProvider : PhoneAuthProvider_Instance {
     }
 }
 
-open external class PhoneAuthProvider_Instance(auth: firebase.auth.Auth? = definedExternally) : AuthProvider {
+open external class PhoneAuthProvider_Instance(auth: Auth? = definedExternally) : AuthProvider {
     override var providerId: String
     open fun verifyPhoneNumber(phoneNumber: String, applicationVerifier: ApplicationVerifier): Promise<String>
 }

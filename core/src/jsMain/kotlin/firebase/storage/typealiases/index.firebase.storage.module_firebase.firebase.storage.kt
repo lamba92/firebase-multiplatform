@@ -8,8 +8,8 @@
 
 package firebase.storage.typealiases
 
-//typealias StringFormat = String
-//
-//typealias TaskEvent = String
-//
-//typealias TaskState = String
+typealias StringFormat = String
+
+typealias TaskEvent = String
+
+typealias TaskState = String
