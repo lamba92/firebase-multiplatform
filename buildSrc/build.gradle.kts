@@ -18,6 +18,8 @@ dependencies {
     val kotlinVersion: String by project
     val bintrayVersion: String by project
     val androidGradlePlugin: String by project
+    api(kotlin("stdlib-jdk8", kotlinVersion))
+    api(kotlin("reflect", kotlinVersion))
     api("com.github.lamba92", "lamba-gradle-utils", "+")
     api("org.jetbrains.kotlin", "kotlin-gradle-plugin", kotlinVersion)
     api("com.android.tools.build", "gradle", androidGradlePlugin)

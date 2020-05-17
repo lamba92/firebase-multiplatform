@@ -101,7 +101,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
                 .applyEach {
                     defaultSourceSet.kotlin.srcDir(copyMainTargetSources.destinationDir)
                     compileKotlinTask.dependsOn(copyMainTargetSources)
-                    kotlinOptions.freeCompilerArgs += mutableListOf(
+                    kotlinOptions.freeCompilerArgs += listOf(
                         "-module-name",
                         "com.github.lamba92.firebase-multiplatform-${project.name}-cinterop"
                     )
