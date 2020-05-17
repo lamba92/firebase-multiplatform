@@ -18,6 +18,4 @@ if (System.getProperty("user.name") != "root")
         ":core",
         ":auth",
         ":storage"
-//        ":firestore"
-//        ":storage-mobile"
     )
