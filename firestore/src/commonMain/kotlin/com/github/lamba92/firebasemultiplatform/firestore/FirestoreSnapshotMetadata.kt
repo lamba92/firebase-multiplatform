@@ -1,9 +1,9 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class GeoPoint {
+expect class FirestoreSnapshotMetadata {
 
-    val latitude: Double
-    val longitude: Double
+    val hasPendingWrites: Boolean
+    val isFromCache: Boolean
 
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int

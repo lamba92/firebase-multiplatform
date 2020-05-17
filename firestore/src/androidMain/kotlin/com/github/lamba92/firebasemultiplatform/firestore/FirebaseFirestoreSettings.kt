@@ -13,15 +13,15 @@ actual class FirebaseFirestoreSettings(val delegate: com.google.firebase.firesto
     actual val isSslEnabled: Boolean
         get() = delegate.isSslEnabled
 
-    actual override fun equals(other: Any?) = when (other) {
+    override fun equals(other: Any?) = when (other) {
         is FirebaseFirestoreSettings -> delegate == other.delegate
         else -> false
     }
 
-    actual override fun hashCode() =
+    override fun hashCode() =
         delegate.hashCode()
 
-    actual override fun toString() =
+    override fun toString() =
         delegate.toString()
 
     actual class Builder actual constructor(original: FirebaseFirestoreSettings?) {

@@ -25,7 +25,6 @@ kotlin.sourceSets {
         dependencies {
 
             api(kotlin("stdlib-jdk8"))
-
             api(kotlinx("coroutines-android", coroutinesVersion))
             api(firebase("common", firebaseCommonAndroidVersion))
 
@@ -35,7 +34,6 @@ kotlin.sourceSets {
     val jsMain by getting {
         dependencies {
             api(kotlin("stdlib-js"))
-
             api(kotlinx("coroutines-core-js", coroutinesVersion))
             api(npm("firebase", firebaseJsVersion))
         }

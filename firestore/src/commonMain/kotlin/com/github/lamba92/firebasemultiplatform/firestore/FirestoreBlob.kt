@@ -1,9 +1,12 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class GeoPoint {
+expect class FirestoreBlob : Comparable<FirestoreBlob> {
 
-    val latitude: Double
-    val longitude: Double
+    val bytes: ByteArray
+
+    companion object {
+        fun fromBytes(bytes: ByteArray): FirestoreBlob
+    }
 
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int

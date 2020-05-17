@@ -1,9 +1,12 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
-expect class GeoPoint {
+expect class FirestoreFieldPath {
 
-    val latitude: Double
-    val longitude: Double
+    companion object {
+        val documentId: FirestoreFieldPath
+
+        fun of(vararg fieldNames: String): FirestoreFieldPath
+    }
 
     override fun equals(other: Any?): Boolean
     override fun hashCode(): Int

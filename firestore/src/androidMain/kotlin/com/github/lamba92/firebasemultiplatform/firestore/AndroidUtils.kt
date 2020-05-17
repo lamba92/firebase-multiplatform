@@ -1,6 +1,7 @@
 package com.github.lamba92.firebasemultiplatform.firestore
 
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.Source
 
 fun com.google.firebase.firestore.FirebaseFirestoreSettings.toMpp() =
     FirebaseFirestoreSettings(this)
@@ -9,52 +10,58 @@ fun com.google.firebase.firestore.FirebaseFirestore.toMpp() =
     FirebaseFirestore(this)
 
 fun DocumentReference.toMpp() =
-    FirebaseDocumentReference(this)
+    FirestoreDocumentReference(this)
 
 fun CollectionReference.toMpp() =
-    FirebaseCollectionReference(this)
+    FirestoreCollectionReference(this)
 
 fun Query.toMpp() =
-    FirebaseQuery(this)
+    FirestoreQuery(this)
 
 fun WriteBatch.toMpp() =
-    FirebaseWriteBatch(this)
+    FirestoreWriteBatch(this)
 
 fun Transaction.toMpp() =
-    FirebaseTransaction(this)
+    FirestoreTransaction(this)
 
 fun DocumentSnapshot.toMpp() =
-    FirebaseDocumentSnapshot(this)
+    FirestoreDocumentSnapshot(this)
 
 fun SetOptions.toMpp() =
-    FirebaseSetOptions(this)
+    FirestoreSetOptions(this)
 
 fun com.google.firebase.firestore.FieldPath.toMpp() =
-    FieldPath(this)
+    FirestoreFieldPath(this)
 
 fun QuerySnapshot.toMpp() =
-    FirebaseQuerySnapshot(this)
+    FirestoreQuerySnapshot(this)
 
 fun SnapshotMetadata.toMpp() =
-    FirebaseSnapshotMetadata(this)
+    FirestoreSnapshotMetadata(this)
 
 fun com.google.firebase.firestore.DocumentChange.toMpp() =
-    DocumentChange(this)
+    FirestoreDocumentChange(this)
 
-fun FirebaseDocumentSnapshot.ServerTimestampBehaviour.asNative() = when (this) {
-    FirebaseDocumentSnapshot.ServerTimestampBehaviour.ESTIMATE -> DocumentSnapshot.ServerTimestampBehavior.ESTIMATE
-    FirebaseDocumentSnapshot.ServerTimestampBehaviour.NONE -> DocumentSnapshot.ServerTimestampBehavior.NONE
-    FirebaseDocumentSnapshot.ServerTimestampBehaviour.PREVIOUS -> DocumentSnapshot.ServerTimestampBehavior.PREVIOUS
+fun FirestoreDocumentSnapshot.ServerTimestampBehaviour.asNative() = when (this) {
+    FirestoreDocumentSnapshot.ServerTimestampBehaviour.ESTIMATE -> DocumentSnapshot.ServerTimestampBehavior.ESTIMATE
+    FirestoreDocumentSnapshot.ServerTimestampBehaviour.NONE -> DocumentSnapshot.ServerTimestampBehavior.NONE
+    FirestoreDocumentSnapshot.ServerTimestampBehaviour.PREVIOUS -> DocumentSnapshot.ServerTimestampBehavior.PREVIOUS
 }
 
 fun Array<out Any>.expelDelegates() =
-    map { if (it is FirebaseDocumentSnapshot) it.delegate else it }
+    map { if (it is FirestoreDocumentSnapshot) it.delegate else it }
         .toTypedArray()
 
-fun FirebaseQuery.Direction.asNative() = when (this) {
-    FirebaseQuery.Direction.ASCENDING -> Query.Direction.ASCENDING
-    FirebaseQuery.Direction.DESCENDING -> Query.Direction.DESCENDING
+fun FirestoreQuery.Direction.asNative() = when (this) {
+    FirestoreQuery.Direction.ASCENDING -> Query.Direction.ASCENDING
+    FirestoreQuery.Direction.DESCENDING -> Query.Direction.DESCENDING
 }
 
 fun Blob.toMpp() =
-    FirebaseBlob(this)
+    FirestoreBlob(this)
+
+actual typealias FirestoreMetadataChanges = MetadataChanges
+actual typealias Source = Source
+
+fun com.google.firebase.firestore.GeoPoint.toMpp() =
+    GeoPoint(this)
