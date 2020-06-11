@@ -42,7 +42,7 @@ class FirebaseMultiplatformPlugin : Plugin<Project> {
             }
 
             compileSdkVersion(29)
-            buildToolsVersion("30-rc4")
+            buildToolsVersion("30.0.0")
 
             defaultConfig {
                 minSdkVersion(14)

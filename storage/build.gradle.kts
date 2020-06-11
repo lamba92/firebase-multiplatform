@@ -10,13 +10,13 @@ kotlin.sourceSets {
 
     val firebaseStorageAndroidVersion: String by project
 
-    val commonMain by getting {
+    commonMain {
         dependencies {
             api(project(":core"))
         }
     }
 
-    val androidMain by getting {
+    androidMain {
         dependencies {
             api(firebase("storage", firebaseStorageAndroidVersion))
         }

@@ -43,7 +43,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
 
     @ExperimentalCoroutinesApi
     override val progressFlow
-        get() = callbackFlow {
+        get() = callbackFlow<UploadTask.Snapshot> {
             val unsubscriber = delegate.on(
                 TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {
@@ -62,7 +62,7 @@ actual class UploadTask(val delegate: firebase.storage.UploadTask) : StorageTask
 
     @ExperimentalCoroutinesApi
     override val stateChangesFlow
-        get() = callbackFlow {
+        get() = callbackFlow<StorageTask.Snapshot.State> {
             val unsubscriber = delegate.on(
                 TaskEvent.STATE_CHANGED,
                 nextOrObserver = object : Observer<UploadTaskSnapshot, Error> {

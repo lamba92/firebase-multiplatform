@@ -14,40 +14,26 @@ kotlin.sourceSets {
     val firebaseJsVersion: String by project
     val firebaseKtVersion: String by project
 
-    val commonMain by getting {
+    commonMain {
         dependencies {
             api(kotlin("stdlib-common"))
-            api(kotlinx("coroutines-core-common", coroutinesVersion))
+            api(kotlinx("coroutines-core", coroutinesVersion))
         }
     }
 
-    val androidMain by getting {
+    androidMain {
         dependencies {
 
             api(kotlin("stdlib-jdk8"))
-            api(kotlinx("coroutines-android", coroutinesVersion))
             api(firebase("common", firebaseCommonAndroidVersion))
 
         }
     }
 
-    val jsMain by getting {
+    jsMain {
         dependencies {
             api(kotlin("stdlib-js"))
-            api(kotlinx("coroutines-core-js", coroutinesVersion))
             api(npm("firebase", firebaseJsVersion))
-        }
-    }
-
-    val iosArm64Main by getting {
-        dependencies {
-            api(kotlinx("coroutines-core-iosarm64", coroutinesVersion))
-        }
-    }
-
-    val iosX64Main by getting {
-        dependencies {
-            api(kotlinx("coroutines-core-iosx64", coroutinesVersion))
         }
     }
 
